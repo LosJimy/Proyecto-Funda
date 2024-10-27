@@ -1,18 +1,53 @@
 import ply.yacc as yacc
 from lexer import tokens
 
+#Definir la prioridad de los operadores
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'MULTIPLY', 'DIVIDE'),
+)
+
+def p_statement_expr(p): #Espresión para mostrar el desarrollo al revés, con el resultado
+    'statement : expression'
+    print(f"{p[1]['expr']} = {p[1]['result']}")
+
 def p_expression_plus(p): #Expresión para sumar
-    'expression : expression "+" expression'
-    p[0] = p[1] + p[3]
+    'expression : expression PLUS expression'
+    result = p[1]['result'] + p[3]['result']
+    expr = f"{p[1]['expr']} + {p[3]['expr']}"
+    p[0] = {'result': result, 'expr': expr}
 
 def p_expression_number(p): #Expresión de un numero?
     'expression : NUMBER'
-    p[0] = int(str(p[1])[::-1])
+    p[0] = {'result': p[1], 'expr': str(p[1])}
+    
+def p_expression_minus(p): #Expresión para restar
+    'expression : expression MINUS expression'
+    result = p[1]['result'] - p[3]['result']
+    expr = f"{p[1]['expr']} - {p[3]['expr']}"
+    p[0] = {'result': result, 'expr': expr}
+    
+def p_expression_divide(p): #Expresión para dividir números
+    'expression : expression DIVIDE expression'
+    result = p[1]['result'] / p[3]['result']
+    expr = f"{p[1]['expr']} / {p[3]['expr']}"
+    p[0] = {'result': result, 'expr': expr}
+
+def p_expression_multiply(p): #Expresión para multiplicar
+    'expression : expression MULTIPLY expression'
+    result = p[1]['result'] * p[3]['result']
+    expr = f"{p[1]['expr']} * {p[3]['expr']}"
+    p[0] = {'result': result, 'expr': expr}   
     
 def p_expression_string(p): #Expresión de un String
     'expression : STRING'
-    p[0] = p[1][::-1]
+    p[0] = {'result': p[1][::-1], 'expr': p[1][::-1]}    
     
+def p_statement_end(p): #Función para terminar el programa con "END"
+    'statement : END'
+    print("Ending program...")
+    exit()
+
 def p_error(p): #Salida de error
     print(f"Syntx error at '{p.value}'")
 

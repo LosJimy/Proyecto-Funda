@@ -2,84 +2,239 @@ Created by PLY version 3.11 (http://www.dabeaz.com/ply)
 
 Grammar
 
-Rule 0     S' -> expression
-Rule 1     expression -> expression + expression
-Rule 2     expression -> NUMBER
-Rule 3     expression -> STRING
+Rule 0     S' -> statement
+Rule 1     statement -> expression
+Rule 2     expression -> expression PLUS expression
+Rule 3     expression -> NUMBER
+Rule 4     expression -> expression MINUS expression
+Rule 5     expression -> expression DIVIDE expression
+Rule 6     expression -> expression MULTIPLY expression
+Rule 7     expression -> STRING
+Rule 8     statement -> END
 
 Terminals, with rules where they appear
 
-+                    : 1
-NUMBER               : 2
-STRING               : 3
+DIVIDE               : 5
+END                  : 8
+MINUS                : 4
+MULTIPLY             : 6
+NUMBER               : 3
+PLUS                 : 2
+STRING               : 7
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 1 1 0
+expression           : 1 2 2 4 4 5 5 6 6
+statement            : 0
 
 Parsing method: LALR
 
 state 0
 
-    (0) S' -> . expression
-    (1) expression -> . expression + expression
-    (2) expression -> . NUMBER
-    (3) expression -> . STRING
+    (0) S' -> . statement
+    (1) statement -> . expression
+    (8) statement -> . END
+    (2) expression -> . expression PLUS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression DIVIDE expression
+    (6) expression -> . expression MULTIPLY expression
+    (7) expression -> . STRING
 
-    NUMBER          shift and go to state 2
-    STRING          shift and go to state 3
+    END             shift and go to state 3
+    NUMBER          shift and go to state 4
+    STRING          shift and go to state 5
 
-    expression                     shift and go to state 1
+    statement                      shift and go to state 1
+    expression                     shift and go to state 2
 
 state 1
 
-    (0) S' -> expression .
-    (1) expression -> expression . + expression
+    (0) S' -> statement .
 
-    +               shift and go to state 4
 
 
 state 2
 
-    (2) expression -> NUMBER .
+    (1) statement -> expression .
+    (2) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . DIVIDE expression
+    (6) expression -> expression . MULTIPLY expression
 
-    +               reduce using rule 2 (expression -> NUMBER .)
-    $end            reduce using rule 2 (expression -> NUMBER .)
+    $end            reduce using rule 1 (statement -> expression .)
+    PLUS            shift and go to state 6
+    MINUS           shift and go to state 7
+    DIVIDE          shift and go to state 8
+    MULTIPLY        shift and go to state 9
 
 
 state 3
 
-    (3) expression -> STRING .
+    (8) statement -> END .
 
-    +               reduce using rule 3 (expression -> STRING .)
-    $end            reduce using rule 3 (expression -> STRING .)
+    $end            reduce using rule 8 (statement -> END .)
 
 
 state 4
 
-    (1) expression -> expression + . expression
-    (1) expression -> . expression + expression
-    (2) expression -> . NUMBER
-    (3) expression -> . STRING
+    (3) expression -> NUMBER .
 
-    NUMBER          shift and go to state 2
-    STRING          shift and go to state 3
+    PLUS            reduce using rule 3 (expression -> NUMBER .)
+    MINUS           reduce using rule 3 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 3 (expression -> NUMBER .)
+    MULTIPLY        reduce using rule 3 (expression -> NUMBER .)
+    $end            reduce using rule 3 (expression -> NUMBER .)
 
-    expression                     shift and go to state 5
 
 state 5
 
-    (1) expression -> expression + expression .
-    (1) expression -> expression . + expression
+    (7) expression -> STRING .
 
-  ! shift/reduce conflict for + resolved as shift
-    $end            reduce using rule 1 (expression -> expression + expression .)
-    +               shift and go to state 4
+    PLUS            reduce using rule 7 (expression -> STRING .)
+    MINUS           reduce using rule 7 (expression -> STRING .)
+    DIVIDE          reduce using rule 7 (expression -> STRING .)
+    MULTIPLY        reduce using rule 7 (expression -> STRING .)
+    $end            reduce using rule 7 (expression -> STRING .)
 
-  ! +               [ reduce using rule 1 (expression -> expression + expression .) ]
 
-WARNING: 
-WARNING: Conflicts:
-WARNING: 
-WARNING: shift/reduce conflict for + in state 5 resolved as shift
+state 6
+
+    (2) expression -> expression PLUS . expression
+    (2) expression -> . expression PLUS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression DIVIDE expression
+    (6) expression -> . expression MULTIPLY expression
+    (7) expression -> . STRING
+
+    NUMBER          shift and go to state 4
+    STRING          shift and go to state 5
+
+    expression                     shift and go to state 10
+
+state 7
+
+    (4) expression -> expression MINUS . expression
+    (2) expression -> . expression PLUS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression DIVIDE expression
+    (6) expression -> . expression MULTIPLY expression
+    (7) expression -> . STRING
+
+    NUMBER          shift and go to state 4
+    STRING          shift and go to state 5
+
+    expression                     shift and go to state 11
+
+state 8
+
+    (5) expression -> expression DIVIDE . expression
+    (2) expression -> . expression PLUS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression DIVIDE expression
+    (6) expression -> . expression MULTIPLY expression
+    (7) expression -> . STRING
+
+    NUMBER          shift and go to state 4
+    STRING          shift and go to state 5
+
+    expression                     shift and go to state 12
+
+state 9
+
+    (6) expression -> expression MULTIPLY . expression
+    (2) expression -> . expression PLUS expression
+    (3) expression -> . NUMBER
+    (4) expression -> . expression MINUS expression
+    (5) expression -> . expression DIVIDE expression
+    (6) expression -> . expression MULTIPLY expression
+    (7) expression -> . STRING
+
+    NUMBER          shift and go to state 4
+    STRING          shift and go to state 5
+
+    expression                     shift and go to state 13
+
+state 10
+
+    (2) expression -> expression PLUS expression .
+    (2) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . DIVIDE expression
+    (6) expression -> expression . MULTIPLY expression
+
+    PLUS            reduce using rule 2 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 2 (expression -> expression PLUS expression .)
+    $end            reduce using rule 2 (expression -> expression PLUS expression .)
+    DIVIDE          shift and go to state 8
+    MULTIPLY        shift and go to state 9
+
+  ! DIVIDE          [ reduce using rule 2 (expression -> expression PLUS expression .) ]
+  ! MULTIPLY        [ reduce using rule 2 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 6 ]
+  ! MINUS           [ shift and go to state 7 ]
+
+
+state 11
+
+    (4) expression -> expression MINUS expression .
+    (2) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . DIVIDE expression
+    (6) expression -> expression . MULTIPLY expression
+
+    PLUS            reduce using rule 4 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 4 (expression -> expression MINUS expression .)
+    $end            reduce using rule 4 (expression -> expression MINUS expression .)
+    DIVIDE          shift and go to state 8
+    MULTIPLY        shift and go to state 9
+
+  ! DIVIDE          [ reduce using rule 4 (expression -> expression MINUS expression .) ]
+  ! MULTIPLY        [ reduce using rule 4 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 6 ]
+  ! MINUS           [ shift and go to state 7 ]
+
+
+state 12
+
+    (5) expression -> expression DIVIDE expression .
+    (2) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . DIVIDE expression
+    (6) expression -> expression . MULTIPLY expression
+
+    PLUS            reduce using rule 5 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 5 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 5 (expression -> expression DIVIDE expression .)
+    MULTIPLY        reduce using rule 5 (expression -> expression DIVIDE expression .)
+    $end            reduce using rule 5 (expression -> expression DIVIDE expression .)
+
+  ! PLUS            [ shift and go to state 6 ]
+  ! MINUS           [ shift and go to state 7 ]
+  ! DIVIDE          [ shift and go to state 8 ]
+  ! MULTIPLY        [ shift and go to state 9 ]
+
+
+state 13
+
+    (6) expression -> expression MULTIPLY expression .
+    (2) expression -> expression . PLUS expression
+    (4) expression -> expression . MINUS expression
+    (5) expression -> expression . DIVIDE expression
+    (6) expression -> expression . MULTIPLY expression
+
+    PLUS            reduce using rule 6 (expression -> expression MULTIPLY expression .)
+    MINUS           reduce using rule 6 (expression -> expression MULTIPLY expression .)
+    DIVIDE          reduce using rule 6 (expression -> expression MULTIPLY expression .)
+    MULTIPLY        reduce using rule 6 (expression -> expression MULTIPLY expression .)
+    $end            reduce using rule 6 (expression -> expression MULTIPLY expression .)
+
+  ! PLUS            [ shift and go to state 6 ]
+  ! MINUS           [ shift and go to state 7 ]
+  ! DIVIDE          [ shift and go to state 8 ]
+  ! MULTIPLY        [ shift and go to state 9 ]
+

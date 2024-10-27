@@ -9,4 +9,5 @@ while True:
     if not s:
         continue
     result = parser.parse(s, lexer=lexer)
-    print(result)
+    if result is not None:
+        print(result)

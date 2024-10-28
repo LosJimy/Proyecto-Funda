@@ -4,8 +4,8 @@ Grammar
 
 Rule 0     S' -> statement
 Rule 1     statement -> expression
-Rule 2     expression -> expression PLUS expression
-Rule 3     expression -> NUMBER
+Rule 2     expression -> NUMBER
+Rule 3     expression -> expression PLUS expression
 Rule 4     expression -> expression MINUS expression
 Rule 5     expression -> expression DIVIDE expression
 Rule 6     expression -> expression MULTIPLY expression
@@ -18,14 +18,14 @@ DIVIDE               : 5
 END                  : 8
 MINUS                : 4
 MULTIPLY             : 6
-NUMBER               : 3
-PLUS                 : 2
+NUMBER               : 2
+PLUS                 : 3
 STRING               : 7
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 1 2 2 4 4 5 5 6 6
+expression           : 1 3 3 4 4 5 5 6 6
 statement            : 0
 
 Parsing method: LALR
@@ -35,8 +35,8 @@ state 0
     (0) S' -> . statement
     (1) statement -> . expression
     (8) statement -> . END
-    (2) expression -> . expression PLUS expression
-    (3) expression -> . NUMBER
+    (2) expression -> . NUMBER
+    (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression DIVIDE expression
     (6) expression -> . expression MULTIPLY expression
@@ -58,7 +58,7 @@ state 1
 state 2
 
     (1) statement -> expression .
-    (2) expression -> expression . PLUS expression
+    (3) expression -> expression . PLUS expression
     (4) expression -> expression . MINUS expression
     (5) expression -> expression . DIVIDE expression
     (6) expression -> expression . MULTIPLY expression
@@ -79,13 +79,13 @@ state 3
 
 state 4
 
-    (3) expression -> NUMBER .
+    (2) expression -> NUMBER .
 
-    PLUS            reduce using rule 3 (expression -> NUMBER .)
-    MINUS           reduce using rule 3 (expression -> NUMBER .)
-    DIVIDE          reduce using rule 3 (expression -> NUMBER .)
-    MULTIPLY        reduce using rule 3 (expression -> NUMBER .)
-    $end            reduce using rule 3 (expression -> NUMBER .)
+    PLUS            reduce using rule 2 (expression -> NUMBER .)
+    MINUS           reduce using rule 2 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 2 (expression -> NUMBER .)
+    MULTIPLY        reduce using rule 2 (expression -> NUMBER .)
+    $end            reduce using rule 2 (expression -> NUMBER .)
 
 
 state 5
@@ -101,9 +101,9 @@ state 5
 
 state 6
 
-    (2) expression -> expression PLUS . expression
-    (2) expression -> . expression PLUS expression
-    (3) expression -> . NUMBER
+    (3) expression -> expression PLUS . expression
+    (2) expression -> . NUMBER
+    (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression DIVIDE expression
     (6) expression -> . expression MULTIPLY expression
@@ -117,8 +117,8 @@ state 6
 state 7
 
     (4) expression -> expression MINUS . expression
-    (2) expression -> . expression PLUS expression
-    (3) expression -> . NUMBER
+    (2) expression -> . NUMBER
+    (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression DIVIDE expression
     (6) expression -> . expression MULTIPLY expression
@@ -132,8 +132,8 @@ state 7
 state 8
 
     (5) expression -> expression DIVIDE . expression
-    (2) expression -> . expression PLUS expression
-    (3) expression -> . NUMBER
+    (2) expression -> . NUMBER
+    (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression DIVIDE expression
     (6) expression -> . expression MULTIPLY expression
@@ -147,8 +147,8 @@ state 8
 state 9
 
     (6) expression -> expression MULTIPLY . expression
-    (2) expression -> . expression PLUS expression
-    (3) expression -> . NUMBER
+    (2) expression -> . NUMBER
+    (3) expression -> . expression PLUS expression
     (4) expression -> . expression MINUS expression
     (5) expression -> . expression DIVIDE expression
     (6) expression -> . expression MULTIPLY expression
@@ -161,20 +161,20 @@ state 9
 
 state 10
 
-    (2) expression -> expression PLUS expression .
-    (2) expression -> expression . PLUS expression
+    (3) expression -> expression PLUS expression .
+    (3) expression -> expression . PLUS expression
     (4) expression -> expression . MINUS expression
     (5) expression -> expression . DIVIDE expression
     (6) expression -> expression . MULTIPLY expression
 
-    PLUS            reduce using rule 2 (expression -> expression PLUS expression .)
-    MINUS           reduce using rule 2 (expression -> expression PLUS expression .)
-    $end            reduce using rule 2 (expression -> expression PLUS expression .)
+    PLUS            reduce using rule 3 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 3 (expression -> expression PLUS expression .)
+    $end            reduce using rule 3 (expression -> expression PLUS expression .)
     DIVIDE          shift and go to state 8
     MULTIPLY        shift and go to state 9
 
-  ! DIVIDE          [ reduce using rule 2 (expression -> expression PLUS expression .) ]
-  ! MULTIPLY        [ reduce using rule 2 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 3 (expression -> expression PLUS expression .) ]
+  ! MULTIPLY        [ reduce using rule 3 (expression -> expression PLUS expression .) ]
   ! PLUS            [ shift and go to state 6 ]
   ! MINUS           [ shift and go to state 7 ]
 
@@ -182,7 +182,7 @@ state 10
 state 11
 
     (4) expression -> expression MINUS expression .
-    (2) expression -> expression . PLUS expression
+    (3) expression -> expression . PLUS expression
     (4) expression -> expression . MINUS expression
     (5) expression -> expression . DIVIDE expression
     (6) expression -> expression . MULTIPLY expression
@@ -202,7 +202,7 @@ state 11
 state 12
 
     (5) expression -> expression DIVIDE expression .
-    (2) expression -> expression . PLUS expression
+    (3) expression -> expression . PLUS expression
     (4) expression -> expression . MINUS expression
     (5) expression -> expression . DIVIDE expression
     (6) expression -> expression . MULTIPLY expression
@@ -222,7 +222,7 @@ state 12
 state 13
 
     (6) expression -> expression MULTIPLY expression .
-    (2) expression -> expression . PLUS expression
+    (3) expression -> expression . PLUS expression
     (4) expression -> expression . MINUS expression
     (5) expression -> expression . DIVIDE expression
     (6) expression -> expression . MULTIPLY expression

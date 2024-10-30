@@ -2,6 +2,7 @@ import ply.lex as lex
 
 tokens = (
     'NUMBER',
+    'FLOAT',
     'STRING',
     'PLUS',
     'MINUS',
@@ -17,6 +18,11 @@ t_DIVIDE = r'/'
 t_STRING = r'\".*?\"'
 t_ignore = ' \t'
 t_END = r'END'
+
+def t_FLOAT(t):
+    r'\d+\.\d+'
+    t.value = float(t.value)
+    return t
 
 def t_NUMBER(t): #Función de el token Number
     r'\d+'

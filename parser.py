@@ -36,7 +36,7 @@ def p_expression_minus(p): #Expresión para restar
     #ARREGLAR ERROR
     result = p[1] - p[3]
     expr = f"{p[1]} - {p[3]}"
-    reversed_expr = f"{p[3]} - {p[1]}"
+    reversed_expr = f"-{p[3]} + {p[1]}"
     p[0] = {'result': result, 'expr': expr, 'reversed_expr': reversed_expr}
     
 def p_expression_divide(p): #Expresión para dividir números

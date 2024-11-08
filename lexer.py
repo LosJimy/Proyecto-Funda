@@ -17,7 +17,10 @@ t_MULTIPLY = r'\*'
 t_DIVIDE = r'/'
 t_STRING = r'\".*?\"'
 t_ignore = ' \t'
-t_END = r'END' #IMPLEMENTAR or r'SALIR' or r'salir' or r'End' or r'Salir' or r'end'
+
+def t_END(t):
+    r'(END|End|end|Salir|SALIR|salir)'
+    return t
 
 def t_FLOAT(t):
     r'-?\d+\.\d+'

@@ -21,37 +21,37 @@ def p_expression_number(p):
     if isinstance(p[1], float):
         p[0] = float(inverted_number)
     else:
+        if inverted_number.endswith('-'):
+            inverted_number = '-' + inverted_number[:-1]
         p[0] = int(inverted_number)
+
+def p_expression_neg(p):
+    'expression : MINUS expression %prec MINUS'
+    p[0] = -p[2]
         
-def p_expression_plus(p): #Expresión para sumar
-    'expression : expression PLUS expression'
-    result = p[1] + p[3] 
-    expr = f"{p[1]} + {p[3]}"
-    reversed_expr = f"{p[3]} + {p[1]}"
+def p_expression_binop(p):
+    '''expression : expression PLUS expression
+                  | expression MINUS expression
+                  | expression MULTIPLY expression
+                  | expression DIVIDE expression'''
+    if p[2] == '+':
+        result = p[1] + p[3]
+        expr = f"{p[1]} + {p[3]}"
+        reversed_expr = f"{p[3]} + {p[1]}"
+    elif p[2] == '-':
+        result = p[1] + p[3]
+        expr = f"{p[1]} - {p[3]}"
+        reversed_expr = f"-{p[3]} + {p[1]}"
+    elif p[2] == '*':
+        result = p[1] * p[3]
+        expr = f"{p[1]} * {p[3]}"
+        reversed_expr = f"{p[3]} * {p[1]}"
+    elif p[2] == '/':
+        result = p[1] / p[3]
+        expr = f"{p[1]} / {p[3]}"
+        reversed_expr = f"{p[1]} * 1/{p[3]}"
+            
     p[0] = {'result': result, 'expr': expr, 'reversed_expr': reversed_expr}
-
-  
-def p_expression_minus(p): #Expresión para restar
-    'expression : expression MINUS expression'
-    #ARREGLAR ERROR
-    result = p[1] - p[3]
-    expr = f"{p[1]} - {p[3]}"
-    reversed_expr = f"-{p[3]} + {p[1]}"
-    p[0] = {'result': result, 'expr': expr, 'reversed_expr': reversed_expr}
-    
-def p_expression_divide(p): #Expresión para dividir números
-    'expression : expression DIVIDE expression'
-    result = p[1] / p[3]
-    expr = f"{p[1]} / {p[3]}"
-    reversed_expr = f"{p[1]} * 1/{p[3]}"
-    p[0] = {'result': result, 'expr': expr, 'reversed_expr': reversed_expr}
-
-def p_expression_multiply(p): #Expresión para multiplicar
-    'expression : expression MULTIPLY expression'
-    result = p[1] * p[3]
-    expr = f"{p[1]} * {p[3]}"
-    reversed_expr = f"{p[3]} * {p[1]}"
-    p[0] = {'result': result, 'expr': expr, 'reversed_expr': reversed_expr}   
     
 def p_expression_string(p): #Expresión de un String
     'expression : STRING'

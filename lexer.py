@@ -20,12 +20,12 @@ t_ignore = ' \t'
 t_END = r'END'
 
 def t_FLOAT(t):
-    r'\d+\.\d+'
+    r'-?\d+\.\d+'
     t.value = float(t.value)
     return t
 
 def t_NUMBER(t): #Función de el token Number
-    r'\d+'
+    r'-?\d+'
     t.value = int(t.value)
     return t
 

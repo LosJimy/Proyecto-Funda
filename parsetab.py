@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEDIVIDE END FLOAT MINUS MULTIPLY NUMBER PLUS STRINGstatement : expressionexpression : NUMBER\n| FLOATexpression : expression PLUS expressionexpression : expression MINUS expressionexpression : expression DIVIDE expressionexpression : expression MULTIPLY expressionexpression : STRINGstatement : END'
+_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEDIVIDE END FLOAT MINUS MULTIPLY NUMBER PLUS STRINGstatement : expressionexpression : NUMBER\n| FLOATexpression : MINUS expression %prec MINUSexpression : expression PLUS expression\n| expression MINUS expression\n| expression MULTIPLY expression\n| expression DIVIDE expressionexpression : STRINGstatement : END'
     
-_lr_action_items = {'END':([0,],[3,]),'NUMBER':([0,7,8,9,10,],[4,4,4,4,4,]),'FLOAT':([0,7,8,9,10,],[5,5,5,5,5,]),'STRING':([0,7,8,9,10,],[6,6,6,6,6,]),'$end':([1,2,3,4,5,6,11,12,13,14,],[0,-1,-9,-2,-3,-8,-4,-5,-6,-7,]),'PLUS':([2,4,5,6,11,12,13,14,],[7,-2,-3,-8,-4,-5,-6,-7,]),'MINUS':([2,4,5,6,11,12,13,14,],[8,-2,-3,-8,-4,-5,-6,-7,]),'DIVIDE':([2,4,5,6,11,12,13,14,],[9,-2,-3,-8,9,9,-6,-7,]),'MULTIPLY':([2,4,5,6,11,12,13,14,],[10,-2,-3,-8,10,10,-6,-7,]),}
+_lr_action_items = {'END':([0,],[3,]),'NUMBER':([0,6,8,9,10,11,],[4,4,4,4,4,4,]),'FLOAT':([0,6,8,9,10,11,],[5,5,5,5,5,5,]),'MINUS':([0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,],[6,9,-2,-3,6,-9,6,6,6,6,-4,-5,-6,-7,-8,]),'STRING':([0,6,8,9,10,11,],[7,7,7,7,7,7,]),'$end':([1,2,3,4,5,7,12,13,14,15,16,],[0,-1,-10,-2,-3,-9,-4,-5,-6,-7,-8,]),'PLUS':([2,4,5,7,12,13,14,15,16,],[8,-2,-3,-9,-4,-5,-6,-7,-8,]),'MULTIPLY':([2,4,5,7,12,13,14,15,16,],[10,-2,-3,-9,10,10,10,-7,-8,]),'DIVIDE':([2,4,5,7,12,13,14,15,16,],[11,-2,-3,-9,11,11,11,-7,-8,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,7,8,9,10,],[2,11,12,13,14,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,6,8,9,10,11,],[2,12,13,14,15,16,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -30,10 +30,11 @@ _lr_productions = [
   ('statement -> expression','statement',1,'p_statement_expr','parser.py',11),
   ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',18),
   ('expression -> FLOAT','expression',1,'p_expression_number','parser.py',19),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_plus','parser.py',27),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_minus','parser.py',35),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_divide','parser.py',43),
-  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_multiply','parser.py',50),
-  ('expression -> STRING','expression',1,'p_expression_string','parser.py',57),
-  ('statement -> END','statement',1,'p_statement_end','parser.py',61),
+  ('expression -> MINUS expression','expression',2,'p_expression_neg','parser.py',27),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',31),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',32),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binop','parser.py',33),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','parser.py',34),
+  ('expression -> STRING','expression',1,'p_expression_string','parser.py',55),
+  ('statement -> END','statement',1,'p_statement_end','parser.py',59),
 ]

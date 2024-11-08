@@ -17,13 +17,7 @@ def p_statement_expr(p): #Espresión para mostrar el desarrollo al revés, con e
 def p_expression_number(p):
     '''expression : NUMBER
                   | FLOAT'''
-    inverted_number = str(p[1])[::-1] # invertir número
-    if isinstance(p[1], float):
-        p[0] = float(inverted_number)
-    else:
-        if inverted_number.endswith('-'):
-            inverted_number = '-' + inverted_number[:-1]
-        p[0] = int(inverted_number)
+    p[0] = p[1]
 
 def p_expression_neg(p):
     'expression : MINUS expression %prec MINUS'
@@ -34,28 +28,32 @@ def p_expression_binop(p):
                   | expression MINUS expression
                   | expression MULTIPLY expression
                   | expression DIVIDE expression'''
+    
+    left = p[1] if isinstance(p[1], (int, float)) else p[1]['result']
+    right = p[3] if isinstance(p[3], (int, float)) else p[3]['result']   
+
     if p[2] == '+':
-        result = p[1] + p[3]
-        expr = f"{p[1]} + {p[3]}"
-        reversed_expr = f"{p[3]} + {p[1]}"
+        result = left + right
+        expr = f"{left} + {right}"
+        reversed_expr = f"{left} + {right}"
     elif p[2] == '-':
-        result = p[1] + p[3]
-        expr = f"{p[1]} - {p[3]}"
-        reversed_expr = f"-{p[3]} + {p[1]}"
+        result = left - right
+        expr = f"{left} - {right}"
+        reversed_expr = f"-{right} + {left}"
     elif p[2] == '*':
-        result = p[1] * p[3]
-        expr = f"{p[1]} * {p[3]}"
-        reversed_expr = f"{p[3]} * {p[1]}"
+        result = left * right
+        expr = f"{left} * {right}"
+        reversed_expr = f"{right} * {left}"
     elif p[2] == '/':
-        result = p[1] / p[3]
-        expr = f"{p[1]} / {p[3]}"
-        reversed_expr = f"{p[1]} * 1/{p[3]}"
+        result = left / right
+        expr = f"{left} / {right}"
+        reversed_expr = f"{left} * 1/{right}"
             
     p[0] = {'result': result, 'expr': expr, 'reversed_expr': reversed_expr}
     
 def p_expression_string(p): #Expresión de un String
     'expression : STRING'
-    p[0] = p[0] = p[1][::-1]
+    p[0] = p[1][::-1]
     
 def p_statement_end(p): #Función para terminar el programa con "END"
     'statement : END'

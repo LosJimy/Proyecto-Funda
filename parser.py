@@ -14,12 +14,12 @@ def p_statement_expr(p): #Espresión para mostrar el desarrollo al revés, con e
     else:
         print(p[1])  
 
-def p_expression_number(p):
+def p_expression_number(p): #expresión de número Float e Int
     '''expression : NUMBER
                   | FLOAT'''
     p[0] = p[1]
 
-def p_expression_neg(p):
+def p_expression_neg(p): #expresión de números negativos
     'expression : MINUS expression %prec MINUS'
     p[0] = -p[2]
         
@@ -29,22 +29,22 @@ def p_expression_binop(p):
                   | expression MULTIPLY expression
                   | expression DIVIDE expression'''
     
-    left = p[1] if isinstance(p[1], (int, float)) else p[1]['result']
-    right = p[3] if isinstance(p[3], (int, float)) else p[3]['result']   
+    left = p[1] if isinstance(p[1], (int, float)) else p[1]['result'] #resumir el valor a left
+    right = p[3] if isinstance(p[3], (int, float)) else p[3]['result']   #resumir el valor a right
 
-    if p[2] == '+':
+    if p[2] == '+': #Función de suma
         result = left + right
         expr = f"{left} + {right}"
         reversed_expr = f"{left} + {right}"
-    elif p[2] == '-':
+    elif p[2] == '-': #Función de resta
         result = left - right
         expr = f"{left} - {right}"
         reversed_expr = f"-{right} + {left}"
-    elif p[2] == '*':
+    elif p[2] == '*': #Función de Multiplicación
         result = left * right
         expr = f"{left} * {right}"
         reversed_expr = f"{right} * {left}"
-    elif p[2] == '/':
+    elif p[2] == '/': #Función de división
         result = left / right
         expr = f"{left} / {right}"
         reversed_expr = f"{left} * 1/{right}"

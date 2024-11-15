@@ -6,7 +6,7 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEDIVIDE END FLOAT MINUS MULTIPLY NUMBER PLUS STRINGstatement : expressionexpression : NUMBER\n| FLOATexpression : MINUS expression %prec MINUSexpression : expression PLUS expression\n| expression MINUS expression\n| expression MULTIPLY expression\n| expression DIVIDE expressionexpression : STRINGstatement : END'
+_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEDIVIDE END FLOAT MINUS MULTIPLY NUMBER PLUS STRINGstatement : expressionexpression : NUMBER\n                  | FLOATexpression : MINUS expression %prec MINUSexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression MULTIPLY expression\n                  | expression DIVIDE expressionexpression : STRINGstatement : END'
     
 _lr_action_items = {'END':([0,],[3,]),'NUMBER':([0,6,8,9,10,11,],[4,4,4,4,4,4,]),'FLOAT':([0,6,8,9,10,11,],[5,5,5,5,5,5,]),'MINUS':([0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,],[6,9,-2,-3,6,-9,6,6,6,6,-4,-5,-6,-7,-8,]),'STRING':([0,6,8,9,10,11,],[7,7,7,7,7,7,]),'$end':([1,2,3,4,5,7,12,13,14,15,16,],[0,-1,-10,-2,-3,-9,-4,-5,-6,-7,-8,]),'PLUS':([2,4,5,7,12,13,14,15,16,],[8,-2,-3,-9,-4,-5,-6,-7,-8,]),'MULTIPLY':([2,4,5,7,12,13,14,15,16,],[10,-2,-3,-9,10,10,10,-7,-8,]),'DIVIDE':([2,4,5,7,12,13,14,15,16,],[11,-2,-3,-9,11,11,11,-7,-8,]),}
 
@@ -30,11 +30,11 @@ _lr_productions = [
   ('statement -> expression','statement',1,'p_statement_expr','parser.py',11),
   ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',18),
   ('expression -> FLOAT','expression',1,'p_expression_number','parser.py',19),
-  ('expression -> MINUS expression','expression',2,'p_expression_neg','parser.py',27),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',31),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',32),
-  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binop','parser.py',33),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','parser.py',34),
+  ('expression -> MINUS expression','expression',2,'p_expression_neg','parser.py',23),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',27),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',28),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binop','parser.py',29),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','parser.py',30),
   ('expression -> STRING','expression',1,'p_expression_string','parser.py',55),
   ('statement -> END','statement',1,'p_statement_end','parser.py',59),
 ]

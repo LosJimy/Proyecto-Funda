@@ -8,6 +8,8 @@ tokens = (
     'MINUS',
     'DIVIDE',
     'MULTIPLY',
+    'LPAREN',
+    'RPAREN',
     'END',
 )
 
@@ -15,9 +17,11 @@ t_PLUS = r'\+'
 t_MINUS = r'-'
 t_MULTIPLY = r'\*'
 t_DIVIDE = r'/'
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
 t_STRING = r'\".*?\"'
 t_ignore = ' \t'
-t_END = r'END|End|end|SALIR|Salir|salir' #IMPLEMENTAR or r'SALIR' or r'salir' or r'End' or r'Salir' or r'end'
+t_END = r'END|End|end|SALIR|Salir|salir' 
 
 def t_FLOAT(t):
     r'-?\d+\.\d+'

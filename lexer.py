@@ -10,8 +10,12 @@ tokens = (
     'MULTIPLY',
     'LPAREN',
     'RPAREN',
+    'LBRACE',
+    'RBRACE',
     'EQUALS',
     'ID',
+    'IF',
+    'ELSE',
     'END',
 )
 
@@ -21,10 +25,26 @@ t_MULTIPLY = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+t_LBRACE = r'\{'
+t_RBRACE = r'\}'
 t_EQUALS = r'='
 t_STRING = r'\".*?\"'
 t_ignore = ' \t'
-t_END = r'END|End|end|SALIR|Salir|salir' 
+
+def t_END(t):
+    r'END|End|end|SALIR|Salir|salir'
+    t.type = 'END'
+    return t
+
+def t_IF(t):
+    r'fi'
+    t.type = 'IF'
+    return t
+
+def t_ELSE(t):
+    r'esle'
+    t.type = 'ELSE'
+    return t 
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-z_0-9]*'

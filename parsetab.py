@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEnonassocLPARENRPARENDIVIDE END EQUALS FLOAT ID LPAREN MINUS MULTIPLY NUMBER PLUS RPAREN STRINGstatement : expressionstatement : ID EQUALS expressionstatement : ID LPAREN ID RPARENexpression : LPAREN expression RPARENexpression : NUMBER\n                  | FLOATexpression : IDexpression : MINUS expression %prec MINUSexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression MULTIPLY expression\n                  | expression DIVIDE expressionexpression : STRINGstatement : END'
+_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEnonassocLPARENRPARENDIVIDE ELSE END EQUALS FLOAT ID IF LBRACE LPAREN MINUS MULTIPLY NUMBER PLUS RBRACE RPAREN STRINGstatement_list : statement_list statement\n                      | statementstatement : expressionstatement : ID EQUALS expressionstatement : ID LPAREN ID RPARENstatement : IF expression LBRACE statement_list RBRACEstatement : IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACEstatement : ENDexpression : LPAREN expression RPARENexpression : NUMBER\n                  | FLOATexpression : IDexpression : MINUS expression %prec MINUSexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression MULTIPLY expression\n                  | expression DIVIDE expressionexpression : STRING'
     
-_lr_action_items = {'ID':([0,4,8,10,11,12,13,14,15,],[3,17,17,17,17,17,17,17,24,]),'END':([0,],[5,]),'LPAREN':([0,3,4,8,10,11,12,13,14,],[4,15,4,4,4,4,4,4,4,]),'NUMBER':([0,4,8,10,11,12,13,14,],[6,6,6,6,6,6,6,6,]),'FLOAT':([0,4,8,10,11,12,13,14,],[7,7,7,7,7,7,7,7,]),'MINUS':([0,2,3,4,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,25,],[8,11,-7,8,-5,-6,8,-13,8,8,8,8,8,11,-7,-8,-9,-10,-11,-12,11,-4,]),'STRING':([0,4,8,10,11,12,13,14,],[9,9,9,9,9,9,9,9,]),'$end':([1,2,3,5,6,7,9,17,18,19,20,21,22,23,25,26,],[0,-1,-7,-14,-5,-6,-13,-7,-8,-9,-10,-11,-12,-2,-4,-3,]),'PLUS':([2,3,6,7,9,16,17,18,19,20,21,22,23,25,],[10,-7,-5,-6,-13,10,-7,-8,-9,-10,-11,-12,10,-4,]),'MULTIPLY':([2,3,6,7,9,16,17,18,19,20,21,22,23,25,],[12,-7,-5,-6,-13,12,-7,12,12,12,-11,-12,12,-4,]),'DIVIDE':([2,3,6,7,9,16,17,18,19,20,21,22,23,25,],[13,-7,-5,-6,-13,13,-7,13,13,13,-11,-12,13,-4,]),'EQUALS':([3,],[14,]),'RPAREN':([6,7,9,16,17,18,19,20,21,22,24,25,],[-5,-6,-13,25,-7,-8,-9,-10,-11,-12,26,-4,]),}
+_lr_action_items = {'ID':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,29,30,31,32,33,35,36,37,],[4,4,-2,-3,-12,20,20,-8,-10,-11,20,-18,-1,20,20,20,20,20,28,-12,-13,-14,-15,-16,-17,-4,-9,4,-5,4,-6,4,4,-7,]),'IF':([0,1,2,3,4,7,8,9,11,12,20,22,23,24,25,26,27,29,30,31,32,33,35,36,37,],[6,6,-2,-3,-12,-8,-10,-11,-18,-1,-12,-13,-14,-15,-16,-17,-4,-9,6,-5,6,-6,6,6,-7,]),'END':([0,1,2,3,4,7,8,9,11,12,20,22,23,24,25,26,27,29,30,31,32,33,35,36,37,],[7,7,-2,-3,-12,-8,-10,-11,-18,-1,-12,-13,-14,-15,-16,-17,-4,-9,7,-5,7,-6,7,7,-7,]),'LPAREN':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20,22,23,24,25,26,27,29,30,31,32,33,35,36,37,],[5,5,-2,-3,18,5,5,-8,-10,-11,5,-18,-1,5,5,5,5,5,-12,-13,-14,-15,-16,-17,-4,-9,5,-5,5,-6,5,5,-7,]),'NUMBER':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20,22,23,24,25,26,27,29,30,31,32,33,35,36,37,],[8,8,-2,-3,-12,8,8,-8,-10,-11,8,-18,-1,8,8,8,8,8,-12,-13,-14,-15,-16,-17,-4,-9,8,-5,8,-6,8,8,-7,]),'FLOAT':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20,22,23,24,25,26,27,29,30,31,32,33,35,36,37,],[9,9,-2,-3,-12,9,9,-8,-10,-11,9,-18,-1,9,9,9,9,9,-12,-13,-14,-15,-16,-17,-4,-9,9,-5,9,-6,9,9,-7,]),'MINUS':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20,21,22,23,24,25,26,27,29,30,31,32,33,35,36,37,],[10,10,-2,14,-12,10,10,-8,-10,-11,10,-18,-1,10,10,10,10,10,14,-12,14,-13,-14,-15,-16,-17,14,-9,10,-5,10,-6,10,10,-7,]),'STRING':([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,20,22,23,24,25,26,27,29,30,31,32,33,35,36,37,],[11,11,-2,-3,-12,11,11,-8,-10,-11,11,-18,-1,11,11,11,11,11,-12,-13,-14,-15,-16,-17,-4,-9,11,-5,11,-6,11,11,-7,]),'$end':([1,2,3,4,7,8,9,11,12,20,22,23,24,25,26,27,29,31,33,37,],[0,-2,-3,-12,-8,-10,-11,-18,-1,-12,-13,-14,-15,-16,-17,-4,-9,-5,-6,-7,]),'RBRACE':([2,3,4,7,8,9,11,12,20,22,23,24,25,26,27,29,31,32,33,36,37,],[-2,-3,-12,-8,-10,-11,-18,-1,-12,-13,-14,-15,-16,-17,-4,-9,-5,33,-6,37,-7,]),'PLUS':([3,4,8,9,11,19,20,21,22,23,24,25,26,27,29,],[13,-12,-10,-11,-18,13,-12,13,-13,-14,-15,-16,-17,13,-9,]),'MULTIPLY':([3,4,8,9,11,19,20,21,22,23,24,25,26,27,29,],[15,-12,-10,-11,-18,15,-12,15,15,15,15,-16,-17,15,-9,]),'DIVIDE':([3,4,8,9,11,19,20,21,22,23,24,25,26,27,29,],[16,-12,-10,-11,-18,16,-12,16,16,16,16,-16,-17,16,-9,]),'EQUALS':([4,],[17,]),'RPAREN':([8,9,11,19,20,22,23,24,25,26,28,29,],[-10,-11,-18,29,-12,-13,-14,-15,-16,-17,31,-9,]),'LBRACE':([8,9,11,20,21,22,23,24,25,26,29,34,],[-10,-11,-18,-12,30,-13,-14,-15,-16,-17,-9,35,]),'ELSE':([33,],[34,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,4,8,10,11,12,13,14,],[2,16,18,19,20,21,22,23,]),}
+_lr_goto_items = {'statement_list':([0,30,35,],[1,32,36,]),'statement':([0,1,30,32,35,36,],[2,12,2,12,2,12,]),'expression':([0,1,5,6,10,13,14,15,16,17,30,32,35,36,],[3,3,19,21,22,23,24,25,26,27,3,3,3,3,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,19 +26,23 @@ for _k, _v in _lr_goto_items.items():
        _lr_goto[_x][_k] = _y
 del _lr_goto_items
 _lr_productions = [
-  ("S' -> statement","S'",1,None,None,None),
-  ('statement -> expression','statement',1,'p_statement_expr','parser.py',14),
-  ('statement -> ID EQUALS expression','statement',3,'p_statement_assign','parser.py',21),
-  ('statement -> ID LPAREN ID RPAREN','statement',4,'p_statement_print','parser.py',26),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_paren','parser.py',31),
-  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',35),
-  ('expression -> FLOAT','expression',1,'p_expression_number','parser.py',36),
-  ('expression -> ID','expression',1,'p_expression_id','parser.py',40),
-  ('expression -> MINUS expression','expression',2,'p_expression_neg','parser.py',48),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',52),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',53),
-  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binop','parser.py',54),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','parser.py',55),
-  ('expression -> STRING','expression',1,'p_expression_string','parser.py',80),
-  ('statement -> END','statement',1,'p_statement_end','parser.py',91),
+  ("S' -> statement_list","S'",1,None,None,None),
+  ('statement_list -> statement_list statement','statement_list',2,'p_statement_list','parser.py',15),
+  ('statement_list -> statement','statement_list',1,'p_statement_list','parser.py',16),
+  ('statement -> expression','statement',1,'p_statement_expr','parser.py',23),
+  ('statement -> ID EQUALS expression','statement',3,'p_statement_assign','parser.py',31),
+  ('statement -> ID LPAREN ID RPAREN','statement',4,'p_statement_print','parser.py',40),
+  ('statement -> IF expression LBRACE statement_list RBRACE','statement',5,'p_statement_if','parser.py',46),
+  ('statement -> IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE','statement',9,'p_statement_if_else','parser.py',53),
+  ('statement -> END','statement',1,'p_statement_end','parser.py',60),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_paren','parser.py',65),
+  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',69),
+  ('expression -> FLOAT','expression',1,'p_expression_number','parser.py',70),
+  ('expression -> ID','expression',1,'p_expression_id','parser.py',74),
+  ('expression -> MINUS expression','expression',2,'p_expression_neg','parser.py',82),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',86),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',87),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binop','parser.py',88),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','parser.py',89),
+  ('expression -> STRING','expression',1,'p_expression_string','parser.py',114),
 ]

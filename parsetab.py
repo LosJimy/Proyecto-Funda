@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEnonassocLPARENRPARENDIVIDE END FLOAT LPAREN MINUS MULTIPLY NUMBER PLUS RPAREN STRINGstatement : expressionexpression : LPAREN expression RPARENexpression : NUMBER\n                  | FLOATexpression : MINUS expression %prec MINUSexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression MULTIPLY expression\n                  | expression DIVIDE expressionexpression : STRINGstatement : END'
+_lr_signature = 'leftPLUSMINUSleftMULTIPLYDIVIDEnonassocLPARENRPARENDIVIDE END EQUALS FLOAT ID LPAREN MINUS MULTIPLY NUMBER PLUS RPAREN STRINGstatement : expressionstatement : ID EQUALS expressionstatement : ID LPAREN ID RPARENexpression : LPAREN expression RPARENexpression : NUMBER\n                  | FLOATexpression : IDexpression : MINUS expression %prec MINUSexpression : expression PLUS expression\n                  | expression MINUS expression\n                  | expression MULTIPLY expression\n                  | expression DIVIDE expressionexpression : STRINGstatement : END'
     
-_lr_action_items = {'END':([0,],[3,]),'LPAREN':([0,4,7,9,10,11,12,],[4,4,4,4,4,4,4,]),'NUMBER':([0,4,7,9,10,11,12,],[5,5,5,5,5,5,5,]),'FLOAT':([0,4,7,9,10,11,12,],[6,6,6,6,6,6,6,]),'MINUS':([0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,],[7,10,7,-3,-4,7,-10,7,7,7,7,10,-5,-6,-7,-8,-9,-2,]),'STRING':([0,4,7,9,10,11,12,],[8,8,8,8,8,8,8,]),'$end':([1,2,3,5,6,8,14,15,16,17,18,19,],[0,-1,-11,-3,-4,-10,-5,-6,-7,-8,-9,-2,]),'PLUS':([2,5,6,8,13,14,15,16,17,18,19,],[9,-3,-4,-10,9,-5,-6,-7,-8,-9,-2,]),'MULTIPLY':([2,5,6,8,13,14,15,16,17,18,19,],[11,-3,-4,-10,11,11,11,11,-8,-9,-2,]),'DIVIDE':([2,5,6,8,13,14,15,16,17,18,19,],[12,-3,-4,-10,12,12,12,12,-8,-9,-2,]),'RPAREN':([5,6,8,13,14,15,16,17,18,19,],[-3,-4,-10,19,-5,-6,-7,-8,-9,-2,]),}
+_lr_action_items = {'ID':([0,4,8,10,11,12,13,14,15,],[3,17,17,17,17,17,17,17,24,]),'END':([0,],[5,]),'LPAREN':([0,3,4,8,10,11,12,13,14,],[4,15,4,4,4,4,4,4,4,]),'NUMBER':([0,4,8,10,11,12,13,14,],[6,6,6,6,6,6,6,6,]),'FLOAT':([0,4,8,10,11,12,13,14,],[7,7,7,7,7,7,7,7,]),'MINUS':([0,2,3,4,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,23,25,],[8,11,-7,8,-5,-6,8,-13,8,8,8,8,8,11,-7,-8,-9,-10,-11,-12,11,-4,]),'STRING':([0,4,8,10,11,12,13,14,],[9,9,9,9,9,9,9,9,]),'$end':([1,2,3,5,6,7,9,17,18,19,20,21,22,23,25,26,],[0,-1,-7,-14,-5,-6,-13,-7,-8,-9,-10,-11,-12,-2,-4,-3,]),'PLUS':([2,3,6,7,9,16,17,18,19,20,21,22,23,25,],[10,-7,-5,-6,-13,10,-7,-8,-9,-10,-11,-12,10,-4,]),'MULTIPLY':([2,3,6,7,9,16,17,18,19,20,21,22,23,25,],[12,-7,-5,-6,-13,12,-7,12,12,12,-11,-12,12,-4,]),'DIVIDE':([2,3,6,7,9,16,17,18,19,20,21,22,23,25,],[13,-7,-5,-6,-13,13,-7,13,13,13,-11,-12,13,-4,]),'EQUALS':([3,],[14,]),'RPAREN':([6,7,9,16,17,18,19,20,21,22,24,25,],[-5,-6,-13,25,-7,-8,-9,-10,-11,-12,26,-4,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,4,7,9,10,11,12,],[2,13,14,15,16,17,18,]),}
+_lr_goto_items = {'statement':([0,],[1,]),'expression':([0,4,8,10,11,12,13,14,],[2,16,18,19,20,21,22,23,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,15 +27,18 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> expression','statement',1,'p_statement_expr','parser.py',12),
-  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_paren','parser.py',19),
-  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',23),
-  ('expression -> FLOAT','expression',1,'p_expression_number','parser.py',24),
-  ('expression -> MINUS expression','expression',2,'p_expression_neg','parser.py',28),
-  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',32),
-  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',33),
-  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binop','parser.py',34),
-  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','parser.py',35),
-  ('expression -> STRING','expression',1,'p_expression_string','parser.py',60),
-  ('statement -> END','statement',1,'p_statement_end','parser.py',64),
+  ('statement -> expression','statement',1,'p_statement_expr','parser.py',14),
+  ('statement -> ID EQUALS expression','statement',3,'p_statement_assign','parser.py',21),
+  ('statement -> ID LPAREN ID RPAREN','statement',4,'p_statement_print','parser.py',26),
+  ('expression -> LPAREN expression RPAREN','expression',3,'p_expression_paren','parser.py',31),
+  ('expression -> NUMBER','expression',1,'p_expression_number','parser.py',35),
+  ('expression -> FLOAT','expression',1,'p_expression_number','parser.py',36),
+  ('expression -> ID','expression',1,'p_expression_id','parser.py',40),
+  ('expression -> MINUS expression','expression',2,'p_expression_neg','parser.py',48),
+  ('expression -> expression PLUS expression','expression',3,'p_expression_binop','parser.py',52),
+  ('expression -> expression MINUS expression','expression',3,'p_expression_binop','parser.py',53),
+  ('expression -> expression MULTIPLY expression','expression',3,'p_expression_binop','parser.py',54),
+  ('expression -> expression DIVIDE expression','expression',3,'p_expression_binop','parser.py',55),
+  ('expression -> STRING','expression',1,'p_expression_string','parser.py',80),
+  ('statement -> END','statement',1,'p_statement_end','parser.py',91),
 ]

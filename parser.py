@@ -1,6 +1,8 @@
 import ply.yacc as yacc
 from lexer import tokens
 
+variables = {}
+
 #Definir la prioridad de los operadores
 precedence = (
     ('left', 'PLUS', 'MINUS'),
@@ -15,6 +17,19 @@ def p_statement_expr(p): #Espresión para mostrar el desarrollo al revés, con e
     else:
         print(p[1])  
 
+def p_statement_assign(p):
+    'statement : ID EQUALS expression'
+    if p[1].lower() in ['end','salir']:
+        print(f"Cannot assign to reserved word '{p[1]}'")
+    else:
+        variables[p[1]] = p[3]
+        print(f"{p[1]} = {p[3]}")
+    
+def p_statement_print(p):
+    'statement : ID LPAREN ID RPAREN'
+    if p[1] == 'tnirp' and p[3] in variables:
+        print(variables[p[3]])
+
 def p_expression_paren(p): #Evaluar primero los parentesis
     'expression : LPAREN expression RPAREN'
     p[0] = p[2]
@@ -24,6 +39,16 @@ def p_expression_number(p):
                   | FLOAT'''
     p[0] = p[1]
 
+def p_expression_id(p):
+    'expression : ID'
+    if p[1].lower() in ['end', 'salir']:
+        p[0] = p[1]
+    elif p[1] in variables:
+        p[0] = variables[p[1]]
+    else:
+        print(f"Variable indefinida '{p[1]}'")
+        p[0] = 0
+        
 def p_expression_neg(p):
     'expression : MINUS expression %prec MINUS'
     p[0] = -p[2]

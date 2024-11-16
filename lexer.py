@@ -10,6 +10,8 @@ tokens = (
     'MULTIPLY',
     'LPAREN',
     'RPAREN',
+    'EQUALS',
+    'ID',
     'END',
 )
 
@@ -19,9 +21,15 @@ t_MULTIPLY = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+t_EQUALS = r'='
 t_STRING = r'\".*?\"'
 t_ignore = ' \t'
 t_END = r'END|End|end|SALIR|Salir|salir' 
+
+def t_ID(t):
+    r'[a-zA-Z_][a-zA-z_0-9]*'
+    t.type = 'ID'
+    return t
 
 def t_FLOAT(t):
     r'-?\d+\.\d+'

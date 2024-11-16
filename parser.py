@@ -58,7 +58,14 @@ def p_expression_binop(p):
     
 def p_expression_string(p): #Expresión de un String
     'expression : STRING'
-    p[0] = p[1][::-1]
+    string = p[1][1:-1]
+    inverted = list(string[::-1])
+    for i in range(len(inverted)):
+        if inverted[i] == '(':
+            inverted[i] =')'
+        elif inverted[i] == ')':
+            inverted[i] = '('
+    p[0] = '"' + ''.join(inverted) + '"'
     
 def p_statement_end(p): #Función para terminar el programa con "END"
     'statement : END'

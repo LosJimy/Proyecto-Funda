@@ -6,8 +6,10 @@ statements = []
 
 #Definir la prioridad de los operadores
 precedence = (
-    ('left', 'PLUS', 'MINUS'),
-    ('left', 'MULTIPLY', 'DIVIDE'),
+    ('left', 'EQEQ', 'NE'), #prioridad == !=
+    ('left', 'LT', 'LE', 'GT', 'GE'), #prioridad < > <= >=
+    ('left', 'PLUS', 'MINUS'), #prioridad suma y resta
+    ('left', 'MULTIPLY', 'DIVIDE'), #prioridaad multiplicación y división
     ('nonassoc', 'LPAREN', 'RPAREN'), #prioridad parentesis
 )
 
@@ -45,16 +47,19 @@ def p_statement_print(p):
 def p_statement_if(p):
     'statement : IF expression LBRACE statement_list RBRACE'
     if p[2]:
-        p[0] = p[4]
-    else: 
-        p[0] = None
+        for stmt in p[4]:
+            execute_statement(stmt)
+    p[0] = None
 
 def p_statement_if_else(p):
     'statement : IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE'
     if p[2]:
-        p[0] = p[4]
+        for stmt in p[4]:
+            execute_statement(stmt)
     else:
-        p[0] = p[8]      
+        for stmt in p[8]:
+            execute_statement(stmt)
+    p[0] = None
         
 def p_statement_end(p): #Función para terminar el programa con "END"
     'statement : END'
@@ -86,7 +91,13 @@ def p_expression_binop(p):
     '''expression : expression PLUS expression
                   | expression MINUS expression
                   | expression MULTIPLY expression
-                  | expression DIVIDE expression'''
+                  | expression DIVIDE expression
+                  | expression EQEQ expression
+                  | expression NE expression
+                  | expression LT expression
+                  | expression GT expression
+                  | expression LE expression
+                  | expression GE expression'''
     
     left = p[1] if isinstance(p[1], (int, float)) else p[1]['result']
     right = p[3] if isinstance(p[3], (int, float)) else p[3]['result']   
@@ -106,7 +117,31 @@ def p_expression_binop(p):
     elif p[2] == '/':
         result = left / right
         expr = f"{left} / {right}"
-        reversed_expr = f"{left} * 1/{right}"
+        reversed_expr = f"1/{right} * {left}"
+    elif p[2] == '==':
+        result = left == right
+        expr = f"{left} == {right}"
+        reversed_expr = f"{right} == {left}"
+    elif p[2] == '!=':
+        result = left != right
+        expr = f"{left} != {right}"
+        reversed_expr = f"{right} != {left}"
+    elif p[2] == '<':
+        result = left < right
+        expr = f"{left} < {right}"
+        reversed_expr = f"{right} > {left}"
+    elif p[2] == '>':
+        result = left > right
+        expr = f"{left} > {right}"
+        reversed_expr = f"{right} < {left}"
+    elif p[2] == '<=':
+        result = left <= right
+        expr = f"{left} <= {right}"
+        reversed_expr = f"{right} >= {left}"
+    elif p[2] == '>=':
+        result = left >= right
+        expr = f"{left} >= {right}"
+        reversed_expr = f"{right} <= {left}"
             
     p[0] = {'result': result, 'expr': expr, 'reversed_expr': reversed_expr}
     

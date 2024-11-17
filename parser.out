@@ -20,31 +20,43 @@ Rule 14    expression -> expression PLUS expression
 Rule 15    expression -> expression MINUS expression
 Rule 16    expression -> expression MULTIPLY expression
 Rule 17    expression -> expression DIVIDE expression
-Rule 18    expression -> STRING
+Rule 18    expression -> expression EQEQ expression
+Rule 19    expression -> expression NE expression
+Rule 20    expression -> expression LT expression
+Rule 21    expression -> expression GT expression
+Rule 22    expression -> expression LE expression
+Rule 23    expression -> expression GE expression
+Rule 24    expression -> STRING
 
 Terminals, with rules where they appear
 
 DIVIDE               : 17
 ELSE                 : 7
 END                  : 8
+EQEQ                 : 18
 EQUALS               : 4
 FLOAT                : 11
+GE                   : 23
+GT                   : 21
 ID                   : 4 5 5 12
 IF                   : 6 7
 LBRACE               : 6 7 7
+LE                   : 22
 LPAREN               : 5 9
+LT                   : 20
 MINUS                : 13 15
 MULTIPLY             : 16
+NE                   : 19
 NUMBER               : 10
 PLUS                 : 14
 RBRACE               : 6 7 7
 RPAREN               : 5 9
-STRING               : 18
+STRING               : 24
 error                : 
 
 Nonterminals, with rules where they appear
 
-expression           : 3 4 6 7 9 13 14 14 15 15 16 16 17 17
+expression           : 3 4 6 7 9 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23
 statement            : 1 2
 statement_list       : 1 6 7 7 0
 
@@ -70,7 +82,13 @@ state 0
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     ID              shift and go to state 4
     IF              shift and go to state 6
@@ -104,7 +122,13 @@ state 1
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     ID              shift and go to state 4
     IF              shift and go to state 6
@@ -141,6 +165,12 @@ state 3
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
   ! shift/reduce conflict for MINUS resolved as shift
     ID              reduce using rule 3 (statement -> expression .)
@@ -156,6 +186,12 @@ state 3
     MINUS           shift and go to state 14
     MULTIPLY        shift and go to state 15
     DIVIDE          shift and go to state 16
+    EQEQ            shift and go to state 17
+    NE              shift and go to state 18
+    LT              shift and go to state 19
+    GT              shift and go to state 20
+    LE              shift and go to state 21
+    GE              shift and go to state 22
 
   ! MINUS           [ reduce using rule 3 (statement -> expression .) ]
 
@@ -167,12 +203,18 @@ state 4
     (12) expression -> ID .
 
   ! shift/reduce conflict for LPAREN resolved as shift
-    EQUALS          shift and go to state 17
-    LPAREN          shift and go to state 18
+    EQUALS          shift and go to state 23
+    LPAREN          shift and go to state 24
     PLUS            reduce using rule 12 (expression -> ID .)
     MINUS           reduce using rule 12 (expression -> ID .)
     MULTIPLY        reduce using rule 12 (expression -> ID .)
     DIVIDE          reduce using rule 12 (expression -> ID .)
+    EQEQ            reduce using rule 12 (expression -> ID .)
+    NE              reduce using rule 12 (expression -> ID .)
+    LT              reduce using rule 12 (expression -> ID .)
+    GT              reduce using rule 12 (expression -> ID .)
+    LE              reduce using rule 12 (expression -> ID .)
+    GE              reduce using rule 12 (expression -> ID .)
     ID              reduce using rule 12 (expression -> ID .)
     IF              reduce using rule 12 (expression -> ID .)
     END             reduce using rule 12 (expression -> ID .)
@@ -197,16 +239,22 @@ state 5
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     LPAREN          shift and go to state 5
     NUMBER          shift and go to state 8
     FLOAT           shift and go to state 9
-    ID              shift and go to state 20
+    ID              shift and go to state 26
     MINUS           shift and go to state 10
     STRING          shift and go to state 11
 
-    expression                     shift and go to state 19
+    expression                     shift and go to state 25
 
 state 6
 
@@ -221,16 +269,22 @@ state 6
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     LPAREN          shift and go to state 5
     NUMBER          shift and go to state 8
     FLOAT           shift and go to state 9
-    ID              shift and go to state 20
+    ID              shift and go to state 26
     MINUS           shift and go to state 10
     STRING          shift and go to state 11
 
-    expression                     shift and go to state 21
+    expression                     shift and go to state 27
 
 state 7
 
@@ -256,6 +310,12 @@ state 8
     MINUS           reduce using rule 10 (expression -> NUMBER .)
     MULTIPLY        reduce using rule 10 (expression -> NUMBER .)
     DIVIDE          reduce using rule 10 (expression -> NUMBER .)
+    EQEQ            reduce using rule 10 (expression -> NUMBER .)
+    NE              reduce using rule 10 (expression -> NUMBER .)
+    LT              reduce using rule 10 (expression -> NUMBER .)
+    GT              reduce using rule 10 (expression -> NUMBER .)
+    LE              reduce using rule 10 (expression -> NUMBER .)
+    GE              reduce using rule 10 (expression -> NUMBER .)
     ID              reduce using rule 10 (expression -> NUMBER .)
     IF              reduce using rule 10 (expression -> NUMBER .)
     END             reduce using rule 10 (expression -> NUMBER .)
@@ -277,6 +337,12 @@ state 9
     MINUS           reduce using rule 11 (expression -> FLOAT .)
     MULTIPLY        reduce using rule 11 (expression -> FLOAT .)
     DIVIDE          reduce using rule 11 (expression -> FLOAT .)
+    EQEQ            reduce using rule 11 (expression -> FLOAT .)
+    NE              reduce using rule 11 (expression -> FLOAT .)
+    LT              reduce using rule 11 (expression -> FLOAT .)
+    GT              reduce using rule 11 (expression -> FLOAT .)
+    LE              reduce using rule 11 (expression -> FLOAT .)
+    GE              reduce using rule 11 (expression -> FLOAT .)
     ID              reduce using rule 11 (expression -> FLOAT .)
     IF              reduce using rule 11 (expression -> FLOAT .)
     END             reduce using rule 11 (expression -> FLOAT .)
@@ -302,36 +368,48 @@ state 10
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     LPAREN          shift and go to state 5
     NUMBER          shift and go to state 8
     FLOAT           shift and go to state 9
-    ID              shift and go to state 20
+    ID              shift and go to state 26
     MINUS           shift and go to state 10
     STRING          shift and go to state 11
 
-    expression                     shift and go to state 22
+    expression                     shift and go to state 28
 
 state 11
 
-    (18) expression -> STRING .
+    (24) expression -> STRING .
 
-    PLUS            reduce using rule 18 (expression -> STRING .)
-    MINUS           reduce using rule 18 (expression -> STRING .)
-    MULTIPLY        reduce using rule 18 (expression -> STRING .)
-    DIVIDE          reduce using rule 18 (expression -> STRING .)
-    ID              reduce using rule 18 (expression -> STRING .)
-    IF              reduce using rule 18 (expression -> STRING .)
-    END             reduce using rule 18 (expression -> STRING .)
-    LPAREN          reduce using rule 18 (expression -> STRING .)
-    NUMBER          reduce using rule 18 (expression -> STRING .)
-    FLOAT           reduce using rule 18 (expression -> STRING .)
-    STRING          reduce using rule 18 (expression -> STRING .)
-    $end            reduce using rule 18 (expression -> STRING .)
-    RPAREN          reduce using rule 18 (expression -> STRING .)
-    LBRACE          reduce using rule 18 (expression -> STRING .)
-    RBRACE          reduce using rule 18 (expression -> STRING .)
+    PLUS            reduce using rule 24 (expression -> STRING .)
+    MINUS           reduce using rule 24 (expression -> STRING .)
+    MULTIPLY        reduce using rule 24 (expression -> STRING .)
+    DIVIDE          reduce using rule 24 (expression -> STRING .)
+    EQEQ            reduce using rule 24 (expression -> STRING .)
+    NE              reduce using rule 24 (expression -> STRING .)
+    LT              reduce using rule 24 (expression -> STRING .)
+    GT              reduce using rule 24 (expression -> STRING .)
+    LE              reduce using rule 24 (expression -> STRING .)
+    GE              reduce using rule 24 (expression -> STRING .)
+    ID              reduce using rule 24 (expression -> STRING .)
+    IF              reduce using rule 24 (expression -> STRING .)
+    END             reduce using rule 24 (expression -> STRING .)
+    LPAREN          reduce using rule 24 (expression -> STRING .)
+    NUMBER          reduce using rule 24 (expression -> STRING .)
+    FLOAT           reduce using rule 24 (expression -> STRING .)
+    STRING          reduce using rule 24 (expression -> STRING .)
+    $end            reduce using rule 24 (expression -> STRING .)
+    RPAREN          reduce using rule 24 (expression -> STRING .)
+    LBRACE          reduce using rule 24 (expression -> STRING .)
+    RBRACE          reduce using rule 24 (expression -> STRING .)
 
 
 state 12
@@ -362,16 +440,22 @@ state 13
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     LPAREN          shift and go to state 5
     NUMBER          shift and go to state 8
     FLOAT           shift and go to state 9
-    ID              shift and go to state 20
+    ID              shift and go to state 26
     MINUS           shift and go to state 10
     STRING          shift and go to state 11
 
-    expression                     shift and go to state 23
+    expression                     shift and go to state 29
 
 state 14
 
@@ -385,16 +469,22 @@ state 14
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     LPAREN          shift and go to state 5
     NUMBER          shift and go to state 8
     FLOAT           shift and go to state 9
-    ID              shift and go to state 20
+    ID              shift and go to state 26
     MINUS           shift and go to state 10
     STRING          shift and go to state 11
 
-    expression                     shift and go to state 24
+    expression                     shift and go to state 30
 
 state 15
 
@@ -408,16 +498,22 @@ state 15
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     LPAREN          shift and go to state 5
     NUMBER          shift and go to state 8
     FLOAT           shift and go to state 9
-    ID              shift and go to state 20
+    ID              shift and go to state 26
     MINUS           shift and go to state 10
     STRING          shift and go to state 11
 
-    expression                     shift and go to state 25
+    expression                     shift and go to state 31
 
 state 16
 
@@ -431,18 +527,198 @@ state 16
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     LPAREN          shift and go to state 5
     NUMBER          shift and go to state 8
     FLOAT           shift and go to state 9
-    ID              shift and go to state 20
+    ID              shift and go to state 26
     MINUS           shift and go to state 10
     STRING          shift and go to state 11
 
-    expression                     shift and go to state 26
+    expression                     shift and go to state 32
 
 state 17
+
+    (18) expression -> expression EQEQ . expression
+    (9) expression -> . LPAREN expression RPAREN
+    (10) expression -> . NUMBER
+    (11) expression -> . FLOAT
+    (12) expression -> . ID
+    (13) expression -> . MINUS expression
+    (14) expression -> . expression PLUS expression
+    (15) expression -> . expression MINUS expression
+    (16) expression -> . expression MULTIPLY expression
+    (17) expression -> . expression DIVIDE expression
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
+
+    LPAREN          shift and go to state 5
+    NUMBER          shift and go to state 8
+    FLOAT           shift and go to state 9
+    ID              shift and go to state 26
+    MINUS           shift and go to state 10
+    STRING          shift and go to state 11
+
+    expression                     shift and go to state 33
+
+state 18
+
+    (19) expression -> expression NE . expression
+    (9) expression -> . LPAREN expression RPAREN
+    (10) expression -> . NUMBER
+    (11) expression -> . FLOAT
+    (12) expression -> . ID
+    (13) expression -> . MINUS expression
+    (14) expression -> . expression PLUS expression
+    (15) expression -> . expression MINUS expression
+    (16) expression -> . expression MULTIPLY expression
+    (17) expression -> . expression DIVIDE expression
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
+
+    LPAREN          shift and go to state 5
+    NUMBER          shift and go to state 8
+    FLOAT           shift and go to state 9
+    ID              shift and go to state 26
+    MINUS           shift and go to state 10
+    STRING          shift and go to state 11
+
+    expression                     shift and go to state 34
+
+state 19
+
+    (20) expression -> expression LT . expression
+    (9) expression -> . LPAREN expression RPAREN
+    (10) expression -> . NUMBER
+    (11) expression -> . FLOAT
+    (12) expression -> . ID
+    (13) expression -> . MINUS expression
+    (14) expression -> . expression PLUS expression
+    (15) expression -> . expression MINUS expression
+    (16) expression -> . expression MULTIPLY expression
+    (17) expression -> . expression DIVIDE expression
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
+
+    LPAREN          shift and go to state 5
+    NUMBER          shift and go to state 8
+    FLOAT           shift and go to state 9
+    ID              shift and go to state 26
+    MINUS           shift and go to state 10
+    STRING          shift and go to state 11
+
+    expression                     shift and go to state 35
+
+state 20
+
+    (21) expression -> expression GT . expression
+    (9) expression -> . LPAREN expression RPAREN
+    (10) expression -> . NUMBER
+    (11) expression -> . FLOAT
+    (12) expression -> . ID
+    (13) expression -> . MINUS expression
+    (14) expression -> . expression PLUS expression
+    (15) expression -> . expression MINUS expression
+    (16) expression -> . expression MULTIPLY expression
+    (17) expression -> . expression DIVIDE expression
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
+
+    LPAREN          shift and go to state 5
+    NUMBER          shift and go to state 8
+    FLOAT           shift and go to state 9
+    ID              shift and go to state 26
+    MINUS           shift and go to state 10
+    STRING          shift and go to state 11
+
+    expression                     shift and go to state 36
+
+state 21
+
+    (22) expression -> expression LE . expression
+    (9) expression -> . LPAREN expression RPAREN
+    (10) expression -> . NUMBER
+    (11) expression -> . FLOAT
+    (12) expression -> . ID
+    (13) expression -> . MINUS expression
+    (14) expression -> . expression PLUS expression
+    (15) expression -> . expression MINUS expression
+    (16) expression -> . expression MULTIPLY expression
+    (17) expression -> . expression DIVIDE expression
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
+
+    LPAREN          shift and go to state 5
+    NUMBER          shift and go to state 8
+    FLOAT           shift and go to state 9
+    ID              shift and go to state 26
+    MINUS           shift and go to state 10
+    STRING          shift and go to state 11
+
+    expression                     shift and go to state 37
+
+state 22
+
+    (23) expression -> expression GE . expression
+    (9) expression -> . LPAREN expression RPAREN
+    (10) expression -> . NUMBER
+    (11) expression -> . FLOAT
+    (12) expression -> . ID
+    (13) expression -> . MINUS expression
+    (14) expression -> . expression PLUS expression
+    (15) expression -> . expression MINUS expression
+    (16) expression -> . expression MULTIPLY expression
+    (17) expression -> . expression DIVIDE expression
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
+
+    LPAREN          shift and go to state 5
+    NUMBER          shift and go to state 8
+    FLOAT           shift and go to state 9
+    ID              shift and go to state 26
+    MINUS           shift and go to state 10
+    STRING          shift and go to state 11
+
+    expression                     shift and go to state 38
+
+state 23
 
     (4) statement -> ID EQUALS . expression
     (9) expression -> . LPAREN expression RPAREN
@@ -454,40 +730,58 @@ state 17
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     LPAREN          shift and go to state 5
     NUMBER          shift and go to state 8
     FLOAT           shift and go to state 9
-    ID              shift and go to state 20
+    ID              shift and go to state 26
     MINUS           shift and go to state 10
     STRING          shift and go to state 11
 
-    expression                     shift and go to state 27
+    expression                     shift and go to state 39
 
-state 18
+state 24
 
     (5) statement -> ID LPAREN . ID RPAREN
 
-    ID              shift and go to state 28
+    ID              shift and go to state 40
 
 
-state 19
+state 25
 
     (9) expression -> LPAREN expression . RPAREN
     (14) expression -> expression . PLUS expression
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
-    RPAREN          shift and go to state 29
+    RPAREN          shift and go to state 41
     PLUS            shift and go to state 13
     MINUS           shift and go to state 14
     MULTIPLY        shift and go to state 15
     DIVIDE          shift and go to state 16
+    EQEQ            shift and go to state 17
+    NE              shift and go to state 18
+    LT              shift and go to state 19
+    GT              shift and go to state 20
+    LE              shift and go to state 21
+    GE              shift and go to state 22
 
 
-state 20
+state 26
 
     (12) expression -> ID .
 
@@ -496,6 +790,12 @@ state 20
     MINUS           reduce using rule 12 (expression -> ID .)
     MULTIPLY        reduce using rule 12 (expression -> ID .)
     DIVIDE          reduce using rule 12 (expression -> ID .)
+    EQEQ            reduce using rule 12 (expression -> ID .)
+    NE              reduce using rule 12 (expression -> ID .)
+    LT              reduce using rule 12 (expression -> ID .)
+    GT              reduce using rule 12 (expression -> ID .)
+    LE              reduce using rule 12 (expression -> ID .)
+    GE              reduce using rule 12 (expression -> ID .)
     LBRACE          reduce using rule 12 (expression -> ID .)
     ID              reduce using rule 12 (expression -> ID .)
     IF              reduce using rule 12 (expression -> ID .)
@@ -508,7 +808,7 @@ state 20
     RBRACE          reduce using rule 12 (expression -> ID .)
 
 
-state 21
+state 27
 
     (6) statement -> IF expression . LBRACE statement_list RBRACE
     (7) statement -> IF expression . LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -516,24 +816,48 @@ state 21
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
-    LBRACE          shift and go to state 30
+    LBRACE          shift and go to state 42
     PLUS            shift and go to state 13
     MINUS           shift and go to state 14
     MULTIPLY        shift and go to state 15
     DIVIDE          shift and go to state 16
+    EQEQ            shift and go to state 17
+    NE              shift and go to state 18
+    LT              shift and go to state 19
+    GT              shift and go to state 20
+    LE              shift and go to state 21
+    GE              shift and go to state 22
 
 
-state 22
+state 28
 
     (13) expression -> MINUS expression .
     (14) expression -> expression . PLUS expression
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
     PLUS            reduce using rule 13 (expression -> MINUS expression .)
     MINUS           reduce using rule 13 (expression -> MINUS expression .)
+    EQEQ            reduce using rule 13 (expression -> MINUS expression .)
+    NE              reduce using rule 13 (expression -> MINUS expression .)
+    LT              reduce using rule 13 (expression -> MINUS expression .)
+    GT              reduce using rule 13 (expression -> MINUS expression .)
+    LE              reduce using rule 13 (expression -> MINUS expression .)
+    GE              reduce using rule 13 (expression -> MINUS expression .)
     ID              reduce using rule 13 (expression -> MINUS expression .)
     IF              reduce using rule 13 (expression -> MINUS expression .)
     END             reduce using rule 13 (expression -> MINUS expression .)
@@ -552,18 +876,36 @@ state 22
   ! DIVIDE          [ reduce using rule 13 (expression -> MINUS expression .) ]
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
 
 
-state 23
+state 29
 
     (14) expression -> expression PLUS expression .
     (14) expression -> expression . PLUS expression
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
     PLUS            reduce using rule 14 (expression -> expression PLUS expression .)
     MINUS           reduce using rule 14 (expression -> expression PLUS expression .)
+    EQEQ            reduce using rule 14 (expression -> expression PLUS expression .)
+    NE              reduce using rule 14 (expression -> expression PLUS expression .)
+    LT              reduce using rule 14 (expression -> expression PLUS expression .)
+    GT              reduce using rule 14 (expression -> expression PLUS expression .)
+    LE              reduce using rule 14 (expression -> expression PLUS expression .)
+    GE              reduce using rule 14 (expression -> expression PLUS expression .)
     ID              reduce using rule 14 (expression -> expression PLUS expression .)
     IF              reduce using rule 14 (expression -> expression PLUS expression .)
     END             reduce using rule 14 (expression -> expression PLUS expression .)
@@ -582,18 +924,36 @@ state 23
   ! DIVIDE          [ reduce using rule 14 (expression -> expression PLUS expression .) ]
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
 
 
-state 24
+state 30
 
     (15) expression -> expression MINUS expression .
     (14) expression -> expression . PLUS expression
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
     PLUS            reduce using rule 15 (expression -> expression MINUS expression .)
     MINUS           reduce using rule 15 (expression -> expression MINUS expression .)
+    EQEQ            reduce using rule 15 (expression -> expression MINUS expression .)
+    NE              reduce using rule 15 (expression -> expression MINUS expression .)
+    LT              reduce using rule 15 (expression -> expression MINUS expression .)
+    GT              reduce using rule 15 (expression -> expression MINUS expression .)
+    LE              reduce using rule 15 (expression -> expression MINUS expression .)
+    GE              reduce using rule 15 (expression -> expression MINUS expression .)
     ID              reduce using rule 15 (expression -> expression MINUS expression .)
     IF              reduce using rule 15 (expression -> expression MINUS expression .)
     END             reduce using rule 15 (expression -> expression MINUS expression .)
@@ -612,20 +972,38 @@ state 24
   ! DIVIDE          [ reduce using rule 15 (expression -> expression MINUS expression .) ]
   ! PLUS            [ shift and go to state 13 ]
   ! MINUS           [ shift and go to state 14 ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
 
 
-state 25
+state 31
 
     (16) expression -> expression MULTIPLY expression .
     (14) expression -> expression . PLUS expression
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
     PLUS            reduce using rule 16 (expression -> expression MULTIPLY expression .)
     MINUS           reduce using rule 16 (expression -> expression MULTIPLY expression .)
     MULTIPLY        reduce using rule 16 (expression -> expression MULTIPLY expression .)
     DIVIDE          reduce using rule 16 (expression -> expression MULTIPLY expression .)
+    EQEQ            reduce using rule 16 (expression -> expression MULTIPLY expression .)
+    NE              reduce using rule 16 (expression -> expression MULTIPLY expression .)
+    LT              reduce using rule 16 (expression -> expression MULTIPLY expression .)
+    GT              reduce using rule 16 (expression -> expression MULTIPLY expression .)
+    LE              reduce using rule 16 (expression -> expression MULTIPLY expression .)
+    GE              reduce using rule 16 (expression -> expression MULTIPLY expression .)
     ID              reduce using rule 16 (expression -> expression MULTIPLY expression .)
     IF              reduce using rule 16 (expression -> expression MULTIPLY expression .)
     END             reduce using rule 16 (expression -> expression MULTIPLY expression .)
@@ -642,20 +1020,38 @@ state 25
   ! MINUS           [ shift and go to state 14 ]
   ! MULTIPLY        [ shift and go to state 15 ]
   ! DIVIDE          [ shift and go to state 16 ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
 
 
-state 26
+state 32
 
     (17) expression -> expression DIVIDE expression .
     (14) expression -> expression . PLUS expression
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
     PLUS            reduce using rule 17 (expression -> expression DIVIDE expression .)
     MINUS           reduce using rule 17 (expression -> expression DIVIDE expression .)
     MULTIPLY        reduce using rule 17 (expression -> expression DIVIDE expression .)
     DIVIDE          reduce using rule 17 (expression -> expression DIVIDE expression .)
+    EQEQ            reduce using rule 17 (expression -> expression DIVIDE expression .)
+    NE              reduce using rule 17 (expression -> expression DIVIDE expression .)
+    LT              reduce using rule 17 (expression -> expression DIVIDE expression .)
+    GT              reduce using rule 17 (expression -> expression DIVIDE expression .)
+    LE              reduce using rule 17 (expression -> expression DIVIDE expression .)
+    GE              reduce using rule 17 (expression -> expression DIVIDE expression .)
     ID              reduce using rule 17 (expression -> expression DIVIDE expression .)
     IF              reduce using rule 17 (expression -> expression DIVIDE expression .)
     END             reduce using rule 17 (expression -> expression DIVIDE expression .)
@@ -672,15 +1068,315 @@ state 26
   ! MINUS           [ shift and go to state 14 ]
   ! MULTIPLY        [ shift and go to state 15 ]
   ! DIVIDE          [ shift and go to state 16 ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
 
 
-state 27
+state 33
+
+    (18) expression -> expression EQEQ expression .
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . MULTIPLY expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
+
+    EQEQ            reduce using rule 18 (expression -> expression EQEQ expression .)
+    NE              reduce using rule 18 (expression -> expression EQEQ expression .)
+    ID              reduce using rule 18 (expression -> expression EQEQ expression .)
+    IF              reduce using rule 18 (expression -> expression EQEQ expression .)
+    END             reduce using rule 18 (expression -> expression EQEQ expression .)
+    LPAREN          reduce using rule 18 (expression -> expression EQEQ expression .)
+    NUMBER          reduce using rule 18 (expression -> expression EQEQ expression .)
+    FLOAT           reduce using rule 18 (expression -> expression EQEQ expression .)
+    STRING          reduce using rule 18 (expression -> expression EQEQ expression .)
+    $end            reduce using rule 18 (expression -> expression EQEQ expression .)
+    RPAREN          reduce using rule 18 (expression -> expression EQEQ expression .)
+    LBRACE          reduce using rule 18 (expression -> expression EQEQ expression .)
+    RBRACE          reduce using rule 18 (expression -> expression EQEQ expression .)
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+    MULTIPLY        shift and go to state 15
+    DIVIDE          shift and go to state 16
+    LT              shift and go to state 19
+    GT              shift and go to state 20
+    LE              shift and go to state 21
+    GE              shift and go to state 22
+
+  ! PLUS            [ reduce using rule 18 (expression -> expression EQEQ expression .) ]
+  ! MINUS           [ reduce using rule 18 (expression -> expression EQEQ expression .) ]
+  ! MULTIPLY        [ reduce using rule 18 (expression -> expression EQEQ expression .) ]
+  ! DIVIDE          [ reduce using rule 18 (expression -> expression EQEQ expression .) ]
+  ! LT              [ reduce using rule 18 (expression -> expression EQEQ expression .) ]
+  ! GT              [ reduce using rule 18 (expression -> expression EQEQ expression .) ]
+  ! LE              [ reduce using rule 18 (expression -> expression EQEQ expression .) ]
+  ! GE              [ reduce using rule 18 (expression -> expression EQEQ expression .) ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+
+
+state 34
+
+    (19) expression -> expression NE expression .
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . MULTIPLY expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
+
+    EQEQ            reduce using rule 19 (expression -> expression NE expression .)
+    NE              reduce using rule 19 (expression -> expression NE expression .)
+    ID              reduce using rule 19 (expression -> expression NE expression .)
+    IF              reduce using rule 19 (expression -> expression NE expression .)
+    END             reduce using rule 19 (expression -> expression NE expression .)
+    LPAREN          reduce using rule 19 (expression -> expression NE expression .)
+    NUMBER          reduce using rule 19 (expression -> expression NE expression .)
+    FLOAT           reduce using rule 19 (expression -> expression NE expression .)
+    STRING          reduce using rule 19 (expression -> expression NE expression .)
+    $end            reduce using rule 19 (expression -> expression NE expression .)
+    RPAREN          reduce using rule 19 (expression -> expression NE expression .)
+    LBRACE          reduce using rule 19 (expression -> expression NE expression .)
+    RBRACE          reduce using rule 19 (expression -> expression NE expression .)
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+    MULTIPLY        shift and go to state 15
+    DIVIDE          shift and go to state 16
+    LT              shift and go to state 19
+    GT              shift and go to state 20
+    LE              shift and go to state 21
+    GE              shift and go to state 22
+
+  ! PLUS            [ reduce using rule 19 (expression -> expression NE expression .) ]
+  ! MINUS           [ reduce using rule 19 (expression -> expression NE expression .) ]
+  ! MULTIPLY        [ reduce using rule 19 (expression -> expression NE expression .) ]
+  ! DIVIDE          [ reduce using rule 19 (expression -> expression NE expression .) ]
+  ! LT              [ reduce using rule 19 (expression -> expression NE expression .) ]
+  ! GT              [ reduce using rule 19 (expression -> expression NE expression .) ]
+  ! LE              [ reduce using rule 19 (expression -> expression NE expression .) ]
+  ! GE              [ reduce using rule 19 (expression -> expression NE expression .) ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+
+
+state 35
+
+    (20) expression -> expression LT expression .
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . MULTIPLY expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
+
+    EQEQ            reduce using rule 20 (expression -> expression LT expression .)
+    NE              reduce using rule 20 (expression -> expression LT expression .)
+    LT              reduce using rule 20 (expression -> expression LT expression .)
+    GT              reduce using rule 20 (expression -> expression LT expression .)
+    LE              reduce using rule 20 (expression -> expression LT expression .)
+    GE              reduce using rule 20 (expression -> expression LT expression .)
+    ID              reduce using rule 20 (expression -> expression LT expression .)
+    IF              reduce using rule 20 (expression -> expression LT expression .)
+    END             reduce using rule 20 (expression -> expression LT expression .)
+    LPAREN          reduce using rule 20 (expression -> expression LT expression .)
+    NUMBER          reduce using rule 20 (expression -> expression LT expression .)
+    FLOAT           reduce using rule 20 (expression -> expression LT expression .)
+    STRING          reduce using rule 20 (expression -> expression LT expression .)
+    $end            reduce using rule 20 (expression -> expression LT expression .)
+    RPAREN          reduce using rule 20 (expression -> expression LT expression .)
+    LBRACE          reduce using rule 20 (expression -> expression LT expression .)
+    RBRACE          reduce using rule 20 (expression -> expression LT expression .)
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+    MULTIPLY        shift and go to state 15
+    DIVIDE          shift and go to state 16
+
+  ! PLUS            [ reduce using rule 20 (expression -> expression LT expression .) ]
+  ! MINUS           [ reduce using rule 20 (expression -> expression LT expression .) ]
+  ! MULTIPLY        [ reduce using rule 20 (expression -> expression LT expression .) ]
+  ! DIVIDE          [ reduce using rule 20 (expression -> expression LT expression .) ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
+
+
+state 36
+
+    (21) expression -> expression GT expression .
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . MULTIPLY expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
+
+    EQEQ            reduce using rule 21 (expression -> expression GT expression .)
+    NE              reduce using rule 21 (expression -> expression GT expression .)
+    LT              reduce using rule 21 (expression -> expression GT expression .)
+    GT              reduce using rule 21 (expression -> expression GT expression .)
+    LE              reduce using rule 21 (expression -> expression GT expression .)
+    GE              reduce using rule 21 (expression -> expression GT expression .)
+    ID              reduce using rule 21 (expression -> expression GT expression .)
+    IF              reduce using rule 21 (expression -> expression GT expression .)
+    END             reduce using rule 21 (expression -> expression GT expression .)
+    LPAREN          reduce using rule 21 (expression -> expression GT expression .)
+    NUMBER          reduce using rule 21 (expression -> expression GT expression .)
+    FLOAT           reduce using rule 21 (expression -> expression GT expression .)
+    STRING          reduce using rule 21 (expression -> expression GT expression .)
+    $end            reduce using rule 21 (expression -> expression GT expression .)
+    RPAREN          reduce using rule 21 (expression -> expression GT expression .)
+    LBRACE          reduce using rule 21 (expression -> expression GT expression .)
+    RBRACE          reduce using rule 21 (expression -> expression GT expression .)
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+    MULTIPLY        shift and go to state 15
+    DIVIDE          shift and go to state 16
+
+  ! PLUS            [ reduce using rule 21 (expression -> expression GT expression .) ]
+  ! MINUS           [ reduce using rule 21 (expression -> expression GT expression .) ]
+  ! MULTIPLY        [ reduce using rule 21 (expression -> expression GT expression .) ]
+  ! DIVIDE          [ reduce using rule 21 (expression -> expression GT expression .) ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
+
+
+state 37
+
+    (22) expression -> expression LE expression .
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . MULTIPLY expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
+
+    EQEQ            reduce using rule 22 (expression -> expression LE expression .)
+    NE              reduce using rule 22 (expression -> expression LE expression .)
+    LT              reduce using rule 22 (expression -> expression LE expression .)
+    GT              reduce using rule 22 (expression -> expression LE expression .)
+    LE              reduce using rule 22 (expression -> expression LE expression .)
+    GE              reduce using rule 22 (expression -> expression LE expression .)
+    ID              reduce using rule 22 (expression -> expression LE expression .)
+    IF              reduce using rule 22 (expression -> expression LE expression .)
+    END             reduce using rule 22 (expression -> expression LE expression .)
+    LPAREN          reduce using rule 22 (expression -> expression LE expression .)
+    NUMBER          reduce using rule 22 (expression -> expression LE expression .)
+    FLOAT           reduce using rule 22 (expression -> expression LE expression .)
+    STRING          reduce using rule 22 (expression -> expression LE expression .)
+    $end            reduce using rule 22 (expression -> expression LE expression .)
+    RPAREN          reduce using rule 22 (expression -> expression LE expression .)
+    LBRACE          reduce using rule 22 (expression -> expression LE expression .)
+    RBRACE          reduce using rule 22 (expression -> expression LE expression .)
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+    MULTIPLY        shift and go to state 15
+    DIVIDE          shift and go to state 16
+
+  ! PLUS            [ reduce using rule 22 (expression -> expression LE expression .) ]
+  ! MINUS           [ reduce using rule 22 (expression -> expression LE expression .) ]
+  ! MULTIPLY        [ reduce using rule 22 (expression -> expression LE expression .) ]
+  ! DIVIDE          [ reduce using rule 22 (expression -> expression LE expression .) ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
+
+
+state 38
+
+    (23) expression -> expression GE expression .
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . MULTIPLY expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
+
+    EQEQ            reduce using rule 23 (expression -> expression GE expression .)
+    NE              reduce using rule 23 (expression -> expression GE expression .)
+    LT              reduce using rule 23 (expression -> expression GE expression .)
+    GT              reduce using rule 23 (expression -> expression GE expression .)
+    LE              reduce using rule 23 (expression -> expression GE expression .)
+    GE              reduce using rule 23 (expression -> expression GE expression .)
+    ID              reduce using rule 23 (expression -> expression GE expression .)
+    IF              reduce using rule 23 (expression -> expression GE expression .)
+    END             reduce using rule 23 (expression -> expression GE expression .)
+    LPAREN          reduce using rule 23 (expression -> expression GE expression .)
+    NUMBER          reduce using rule 23 (expression -> expression GE expression .)
+    FLOAT           reduce using rule 23 (expression -> expression GE expression .)
+    STRING          reduce using rule 23 (expression -> expression GE expression .)
+    $end            reduce using rule 23 (expression -> expression GE expression .)
+    RPAREN          reduce using rule 23 (expression -> expression GE expression .)
+    LBRACE          reduce using rule 23 (expression -> expression GE expression .)
+    RBRACE          reduce using rule 23 (expression -> expression GE expression .)
+    PLUS            shift and go to state 13
+    MINUS           shift and go to state 14
+    MULTIPLY        shift and go to state 15
+    DIVIDE          shift and go to state 16
+
+  ! PLUS            [ reduce using rule 23 (expression -> expression GE expression .) ]
+  ! MINUS           [ reduce using rule 23 (expression -> expression GE expression .) ]
+  ! MULTIPLY        [ reduce using rule 23 (expression -> expression GE expression .) ]
+  ! DIVIDE          [ reduce using rule 23 (expression -> expression GE expression .) ]
+  ! EQEQ            [ shift and go to state 17 ]
+  ! NE              [ shift and go to state 18 ]
+  ! LT              [ shift and go to state 19 ]
+  ! GT              [ shift and go to state 20 ]
+  ! LE              [ shift and go to state 21 ]
+  ! GE              [ shift and go to state 22 ]
+
+
+state 39
 
     (4) statement -> ID EQUALS expression .
     (14) expression -> expression . PLUS expression
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . MULTIPLY expression
     (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . EQEQ expression
+    (19) expression -> expression . NE expression
+    (20) expression -> expression . LT expression
+    (21) expression -> expression . GT expression
+    (22) expression -> expression . LE expression
+    (23) expression -> expression . GE expression
 
   ! shift/reduce conflict for MINUS resolved as shift
     ID              reduce using rule 4 (statement -> ID EQUALS expression .)
@@ -696,18 +1392,24 @@ state 27
     MINUS           shift and go to state 14
     MULTIPLY        shift and go to state 15
     DIVIDE          shift and go to state 16
+    EQEQ            shift and go to state 17
+    NE              shift and go to state 18
+    LT              shift and go to state 19
+    GT              shift and go to state 20
+    LE              shift and go to state 21
+    GE              shift and go to state 22
 
   ! MINUS           [ reduce using rule 4 (statement -> ID EQUALS expression .) ]
 
 
-state 28
+state 40
 
     (5) statement -> ID LPAREN ID . RPAREN
 
-    RPAREN          shift and go to state 31
+    RPAREN          shift and go to state 43
 
 
-state 29
+state 41
 
     (9) expression -> LPAREN expression RPAREN .
 
@@ -715,6 +1417,12 @@ state 29
     MINUS           reduce using rule 9 (expression -> LPAREN expression RPAREN .)
     MULTIPLY        reduce using rule 9 (expression -> LPAREN expression RPAREN .)
     DIVIDE          reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    EQEQ            reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    NE              reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    LT              reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    GT              reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    LE              reduce using rule 9 (expression -> LPAREN expression RPAREN .)
+    GE              reduce using rule 9 (expression -> LPAREN expression RPAREN .)
     ID              reduce using rule 9 (expression -> LPAREN expression RPAREN .)
     IF              reduce using rule 9 (expression -> LPAREN expression RPAREN .)
     END             reduce using rule 9 (expression -> LPAREN expression RPAREN .)
@@ -728,7 +1436,7 @@ state 29
     RBRACE          reduce using rule 9 (expression -> LPAREN expression RPAREN .)
 
 
-state 30
+state 42
 
     (6) statement -> IF expression LBRACE . statement_list RBRACE
     (7) statement -> IF expression LBRACE . statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -749,7 +1457,13 @@ state 30
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     ID              shift and go to state 4
     IF              shift and go to state 6
@@ -761,10 +1475,10 @@ state 30
     STRING          shift and go to state 11
 
     expression                     shift and go to state 3
-    statement_list                 shift and go to state 32
+    statement_list                 shift and go to state 44
     statement                      shift and go to state 2
 
-state 31
+state 43
 
     (5) statement -> ID LPAREN ID RPAREN .
 
@@ -780,7 +1494,7 @@ state 31
     RBRACE          reduce using rule 5 (statement -> ID LPAREN ID RPAREN .)
 
 
-state 32
+state 44
 
     (6) statement -> IF expression LBRACE statement_list . RBRACE
     (7) statement -> IF expression LBRACE statement_list . RBRACE ELSE LBRACE statement_list RBRACE
@@ -800,9 +1514,15 @@ state 32
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
-    RBRACE          shift and go to state 33
+    RBRACE          shift and go to state 45
     ID              shift and go to state 4
     IF              shift and go to state 6
     END             shift and go to state 7
@@ -815,7 +1535,7 @@ state 32
     expression                     shift and go to state 3
     statement                      shift and go to state 12
 
-state 33
+state 45
 
     (6) statement -> IF expression LBRACE statement_list RBRACE .
     (7) statement -> IF expression LBRACE statement_list RBRACE . ELSE LBRACE statement_list RBRACE
@@ -830,17 +1550,17 @@ state 33
     STRING          reduce using rule 6 (statement -> IF expression LBRACE statement_list RBRACE .)
     $end            reduce using rule 6 (statement -> IF expression LBRACE statement_list RBRACE .)
     RBRACE          reduce using rule 6 (statement -> IF expression LBRACE statement_list RBRACE .)
-    ELSE            shift and go to state 34
+    ELSE            shift and go to state 46
 
 
-state 34
+state 46
 
     (7) statement -> IF expression LBRACE statement_list RBRACE ELSE . LBRACE statement_list RBRACE
 
-    LBRACE          shift and go to state 35
+    LBRACE          shift and go to state 47
 
 
-state 35
+state 47
 
     (7) statement -> IF expression LBRACE statement_list RBRACE ELSE LBRACE . statement_list RBRACE
     (1) statement_list -> . statement_list statement
@@ -860,7 +1580,13 @@ state 35
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
     ID              shift and go to state 4
     IF              shift and go to state 6
@@ -872,10 +1598,10 @@ state 35
     STRING          shift and go to state 11
 
     expression                     shift and go to state 3
-    statement_list                 shift and go to state 36
+    statement_list                 shift and go to state 48
     statement                      shift and go to state 2
 
-state 36
+state 48
 
     (7) statement -> IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list . RBRACE
     (1) statement_list -> statement_list . statement
@@ -894,9 +1620,15 @@ state 36
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression MULTIPLY expression
     (17) expression -> . expression DIVIDE expression
-    (18) expression -> . STRING
+    (18) expression -> . expression EQEQ expression
+    (19) expression -> . expression NE expression
+    (20) expression -> . expression LT expression
+    (21) expression -> . expression GT expression
+    (22) expression -> . expression LE expression
+    (23) expression -> . expression GE expression
+    (24) expression -> . STRING
 
-    RBRACE          shift and go to state 37
+    RBRACE          shift and go to state 49
     ID              shift and go to state 4
     IF              shift and go to state 6
     END             shift and go to state 7
@@ -909,7 +1641,7 @@ state 36
     expression                     shift and go to state 3
     statement                      shift and go to state 12
 
-state 37
+state 49
 
     (7) statement -> IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE .
 
@@ -929,4 +1661,4 @@ WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for MINUS in state 3 resolved as shift
 WARNING: shift/reduce conflict for LPAREN in state 4 resolved as shift
-WARNING: shift/reduce conflict for MINUS in state 27 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 39 resolved as shift

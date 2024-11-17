@@ -13,10 +13,17 @@ tokens = (
     'LBRACE',
     'RBRACE',
     'EQUALS',
+    'EQEQ',
+    'NE',
+    'LT',
+    'GT',
+    'LE',
+    'GE',
     'ID',
     'IF',
     'ELSE',
     'END',
+
 )
 
 t_PLUS = r'\+'
@@ -28,6 +35,12 @@ t_RPAREN = r'\)'
 t_LBRACE = r'\{'
 t_RBRACE = r'\}'
 t_EQUALS = r'='
+t_EQEQ = r'=='
+t_NE = r'!='
+t_LT = r'<'
+t_GT = r'>'
+t_LE = r'<='
+t_GE = r'>='
 t_STRING = r'\".*?\"'
 t_ignore = ' \t'
 
@@ -37,12 +50,12 @@ def t_END(t):
     return t
 
 def t_IF(t):
-    r'fi'
+    r'fi|if'
     t.type = 'IF'
     return t
 
 def t_ELSE(t):
-    r'esle'
+    r'esle|else'
     t.type = 'ELSE'
     return t 
 

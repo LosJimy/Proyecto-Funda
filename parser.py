@@ -46,14 +46,14 @@ def p_statement_print(p):
 
 def p_statement_if(p):
     'statement : IF expression LBRACE statement_list RBRACE'
-    if p[2]:
+    if p[2]['result']:
         for stmt in p[4]:
             execute_statement(stmt)
     p[0] = None
 
 def p_statement_if_else(p):
     'statement : IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE'
-    if p[2]:
+    if p[2]['result']:
         for stmt in p[4]:
             execute_statement(stmt)
     else:
@@ -157,8 +157,11 @@ def p_expression_string(p): #Expresión de un String
     p[0] = '"' + ''.join(inverted) + '"'
 
 def p_error(p): #Salida de error
-    print(f"Syntx error at '{p.value}'")
-
+    if p:
+        print(f"Syntx error at '{p.value}'")
+    else:
+        print("Syntax error at EOF")
+    
 parser = yacc.yacc() 
 
 def execute_statement(statement):

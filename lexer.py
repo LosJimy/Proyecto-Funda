@@ -44,11 +44,6 @@ t_GE = r'>='
 t_STRING = r'\".*?\"'
 t_ignore = ' \t'
 
-def t_END(t):
-    r'END|End|end|SALIR|Salir|salir'
-    t.type = 'END'
-    return t
-
 def t_IF(t):
     r'fi|if'
     t.type = 'IF'
@@ -58,6 +53,13 @@ def t_ELSE(t):
     r'esle|else'
     t.type = 'ELSE'
     return t 
+
+
+def t_END(t):
+    r'END|End|end|SALIR|Salir|salir'
+    t.type = 'END'
+    return t
+
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-z_0-9]*'

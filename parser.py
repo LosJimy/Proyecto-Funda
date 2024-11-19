@@ -2,7 +2,6 @@ import ply.yacc as yacc
 from lexer import tokens
 
 variables = {}
-statements = []
 
 #Definir la prioridad de los operadores
 precedence = (

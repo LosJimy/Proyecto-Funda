@@ -1,0 +1,13 @@
+hola = 10
+mundo = "hola mundo"
+
+fi hola != 10{
+    hola = 5
+    tnirp(hola)
+}
+else {
+    hola = hola - 1
+    tnirp(hola)
+}
+
+tnirp(mundo)

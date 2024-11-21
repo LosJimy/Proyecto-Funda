@@ -34,7 +34,6 @@ def p_statement_assign(p):
         print(f"Cannot assign to reserved word '{p[1]}'")
     else:
         variables[p[1]] = p[3]
-        print(f"{p[3]} = {p[1][::-1]}")
     p[0] = None
     
 def p_statement_print(p):
@@ -52,7 +51,7 @@ def p_statement_if(p):
 
 def p_statement_if_else(p):
     'statement : IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE'
-    if p[2]['result']:
+    if p[2]:
         for stmt in p[4]:
             execute_statement(stmt)
     else:
@@ -141,11 +140,11 @@ def p_expression_binop(p):
         result = left >= right
         expr = f"{left} >= {right}"
         reversed_expr = f"{right} <= {left}"
-            
-    p[0] = {'result': result, 'expr': expr, 'reversed_expr': reversed_expr}
+
+    p[0] = f"{result} = {reversed_expr}"            
     
 def p_expression_string(p): #Expresión de un String
-    'expression : STRING'
+    '''expression : STRING'''
     string = p[1][1:-1]
     inverted = list(string[::-1])
     for i in range(len(inverted)):
@@ -153,7 +152,9 @@ def p_expression_string(p): #Expresión de un String
             inverted[i] =')'
         elif inverted[i] == ')':
             inverted[i] = '('
-    p[0] = '"' + ''.join(inverted) + '"'
+    normal_string = ''.join(string)
+    reversed_string = ''.join(inverted)
+    p[0] = f'"{reversed_string}" | "{normal_string}"'
 
 def p_error(p): #Salida de error
     if p:

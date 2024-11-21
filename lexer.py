@@ -41,7 +41,7 @@ t_LT = r'<'
 t_GT = r'>'
 t_LE = r'<='
 t_GE = r'>='
-t_STRING = r'\".*?\"'
+t_STRING = r'(\".*?\"|\'.*?\')'
 t_ignore = ' \t'
 
 def t_IF(t):

@@ -1,13 +1,12 @@
 hola = 10
-mundo = "hola mundo"
+mundo = "lo lograste"
 
-fi hola != 10{
-    hola = 5
-    tnirp(hola)
+for i = 0 to 5{
+    if hola == 13 {
+        tnirp(mundo)
+    }
+    else {
+        hola = hola + 1
+        tnirp(hola)
+    }
 }
-else {
-    hola = hola - 1
-    tnirp(hola)
-}
-
-tnirp(mundo)

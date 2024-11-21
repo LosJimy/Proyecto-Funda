@@ -22,6 +22,8 @@ tokens = (
     'ID',
     'IF',
     'ELSE',
+    'FOR',
+    'TO', #Palabra para el bucle for
     'END',
 
 )
@@ -54,6 +56,15 @@ def t_ELSE(t):
     t.type = 'ELSE'
     return t 
 
+def t_FOR(t):
+    r'rof|for'
+    t.type = 'FOR'
+    return t
+
+def t_TO(t):
+    r'to'
+    t.type = 'TO'
+    return t
 
 def t_END(t):
     r'END|End|end|SALIR|Salir|salir'

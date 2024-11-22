@@ -59,17 +59,6 @@ def p_statement_if_else(p):
             execute_statement(stmt)
     p[0] = None
         
-def p_statement_for(p):
-    'statement : FOR ID EQUALS expression TO expression LBRACE statement_list RBRACE'
-    start = p[4]
-    end = p[6]
-    var = p[2]
-    for i in range(start, end + 1):
-        variables[var] = i
-        for stmt in p[8]:
-            execute_statement(stmt)
-    p[0] = None    
-            
 def p_statement_end(p): #Función para terminar el programa con "END"
     'statement : END'
     print("Ending program...")

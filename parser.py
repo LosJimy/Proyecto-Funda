@@ -37,14 +37,21 @@ def p_statement_assign(p):
     p[0] = None
     
 def p_statement_print(p):
-    'statement : ID LPAREN ID RPAREN'
-    if p[1] == 'tnirp' and p[3] in variables:
-        print(variables[p[3]])
+    '''statement : ID LPAREN STRING RPAREN
+                 | ID LPAREN ID RPAREN'''
+    if p[1] == 'tnirp':
+        if p[3].startswith('"') and p[3].endswith('"'):
+            print(p[3][1:-1])
+        elif p[3].startswith("'") and p[3].endswith("'"):
+            print(p[3][1:-1])
+        elif p[3] in variables:
+            print(variables[p[3]])
     p[0] = None
+    
 
 def p_statement_if(p):
     'statement : IF expression LBRACE statement_list RBRACE'
-    if p[2]['result']:
+    if p[2]:
         for stmt in p[4]:
             execute_statement(stmt)
     p[0] = None

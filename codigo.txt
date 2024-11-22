@@ -1,13 +1,8 @@
 hola = 10
-mundo = "hola mundo"
 
-fi hola != 10{
-    hola = 5
-    tnirp(hola)
+fi hola == 10 {
+    tnirp('lo lograste')
 }
-else {
-    hola = hola - 1
-    tnirp(hola)
+else{
+    tnirp('no lo lograste')
 }
-
-tnirp(mundo)

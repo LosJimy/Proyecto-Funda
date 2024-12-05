@@ -1,29 +1,9 @@
 import ply.lex as lex
 
 tokens = (
-    'NUMBER',
-    'FLOAT',
-    'STRING',
-    'PLUS',
-    'MINUS',
-    'DIVIDE',
-    'MULTIPLY',
-    'LPAREN',
-    'RPAREN',
-    'LBRACE',
-    'RBRACE',
-    'EQUALS',
-    'EQEQ',
-    'NE',
-    'LT',
-    'GT',
-    'LE',
-    'GE',
-    'ID',
-    'IF',
-    'ELSE',
-    'END',
-
+    'NUMBER', 'FLOAT', 'STRING', 'PLUS', 'MINUS', 'DIVIDE', 'MULTIPLY',
+    'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'EQUALS', 'EQEQ', 'NE', 'LT', 'GT',
+    'LE', 'GE', 'ID', 'IF', 'ELSE', 'END',
 )
 
 t_PLUS = r'\+'
@@ -52,14 +32,12 @@ def t_IF(t):
 def t_ELSE(t):
     r'esle|else'
     t.type = 'ELSE'
-    return t 
-
+    return t
 
 def t_END(t):
     r'END|End|end|SALIR|Salir|salir'
     t.type = 'END'
     return t
-
 
 def t_ID(t):
     r'[a-zA-Z_][a-zA-z_0-9]*'
@@ -71,17 +49,17 @@ def t_FLOAT(t):
     t.value = float(t.value)
     return t
 
-def t_NUMBER(t): #Función de el token Number
+def t_NUMBER(t):
     r'-?\d+'
     t.value = int(t.value)
     return t
 
-def t_newline(t): #Función que se activa cada vez  que el lexer encuentra una nueva linea en el código fuente
+def t_newline(t):
     r'\n+'
-    t.lexer.lineno += len(t.value) #Incrementa contador de lineas cada vez que se encuentra una nueva línea
+    t.lexer.lineno += len(t.value)
 
-def t_error(t): #Funcion para detectar error e imprimir donde está el error
+def t_error(t):
     print(f"Illegal character '{t.value[0]}'")
     t.lexer.skip(1)
-    
+
 lexer = lex.lex()

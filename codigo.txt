@@ -1,8 +1,8 @@
 hola = 10
 
-fi hola == 10 {
+if hola == 10 {
     tnirp('lo lograste')
 }
-else{
+else {
     tnirp('no lo lograste')
 }

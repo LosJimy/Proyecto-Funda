@@ -9,16 +9,18 @@ tokens = (
     'MINUS',
     'MULTIPLY',
     'DIVIDE',
+    'MODULO',
     'ASSIGN',
     'LPAREN',
     'RPAREN',
-    'COMMA',    # Añadido token COMMA
+    'COMMA',
     'IF',
     'ELSE',
     'ELIF',
     'FOR',
     'IN',
     'RANGE',
+    'WHILE',
     'EQUALS',
     'LT',
     'GT',
@@ -27,22 +29,33 @@ tokens = (
     'TRUE',
     'FALSE',
     'PRINT',
+    'OR',    # Token para operador lógico OR (||)
+    'AND',   # Token para operador lógico AND (&&)
+    'NOT',   # Token para operador lógico NOT (!)
 )
 
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_MULTIPLY = r'\*'
 t_DIVIDE = r'/'
+t_MODULO = r'%'
 t_ASSIGN = r'='
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_COMMA = r','   # Definido el token COMMA
+t_COMMA = r','
 t_EQUALS = r'=='
 t_LT = r'<'
 t_GT = r'>'
 t_LE = r'<='
 t_GE = r'>='
+t_OR = r'\|\|'   # Expresión regular para operador OR
+t_AND = r'&&'    # Expresión regular para operador AND
+t_NOT = r'!'     # Expresión regular para operador NOT
 t_ignore = ' \t'
+
+def t_COMMENT(t):
+    r'\#.*'
+    pass  # Ignorar los comentarios
 
 def t_IF(t):
     r'if'
@@ -66,6 +79,10 @@ def t_IN(t):
 
 def t_RANGE(t):
     r'range'
+    return t
+
+def t_WHILE(t):
+    r'while'
     return t
 
 def t_PRINT(t):

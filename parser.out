@@ -26,49 +26,57 @@ Rule 20    condition -> expression EQUALS expression
 Rule 21    condition -> expression LT expression
 Rule 22    condition -> expression GT expression
 Rule 23    condition -> expression LE expression
-Rule 24    condition -> expression GE expression
+Rule 24    condition -> expression GE
 Rule 25    expression -> MINUS expression
 Rule 26    expression -> expression PLUS expression
 Rule 27    expression -> expression MINUS expression
 Rule 28    expression -> expression MULTIPLY expression
 Rule 29    expression -> expression DIVIDE expression
-Rule 30    expression -> LPAREN expression RPAREN
-Rule 31    expression -> ID
-Rule 32    expression -> TRUE
-Rule 33    expression -> FALSE
-Rule 34    expression -> NUMBER
-Rule 35    expression -> FLOAT
-Rule 36    expression -> STRING
-Rule 37    empty -> <empty>
+Rule 30    expression -> expression MODULO expression
+Rule 31    expression -> expression OR expression
+Rule 32    expression -> expression AND expression
+Rule 33    expression -> NOT expression
+Rule 34    expression -> LPAREN expression RPAREN
+Rule 35    expression -> ID
+Rule 36    expression -> TRUE
+Rule 37    expression -> FALSE
+Rule 38    expression -> NUMBER
+Rule 39    expression -> FLOAT
+Rule 40    expression -> STRING
+Rule 41    empty -> <empty>
 
 Terminals, with rules where they appear
 
+AND                  : 32
 ASSIGN               : 9
 COMMA                : 18
 DIVIDE               : 29
 ELIF                 : 14 15
 ELSE                 : 10
 EQUALS               : 20
-FALSE                : 33
-FLOAT                : 35
+FALSE                : 37
+FLOAT                : 39
 FOR                  : 16
 GE                   : 24
 GT                   : 22
-ID                   : 9 16 31
+ID                   : 9 16 35
 IF                   : 10 11
 IN                   : 16
 LE                   : 23
-LPAREN               : 18 19 30
+LPAREN               : 18 19 34
 LT                   : 21
 MINUS                : 25 27
+MODULO               : 30
 MULTIPLY             : 28
-NUMBER               : 34
+NOT                  : 33
+NUMBER               : 38
+OR                   : 31
 PLUS                 : 26
 PRINT                : 19
 RANGE                : 18
-RPAREN               : 18 19 30
-STRING               : 36
-TRUE                 : 32
+RPAREN               : 18 19 34
+STRING               : 40
+TRUE                 : 36
 WHILE                : 17
 error                : 
 
@@ -79,7 +87,7 @@ condition            : 10 11 14 15 17
 elif_list            : 12 14
 elif_list_opt        : 10 11
 empty                : 13
-expression           : 9 18 18 19 20 20 21 21 22 22 23 23 24 24 25 26 26 27 27 28 28 29 29 30
+expression           : 9 18 18 19 20 20 21 21 22 22 23 23 24 25 26 26 27 27 28 28 29 29 30 30 31 31 32 32 33 34
 for_statement        : 6
 if_statement         : 5
 print_statement      : 8
@@ -257,28 +265,33 @@ state 10
     (21) condition -> . expression LT expression
     (22) condition -> . expression GT expression
     (23) condition -> . expression LE expression
-    (24) condition -> . expression GE expression
+    (24) condition -> . expression GE
     (25) expression -> . MINUS expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
     condition                      shift and go to state 16
     expression                     shift and go to state 17
@@ -287,7 +300,7 @@ state 11
 
     (16) for_statement -> FOR . ID IN range statement
 
-    ID              shift and go to state 26
+    ID              shift and go to state 27
 
 
 state 12
@@ -297,37 +310,42 @@ state 12
     (21) condition -> . expression LT expression
     (22) condition -> . expression GT expression
     (23) condition -> . expression LE expression
-    (24) condition -> . expression GE expression
+    (24) condition -> . expression GE
     (25) expression -> . MINUS expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    condition                      shift and go to state 27
+    condition                      shift and go to state 28
     expression                     shift and go to state 17
 
 state 13
 
     (19) print_statement -> PRINT . LPAREN expression RPAREN
 
-    LPAREN          shift and go to state 28
+    LPAREN          shift and go to state 29
 
 
 state 14
@@ -350,24 +368,29 @@ state 15
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 29
+    expression                     shift and go to state 30
 
 state 16
 
@@ -391,7 +414,7 @@ state 16
     WHILE           shift and go to state 12
     PRINT           shift and go to state 13
 
-    statement                      shift and go to state 30
+    statement                      shift and go to state 31
     assignment                     shift and go to state 4
     if_statement                   shift and go to state 5
     for_statement                  shift and go to state 6
@@ -404,21 +427,27 @@ state 17
     (21) condition -> expression . LT expression
     (22) condition -> expression . GT expression
     (23) condition -> expression . LE expression
-    (24) condition -> expression . GE expression
+    (24) condition -> expression . GE
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
-    EQUALS          shift and go to state 31
-    LT              shift and go to state 32
-    GT              shift and go to state 33
-    LE              shift and go to state 34
-    GE              shift and go to state 35
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    EQUALS          shift and go to state 32
+    LT              shift and go to state 33
+    GT              shift and go to state 34
+    LE              shift and go to state 35
+    GE              shift and go to state 36
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
 state 18
@@ -429,210 +458,270 @@ state 18
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 40
+    expression                     shift and go to state 44
 
 state 19
 
-    (30) expression -> LPAREN . expression RPAREN
+    (33) expression -> NOT . expression
     (25) expression -> . MINUS expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 41
+    expression                     shift and go to state 45
 
 state 20
 
-    (31) expression -> ID .
+    (34) expression -> LPAREN . expression RPAREN
+    (25) expression -> . MINUS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression MULTIPLY expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
-    EQUALS          reduce using rule 31 (expression -> ID .)
-    LT              reduce using rule 31 (expression -> ID .)
-    GT              reduce using rule 31 (expression -> ID .)
-    LE              reduce using rule 31 (expression -> ID .)
-    GE              reduce using rule 31 (expression -> ID .)
-    PLUS            reduce using rule 31 (expression -> ID .)
-    MINUS           reduce using rule 31 (expression -> ID .)
-    MULTIPLY        reduce using rule 31 (expression -> ID .)
-    DIVIDE          reduce using rule 31 (expression -> ID .)
-    ID              reduce using rule 31 (expression -> ID .)
-    IF              reduce using rule 31 (expression -> ID .)
-    FOR             reduce using rule 31 (expression -> ID .)
-    WHILE           reduce using rule 31 (expression -> ID .)
-    PRINT           reduce using rule 31 (expression -> ID .)
-    $end            reduce using rule 31 (expression -> ID .)
-    ELIF            reduce using rule 31 (expression -> ID .)
-    ELSE            reduce using rule 31 (expression -> ID .)
-    RPAREN          reduce using rule 31 (expression -> ID .)
-    COMMA           reduce using rule 31 (expression -> ID .)
+    MINUS           shift and go to state 18
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
+    expression                     shift and go to state 46
 
 state 21
 
-    (32) expression -> TRUE .
+    (35) expression -> ID .
 
-    EQUALS          reduce using rule 32 (expression -> TRUE .)
-    LT              reduce using rule 32 (expression -> TRUE .)
-    GT              reduce using rule 32 (expression -> TRUE .)
-    LE              reduce using rule 32 (expression -> TRUE .)
-    GE              reduce using rule 32 (expression -> TRUE .)
-    PLUS            reduce using rule 32 (expression -> TRUE .)
-    MINUS           reduce using rule 32 (expression -> TRUE .)
-    MULTIPLY        reduce using rule 32 (expression -> TRUE .)
-    DIVIDE          reduce using rule 32 (expression -> TRUE .)
-    ID              reduce using rule 32 (expression -> TRUE .)
-    IF              reduce using rule 32 (expression -> TRUE .)
-    FOR             reduce using rule 32 (expression -> TRUE .)
-    WHILE           reduce using rule 32 (expression -> TRUE .)
-    PRINT           reduce using rule 32 (expression -> TRUE .)
-    $end            reduce using rule 32 (expression -> TRUE .)
-    ELIF            reduce using rule 32 (expression -> TRUE .)
-    ELSE            reduce using rule 32 (expression -> TRUE .)
-    RPAREN          reduce using rule 32 (expression -> TRUE .)
-    COMMA           reduce using rule 32 (expression -> TRUE .)
+    EQUALS          reduce using rule 35 (expression -> ID .)
+    LT              reduce using rule 35 (expression -> ID .)
+    GT              reduce using rule 35 (expression -> ID .)
+    LE              reduce using rule 35 (expression -> ID .)
+    GE              reduce using rule 35 (expression -> ID .)
+    PLUS            reduce using rule 35 (expression -> ID .)
+    MINUS           reduce using rule 35 (expression -> ID .)
+    MULTIPLY        reduce using rule 35 (expression -> ID .)
+    DIVIDE          reduce using rule 35 (expression -> ID .)
+    MODULO          reduce using rule 35 (expression -> ID .)
+    OR              reduce using rule 35 (expression -> ID .)
+    AND             reduce using rule 35 (expression -> ID .)
+    ID              reduce using rule 35 (expression -> ID .)
+    IF              reduce using rule 35 (expression -> ID .)
+    FOR             reduce using rule 35 (expression -> ID .)
+    WHILE           reduce using rule 35 (expression -> ID .)
+    PRINT           reduce using rule 35 (expression -> ID .)
+    $end            reduce using rule 35 (expression -> ID .)
+    ELIF            reduce using rule 35 (expression -> ID .)
+    ELSE            reduce using rule 35 (expression -> ID .)
+    RPAREN          reduce using rule 35 (expression -> ID .)
+    COMMA           reduce using rule 35 (expression -> ID .)
 
 
 state 22
 
-    (33) expression -> FALSE .
+    (36) expression -> TRUE .
 
-    EQUALS          reduce using rule 33 (expression -> FALSE .)
-    LT              reduce using rule 33 (expression -> FALSE .)
-    GT              reduce using rule 33 (expression -> FALSE .)
-    LE              reduce using rule 33 (expression -> FALSE .)
-    GE              reduce using rule 33 (expression -> FALSE .)
-    PLUS            reduce using rule 33 (expression -> FALSE .)
-    MINUS           reduce using rule 33 (expression -> FALSE .)
-    MULTIPLY        reduce using rule 33 (expression -> FALSE .)
-    DIVIDE          reduce using rule 33 (expression -> FALSE .)
-    ID              reduce using rule 33 (expression -> FALSE .)
-    IF              reduce using rule 33 (expression -> FALSE .)
-    FOR             reduce using rule 33 (expression -> FALSE .)
-    WHILE           reduce using rule 33 (expression -> FALSE .)
-    PRINT           reduce using rule 33 (expression -> FALSE .)
-    $end            reduce using rule 33 (expression -> FALSE .)
-    ELIF            reduce using rule 33 (expression -> FALSE .)
-    ELSE            reduce using rule 33 (expression -> FALSE .)
-    RPAREN          reduce using rule 33 (expression -> FALSE .)
-    COMMA           reduce using rule 33 (expression -> FALSE .)
+    EQUALS          reduce using rule 36 (expression -> TRUE .)
+    LT              reduce using rule 36 (expression -> TRUE .)
+    GT              reduce using rule 36 (expression -> TRUE .)
+    LE              reduce using rule 36 (expression -> TRUE .)
+    GE              reduce using rule 36 (expression -> TRUE .)
+    PLUS            reduce using rule 36 (expression -> TRUE .)
+    MINUS           reduce using rule 36 (expression -> TRUE .)
+    MULTIPLY        reduce using rule 36 (expression -> TRUE .)
+    DIVIDE          reduce using rule 36 (expression -> TRUE .)
+    MODULO          reduce using rule 36 (expression -> TRUE .)
+    OR              reduce using rule 36 (expression -> TRUE .)
+    AND             reduce using rule 36 (expression -> TRUE .)
+    ID              reduce using rule 36 (expression -> TRUE .)
+    IF              reduce using rule 36 (expression -> TRUE .)
+    FOR             reduce using rule 36 (expression -> TRUE .)
+    WHILE           reduce using rule 36 (expression -> TRUE .)
+    PRINT           reduce using rule 36 (expression -> TRUE .)
+    $end            reduce using rule 36 (expression -> TRUE .)
+    ELIF            reduce using rule 36 (expression -> TRUE .)
+    ELSE            reduce using rule 36 (expression -> TRUE .)
+    RPAREN          reduce using rule 36 (expression -> TRUE .)
+    COMMA           reduce using rule 36 (expression -> TRUE .)
 
 
 state 23
 
-    (34) expression -> NUMBER .
+    (37) expression -> FALSE .
 
-    EQUALS          reduce using rule 34 (expression -> NUMBER .)
-    LT              reduce using rule 34 (expression -> NUMBER .)
-    GT              reduce using rule 34 (expression -> NUMBER .)
-    LE              reduce using rule 34 (expression -> NUMBER .)
-    GE              reduce using rule 34 (expression -> NUMBER .)
-    PLUS            reduce using rule 34 (expression -> NUMBER .)
-    MINUS           reduce using rule 34 (expression -> NUMBER .)
-    MULTIPLY        reduce using rule 34 (expression -> NUMBER .)
-    DIVIDE          reduce using rule 34 (expression -> NUMBER .)
-    ID              reduce using rule 34 (expression -> NUMBER .)
-    IF              reduce using rule 34 (expression -> NUMBER .)
-    FOR             reduce using rule 34 (expression -> NUMBER .)
-    WHILE           reduce using rule 34 (expression -> NUMBER .)
-    PRINT           reduce using rule 34 (expression -> NUMBER .)
-    $end            reduce using rule 34 (expression -> NUMBER .)
-    ELIF            reduce using rule 34 (expression -> NUMBER .)
-    ELSE            reduce using rule 34 (expression -> NUMBER .)
-    RPAREN          reduce using rule 34 (expression -> NUMBER .)
-    COMMA           reduce using rule 34 (expression -> NUMBER .)
+    EQUALS          reduce using rule 37 (expression -> FALSE .)
+    LT              reduce using rule 37 (expression -> FALSE .)
+    GT              reduce using rule 37 (expression -> FALSE .)
+    LE              reduce using rule 37 (expression -> FALSE .)
+    GE              reduce using rule 37 (expression -> FALSE .)
+    PLUS            reduce using rule 37 (expression -> FALSE .)
+    MINUS           reduce using rule 37 (expression -> FALSE .)
+    MULTIPLY        reduce using rule 37 (expression -> FALSE .)
+    DIVIDE          reduce using rule 37 (expression -> FALSE .)
+    MODULO          reduce using rule 37 (expression -> FALSE .)
+    OR              reduce using rule 37 (expression -> FALSE .)
+    AND             reduce using rule 37 (expression -> FALSE .)
+    ID              reduce using rule 37 (expression -> FALSE .)
+    IF              reduce using rule 37 (expression -> FALSE .)
+    FOR             reduce using rule 37 (expression -> FALSE .)
+    WHILE           reduce using rule 37 (expression -> FALSE .)
+    PRINT           reduce using rule 37 (expression -> FALSE .)
+    $end            reduce using rule 37 (expression -> FALSE .)
+    ELIF            reduce using rule 37 (expression -> FALSE .)
+    ELSE            reduce using rule 37 (expression -> FALSE .)
+    RPAREN          reduce using rule 37 (expression -> FALSE .)
+    COMMA           reduce using rule 37 (expression -> FALSE .)
 
 
 state 24
 
-    (35) expression -> FLOAT .
+    (38) expression -> NUMBER .
 
-    EQUALS          reduce using rule 35 (expression -> FLOAT .)
-    LT              reduce using rule 35 (expression -> FLOAT .)
-    GT              reduce using rule 35 (expression -> FLOAT .)
-    LE              reduce using rule 35 (expression -> FLOAT .)
-    GE              reduce using rule 35 (expression -> FLOAT .)
-    PLUS            reduce using rule 35 (expression -> FLOAT .)
-    MINUS           reduce using rule 35 (expression -> FLOAT .)
-    MULTIPLY        reduce using rule 35 (expression -> FLOAT .)
-    DIVIDE          reduce using rule 35 (expression -> FLOAT .)
-    ID              reduce using rule 35 (expression -> FLOAT .)
-    IF              reduce using rule 35 (expression -> FLOAT .)
-    FOR             reduce using rule 35 (expression -> FLOAT .)
-    WHILE           reduce using rule 35 (expression -> FLOAT .)
-    PRINT           reduce using rule 35 (expression -> FLOAT .)
-    $end            reduce using rule 35 (expression -> FLOAT .)
-    ELIF            reduce using rule 35 (expression -> FLOAT .)
-    ELSE            reduce using rule 35 (expression -> FLOAT .)
-    RPAREN          reduce using rule 35 (expression -> FLOAT .)
-    COMMA           reduce using rule 35 (expression -> FLOAT .)
+    EQUALS          reduce using rule 38 (expression -> NUMBER .)
+    LT              reduce using rule 38 (expression -> NUMBER .)
+    GT              reduce using rule 38 (expression -> NUMBER .)
+    LE              reduce using rule 38 (expression -> NUMBER .)
+    GE              reduce using rule 38 (expression -> NUMBER .)
+    PLUS            reduce using rule 38 (expression -> NUMBER .)
+    MINUS           reduce using rule 38 (expression -> NUMBER .)
+    MULTIPLY        reduce using rule 38 (expression -> NUMBER .)
+    DIVIDE          reduce using rule 38 (expression -> NUMBER .)
+    MODULO          reduce using rule 38 (expression -> NUMBER .)
+    OR              reduce using rule 38 (expression -> NUMBER .)
+    AND             reduce using rule 38 (expression -> NUMBER .)
+    ID              reduce using rule 38 (expression -> NUMBER .)
+    IF              reduce using rule 38 (expression -> NUMBER .)
+    FOR             reduce using rule 38 (expression -> NUMBER .)
+    WHILE           reduce using rule 38 (expression -> NUMBER .)
+    PRINT           reduce using rule 38 (expression -> NUMBER .)
+    $end            reduce using rule 38 (expression -> NUMBER .)
+    ELIF            reduce using rule 38 (expression -> NUMBER .)
+    ELSE            reduce using rule 38 (expression -> NUMBER .)
+    RPAREN          reduce using rule 38 (expression -> NUMBER .)
+    COMMA           reduce using rule 38 (expression -> NUMBER .)
 
 
 state 25
 
-    (36) expression -> STRING .
+    (39) expression -> FLOAT .
 
-    EQUALS          reduce using rule 36 (expression -> STRING .)
-    LT              reduce using rule 36 (expression -> STRING .)
-    GT              reduce using rule 36 (expression -> STRING .)
-    LE              reduce using rule 36 (expression -> STRING .)
-    GE              reduce using rule 36 (expression -> STRING .)
-    PLUS            reduce using rule 36 (expression -> STRING .)
-    MINUS           reduce using rule 36 (expression -> STRING .)
-    MULTIPLY        reduce using rule 36 (expression -> STRING .)
-    DIVIDE          reduce using rule 36 (expression -> STRING .)
-    ID              reduce using rule 36 (expression -> STRING .)
-    IF              reduce using rule 36 (expression -> STRING .)
-    FOR             reduce using rule 36 (expression -> STRING .)
-    WHILE           reduce using rule 36 (expression -> STRING .)
-    PRINT           reduce using rule 36 (expression -> STRING .)
-    $end            reduce using rule 36 (expression -> STRING .)
-    ELIF            reduce using rule 36 (expression -> STRING .)
-    ELSE            reduce using rule 36 (expression -> STRING .)
-    RPAREN          reduce using rule 36 (expression -> STRING .)
-    COMMA           reduce using rule 36 (expression -> STRING .)
+    EQUALS          reduce using rule 39 (expression -> FLOAT .)
+    LT              reduce using rule 39 (expression -> FLOAT .)
+    GT              reduce using rule 39 (expression -> FLOAT .)
+    LE              reduce using rule 39 (expression -> FLOAT .)
+    GE              reduce using rule 39 (expression -> FLOAT .)
+    PLUS            reduce using rule 39 (expression -> FLOAT .)
+    MINUS           reduce using rule 39 (expression -> FLOAT .)
+    MULTIPLY        reduce using rule 39 (expression -> FLOAT .)
+    DIVIDE          reduce using rule 39 (expression -> FLOAT .)
+    MODULO          reduce using rule 39 (expression -> FLOAT .)
+    OR              reduce using rule 39 (expression -> FLOAT .)
+    AND             reduce using rule 39 (expression -> FLOAT .)
+    ID              reduce using rule 39 (expression -> FLOAT .)
+    IF              reduce using rule 39 (expression -> FLOAT .)
+    FOR             reduce using rule 39 (expression -> FLOAT .)
+    WHILE           reduce using rule 39 (expression -> FLOAT .)
+    PRINT           reduce using rule 39 (expression -> FLOAT .)
+    $end            reduce using rule 39 (expression -> FLOAT .)
+    ELIF            reduce using rule 39 (expression -> FLOAT .)
+    ELSE            reduce using rule 39 (expression -> FLOAT .)
+    RPAREN          reduce using rule 39 (expression -> FLOAT .)
+    COMMA           reduce using rule 39 (expression -> FLOAT .)
 
 
 state 26
 
-    (16) for_statement -> FOR ID . IN range statement
+    (40) expression -> STRING .
 
-    IN              shift and go to state 42
+    EQUALS          reduce using rule 40 (expression -> STRING .)
+    LT              reduce using rule 40 (expression -> STRING .)
+    GT              reduce using rule 40 (expression -> STRING .)
+    LE              reduce using rule 40 (expression -> STRING .)
+    GE              reduce using rule 40 (expression -> STRING .)
+    PLUS            reduce using rule 40 (expression -> STRING .)
+    MINUS           reduce using rule 40 (expression -> STRING .)
+    MULTIPLY        reduce using rule 40 (expression -> STRING .)
+    DIVIDE          reduce using rule 40 (expression -> STRING .)
+    MODULO          reduce using rule 40 (expression -> STRING .)
+    OR              reduce using rule 40 (expression -> STRING .)
+    AND             reduce using rule 40 (expression -> STRING .)
+    ID              reduce using rule 40 (expression -> STRING .)
+    IF              reduce using rule 40 (expression -> STRING .)
+    FOR             reduce using rule 40 (expression -> STRING .)
+    WHILE           reduce using rule 40 (expression -> STRING .)
+    PRINT           reduce using rule 40 (expression -> STRING .)
+    $end            reduce using rule 40 (expression -> STRING .)
+    ELIF            reduce using rule 40 (expression -> STRING .)
+    ELSE            reduce using rule 40 (expression -> STRING .)
+    RPAREN          reduce using rule 40 (expression -> STRING .)
+    COMMA           reduce using rule 40 (expression -> STRING .)
 
 
 state 27
+
+    (16) for_statement -> FOR ID . IN range statement
+
+    IN              shift and go to state 47
+
+
+state 28
 
     (17) while_statement -> WHILE condition . statement
     (4) statement -> . assignment
@@ -653,14 +742,14 @@ state 27
     WHILE           shift and go to state 12
     PRINT           shift and go to state 13
 
-    statement                      shift and go to state 43
+    statement                      shift and go to state 48
     assignment                     shift and go to state 4
     if_statement                   shift and go to state 5
     for_statement                  shift and go to state 6
     while_statement                shift and go to state 7
     print_statement                shift and go to state 8
 
-state 28
+state 29
 
     (19) print_statement -> PRINT LPAREN . expression RPAREN
     (25) expression -> . MINUS expression
@@ -668,32 +757,40 @@ state 28
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 44
+    expression                     shift and go to state 49
 
-state 29
+state 30
 
     (9) assignment -> ID ASSIGN expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     ID              reduce using rule 9 (assignment -> ID ASSIGN expression .)
     IF              reduce using rule 9 (assignment -> ID ASSIGN expression .)
@@ -703,13 +800,16 @@ state 29
     $end            reduce using rule 9 (assignment -> ID ASSIGN expression .)
     ELIF            reduce using rule 9 (assignment -> ID ASSIGN expression .)
     ELSE            reduce using rule 9 (assignment -> ID ASSIGN expression .)
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
-state 30
+state 31
 
     (10) if_statement -> IF condition statement . elif_list_opt ELSE statement
     (11) if_statement -> IF condition statement . elif_list_opt
@@ -717,25 +817,25 @@ state 30
     (13) elif_list_opt -> . empty
     (14) elif_list -> . elif_list ELIF condition statement
     (15) elif_list -> . ELIF condition statement
-    (37) empty -> .
+    (41) empty -> .
 
   ! shift/reduce conflict for ELIF resolved as shift
-    ELIF            shift and go to state 48
-    ELSE            reduce using rule 37 (empty -> .)
-    ID              reduce using rule 37 (empty -> .)
-    IF              reduce using rule 37 (empty -> .)
-    FOR             reduce using rule 37 (empty -> .)
-    WHILE           reduce using rule 37 (empty -> .)
-    PRINT           reduce using rule 37 (empty -> .)
-    $end            reduce using rule 37 (empty -> .)
+    ELIF            shift and go to state 53
+    ELSE            reduce using rule 41 (empty -> .)
+    ID              reduce using rule 41 (empty -> .)
+    IF              reduce using rule 41 (empty -> .)
+    FOR             reduce using rule 41 (empty -> .)
+    WHILE           reduce using rule 41 (empty -> .)
+    PRINT           reduce using rule 41 (empty -> .)
+    $end            reduce using rule 41 (empty -> .)
 
-  ! ELIF            [ reduce using rule 37 (empty -> .) ]
+  ! ELIF            [ reduce using rule 41 (empty -> .) ]
 
-    elif_list_opt                  shift and go to state 45
-    elif_list                      shift and go to state 46
-    empty                          shift and go to state 47
+    elif_list_opt                  shift and go to state 50
+    elif_list                      shift and go to state 51
+    empty                          shift and go to state 52
 
-state 31
+state 32
 
     (20) condition -> expression EQUALS . expression
     (25) expression -> . MINUS expression
@@ -743,26 +843,31 @@ state 31
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 49
+    expression                     shift and go to state 54
 
-state 32
+state 33
 
     (21) condition -> expression LT . expression
     (25) expression -> . MINUS expression
@@ -770,26 +875,31 @@ state 32
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 50
+    expression                     shift and go to state 55
 
-state 33
+state 34
 
     (22) condition -> expression GT . expression
     (25) expression -> . MINUS expression
@@ -797,26 +907,31 @@ state 33
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 51
+    expression                     shift and go to state 56
 
-state 34
+state 35
 
     (23) condition -> expression LE . expression
     (25) expression -> . MINUS expression
@@ -824,53 +939,42 @@ state 34
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 52
-
-state 35
-
-    (24) condition -> expression GE . expression
-    (25) expression -> . MINUS expression
-    (26) expression -> . expression PLUS expression
-    (27) expression -> . expression MINUS expression
-    (28) expression -> . expression MULTIPLY expression
-    (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
-
-    MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
-
-    expression                     shift and go to state 53
+    expression                     shift and go to state 57
 
 state 36
+
+    (24) condition -> expression GE .
+
+    ID              reduce using rule 24 (condition -> expression GE .)
+    IF              reduce using rule 24 (condition -> expression GE .)
+    FOR             reduce using rule 24 (condition -> expression GE .)
+    WHILE           reduce using rule 24 (condition -> expression GE .)
+    PRINT           reduce using rule 24 (condition -> expression GE .)
+
+
+state 37
 
     (26) expression -> expression PLUS . expression
     (25) expression -> . MINUS expression
@@ -878,26 +982,31 @@ state 36
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 54
+    expression                     shift and go to state 58
 
-state 37
+state 38
 
     (27) expression -> expression MINUS . expression
     (25) expression -> . MINUS expression
@@ -905,26 +1014,31 @@ state 37
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 55
+    expression                     shift and go to state 59
 
-state 38
+state 39
 
     (28) expression -> expression MULTIPLY . expression
     (25) expression -> . MINUS expression
@@ -932,26 +1046,31 @@ state 38
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 56
+    expression                     shift and go to state 60
 
-state 39
+state 40
 
     (29) expression -> expression DIVIDE . expression
     (25) expression -> . MINUS expression
@@ -959,32 +1078,136 @@ state 39
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 57
+    expression                     shift and go to state 61
 
-state 40
+state 41
+
+    (30) expression -> expression MODULO . expression
+    (25) expression -> . MINUS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression MULTIPLY expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
+
+    MINUS           shift and go to state 18
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
+
+    expression                     shift and go to state 62
+
+state 42
+
+    (31) expression -> expression OR . expression
+    (25) expression -> . MINUS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression MULTIPLY expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
+
+    MINUS           shift and go to state 18
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
+
+    expression                     shift and go to state 63
+
+state 43
+
+    (32) expression -> expression AND . expression
+    (25) expression -> . MINUS expression
+    (26) expression -> . expression PLUS expression
+    (27) expression -> . expression MINUS expression
+    (28) expression -> . expression MULTIPLY expression
+    (29) expression -> . expression DIVIDE expression
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
+
+    MINUS           shift and go to state 18
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
+
+    expression                     shift and go to state 64
+
+state 44
 
     (25) expression -> MINUS expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     EQUALS          reduce using rule 25 (expression -> MINUS expression .)
     LT              reduce using rule 25 (expression -> MINUS expression .)
@@ -995,6 +1218,9 @@ state 40
     MINUS           reduce using rule 25 (expression -> MINUS expression .)
     MULTIPLY        reduce using rule 25 (expression -> MINUS expression .)
     DIVIDE          reduce using rule 25 (expression -> MINUS expression .)
+    MODULO          reduce using rule 25 (expression -> MINUS expression .)
+    OR              reduce using rule 25 (expression -> MINUS expression .)
+    AND             reduce using rule 25 (expression -> MINUS expression .)
     ID              reduce using rule 25 (expression -> MINUS expression .)
     IF              reduce using rule 25 (expression -> MINUS expression .)
     FOR             reduce using rule 25 (expression -> MINUS expression .)
@@ -1006,37 +1232,89 @@ state 40
     RPAREN          reduce using rule 25 (expression -> MINUS expression .)
     COMMA           reduce using rule 25 (expression -> MINUS expression .)
 
-  ! PLUS            [ shift and go to state 36 ]
-  ! MINUS           [ shift and go to state 37 ]
-  ! MULTIPLY        [ shift and go to state 38 ]
-  ! DIVIDE          [ shift and go to state 39 ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+  ! MULTIPLY        [ shift and go to state 39 ]
+  ! DIVIDE          [ shift and go to state 40 ]
+  ! MODULO          [ shift and go to state 41 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 43 ]
 
 
-state 41
+state 45
 
-    (30) expression -> LPAREN expression . RPAREN
+    (33) expression -> NOT expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
-    RPAREN          shift and go to state 58
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    EQUALS          reduce using rule 33 (expression -> NOT expression .)
+    LT              reduce using rule 33 (expression -> NOT expression .)
+    GT              reduce using rule 33 (expression -> NOT expression .)
+    LE              reduce using rule 33 (expression -> NOT expression .)
+    GE              reduce using rule 33 (expression -> NOT expression .)
+    OR              reduce using rule 33 (expression -> NOT expression .)
+    AND             reduce using rule 33 (expression -> NOT expression .)
+    ID              reduce using rule 33 (expression -> NOT expression .)
+    IF              reduce using rule 33 (expression -> NOT expression .)
+    FOR             reduce using rule 33 (expression -> NOT expression .)
+    WHILE           reduce using rule 33 (expression -> NOT expression .)
+    PRINT           reduce using rule 33 (expression -> NOT expression .)
+    $end            reduce using rule 33 (expression -> NOT expression .)
+    ELIF            reduce using rule 33 (expression -> NOT expression .)
+    ELSE            reduce using rule 33 (expression -> NOT expression .)
+    RPAREN          reduce using rule 33 (expression -> NOT expression .)
+    COMMA           reduce using rule 33 (expression -> NOT expression .)
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 33 (expression -> NOT expression .) ]
+  ! MINUS           [ reduce using rule 33 (expression -> NOT expression .) ]
+  ! MULTIPLY        [ reduce using rule 33 (expression -> NOT expression .) ]
+  ! DIVIDE          [ reduce using rule 33 (expression -> NOT expression .) ]
+  ! MODULO          [ reduce using rule 33 (expression -> NOT expression .) ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 43 ]
 
 
-state 42
+state 46
+
+    (34) expression -> LPAREN expression . RPAREN
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . MULTIPLY expression
+    (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
+
+    RPAREN          shift and go to state 65
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
+
+
+state 47
 
     (16) for_statement -> FOR ID IN . range statement
     (18) range -> . RANGE LPAREN expression COMMA expression RPAREN
 
-    RANGE           shift and go to state 60
+    RANGE           shift and go to state 67
 
-    range                          shift and go to state 59
+    range                          shift and go to state 66
 
-state 43
+state 48
 
     (17) while_statement -> WHILE condition statement .
 
@@ -1050,28 +1328,34 @@ state 43
     ELSE            reduce using rule 17 (while_statement -> WHILE condition statement .)
 
 
-state 44
+state 49
 
     (19) print_statement -> PRINT LPAREN expression . RPAREN
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
-    RPAREN          shift and go to state 61
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    RPAREN          shift and go to state 68
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
-state 45
+state 50
 
     (10) if_statement -> IF condition statement elif_list_opt . ELSE statement
     (11) if_statement -> IF condition statement elif_list_opt .
 
   ! shift/reduce conflict for ELSE resolved as shift
-    ELSE            shift and go to state 62
+    ELSE            shift and go to state 69
     ID              reduce using rule 11 (if_statement -> IF condition statement elif_list_opt .)
     IF              reduce using rule 11 (if_statement -> IF condition statement elif_list_opt .)
     FOR             reduce using rule 11 (if_statement -> IF condition statement elif_list_opt .)
@@ -1083,7 +1367,7 @@ state 45
   ! ELSE            [ reduce using rule 11 (if_statement -> IF condition statement elif_list_opt .) ]
 
 
-state 46
+state 51
 
     (12) elif_list_opt -> elif_list .
     (14) elif_list -> elif_list . ELIF condition statement
@@ -1096,12 +1380,12 @@ state 46
     WHILE           reduce using rule 12 (elif_list_opt -> elif_list .)
     PRINT           reduce using rule 12 (elif_list_opt -> elif_list .)
     $end            reduce using rule 12 (elif_list_opt -> elif_list .)
-    ELIF            shift and go to state 63
+    ELIF            shift and go to state 70
 
   ! ELIF            [ reduce using rule 12 (elif_list_opt -> elif_list .) ]
 
 
-state 47
+state 52
 
     (13) elif_list_opt -> empty .
 
@@ -1115,141 +1399,154 @@ state 47
     $end            reduce using rule 13 (elif_list_opt -> empty .)
 
 
-state 48
+state 53
 
     (15) elif_list -> ELIF . condition statement
     (20) condition -> . expression EQUALS expression
     (21) condition -> . expression LT expression
     (22) condition -> . expression GT expression
     (23) condition -> . expression LE expression
-    (24) condition -> . expression GE expression
+    (24) condition -> . expression GE
     (25) expression -> . MINUS expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    condition                      shift and go to state 64
+    condition                      shift and go to state 71
     expression                     shift and go to state 17
 
-state 49
+state 54
 
     (20) condition -> expression EQUALS expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     ID              reduce using rule 20 (condition -> expression EQUALS expression .)
     IF              reduce using rule 20 (condition -> expression EQUALS expression .)
     FOR             reduce using rule 20 (condition -> expression EQUALS expression .)
     WHILE           reduce using rule 20 (condition -> expression EQUALS expression .)
     PRINT           reduce using rule 20 (condition -> expression EQUALS expression .)
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
-state 50
+state 55
 
     (21) condition -> expression LT expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     ID              reduce using rule 21 (condition -> expression LT expression .)
     IF              reduce using rule 21 (condition -> expression LT expression .)
     FOR             reduce using rule 21 (condition -> expression LT expression .)
     WHILE           reduce using rule 21 (condition -> expression LT expression .)
     PRINT           reduce using rule 21 (condition -> expression LT expression .)
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
-state 51
+state 56
 
     (22) condition -> expression GT expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     ID              reduce using rule 22 (condition -> expression GT expression .)
     IF              reduce using rule 22 (condition -> expression GT expression .)
     FOR             reduce using rule 22 (condition -> expression GT expression .)
     WHILE           reduce using rule 22 (condition -> expression GT expression .)
     PRINT           reduce using rule 22 (condition -> expression GT expression .)
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
-state 52
+state 57
 
     (23) condition -> expression LE expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     ID              reduce using rule 23 (condition -> expression LE expression .)
     IF              reduce using rule 23 (condition -> expression LE expression .)
     FOR             reduce using rule 23 (condition -> expression LE expression .)
     WHILE           reduce using rule 23 (condition -> expression LE expression .)
     PRINT           reduce using rule 23 (condition -> expression LE expression .)
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
-state 53
-
-    (24) condition -> expression GE expression .
-    (26) expression -> expression . PLUS expression
-    (27) expression -> expression . MINUS expression
-    (28) expression -> expression . MULTIPLY expression
-    (29) expression -> expression . DIVIDE expression
-
-    ID              reduce using rule 24 (condition -> expression GE expression .)
-    IF              reduce using rule 24 (condition -> expression GE expression .)
-    FOR             reduce using rule 24 (condition -> expression GE expression .)
-    WHILE           reduce using rule 24 (condition -> expression GE expression .)
-    PRINT           reduce using rule 24 (condition -> expression GE expression .)
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
-
-
-state 54
+state 58
 
     (26) expression -> expression PLUS expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     EQUALS          reduce using rule 26 (expression -> expression PLUS expression .)
     LT              reduce using rule 26 (expression -> expression PLUS expression .)
@@ -1258,6 +1555,8 @@ state 54
     GE              reduce using rule 26 (expression -> expression PLUS expression .)
     PLUS            reduce using rule 26 (expression -> expression PLUS expression .)
     MINUS           reduce using rule 26 (expression -> expression PLUS expression .)
+    OR              reduce using rule 26 (expression -> expression PLUS expression .)
+    AND             reduce using rule 26 (expression -> expression PLUS expression .)
     ID              reduce using rule 26 (expression -> expression PLUS expression .)
     IF              reduce using rule 26 (expression -> expression PLUS expression .)
     FOR             reduce using rule 26 (expression -> expression PLUS expression .)
@@ -1268,22 +1567,29 @@ state 54
     ELSE            reduce using rule 26 (expression -> expression PLUS expression .)
     RPAREN          reduce using rule 26 (expression -> expression PLUS expression .)
     COMMA           reduce using rule 26 (expression -> expression PLUS expression .)
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
 
   ! MULTIPLY        [ reduce using rule 26 (expression -> expression PLUS expression .) ]
   ! DIVIDE          [ reduce using rule 26 (expression -> expression PLUS expression .) ]
-  ! PLUS            [ shift and go to state 36 ]
-  ! MINUS           [ shift and go to state 37 ]
+  ! MODULO          [ reduce using rule 26 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 43 ]
 
 
-state 55
+state 59
 
     (27) expression -> expression MINUS expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     EQUALS          reduce using rule 27 (expression -> expression MINUS expression .)
     LT              reduce using rule 27 (expression -> expression MINUS expression .)
@@ -1292,6 +1598,8 @@ state 55
     GE              reduce using rule 27 (expression -> expression MINUS expression .)
     PLUS            reduce using rule 27 (expression -> expression MINUS expression .)
     MINUS           reduce using rule 27 (expression -> expression MINUS expression .)
+    OR              reduce using rule 27 (expression -> expression MINUS expression .)
+    AND             reduce using rule 27 (expression -> expression MINUS expression .)
     ID              reduce using rule 27 (expression -> expression MINUS expression .)
     IF              reduce using rule 27 (expression -> expression MINUS expression .)
     FOR             reduce using rule 27 (expression -> expression MINUS expression .)
@@ -1302,22 +1610,29 @@ state 55
     ELSE            reduce using rule 27 (expression -> expression MINUS expression .)
     RPAREN          reduce using rule 27 (expression -> expression MINUS expression .)
     COMMA           reduce using rule 27 (expression -> expression MINUS expression .)
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
 
   ! MULTIPLY        [ reduce using rule 27 (expression -> expression MINUS expression .) ]
   ! DIVIDE          [ reduce using rule 27 (expression -> expression MINUS expression .) ]
-  ! PLUS            [ shift and go to state 36 ]
-  ! MINUS           [ shift and go to state 37 ]
+  ! MODULO          [ reduce using rule 27 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 43 ]
 
 
-state 56
+state 60
 
     (28) expression -> expression MULTIPLY expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     EQUALS          reduce using rule 28 (expression -> expression MULTIPLY expression .)
     LT              reduce using rule 28 (expression -> expression MULTIPLY expression .)
@@ -1328,6 +1643,9 @@ state 56
     MINUS           reduce using rule 28 (expression -> expression MULTIPLY expression .)
     MULTIPLY        reduce using rule 28 (expression -> expression MULTIPLY expression .)
     DIVIDE          reduce using rule 28 (expression -> expression MULTIPLY expression .)
+    MODULO          reduce using rule 28 (expression -> expression MULTIPLY expression .)
+    OR              reduce using rule 28 (expression -> expression MULTIPLY expression .)
+    AND             reduce using rule 28 (expression -> expression MULTIPLY expression .)
     ID              reduce using rule 28 (expression -> expression MULTIPLY expression .)
     IF              reduce using rule 28 (expression -> expression MULTIPLY expression .)
     FOR             reduce using rule 28 (expression -> expression MULTIPLY expression .)
@@ -1339,19 +1657,25 @@ state 56
     RPAREN          reduce using rule 28 (expression -> expression MULTIPLY expression .)
     COMMA           reduce using rule 28 (expression -> expression MULTIPLY expression .)
 
-  ! PLUS            [ shift and go to state 36 ]
-  ! MINUS           [ shift and go to state 37 ]
-  ! MULTIPLY        [ shift and go to state 38 ]
-  ! DIVIDE          [ shift and go to state 39 ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+  ! MULTIPLY        [ shift and go to state 39 ]
+  ! DIVIDE          [ shift and go to state 40 ]
+  ! MODULO          [ shift and go to state 41 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 43 ]
 
 
-state 57
+state 61
 
     (29) expression -> expression DIVIDE expression .
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
     EQUALS          reduce using rule 29 (expression -> expression DIVIDE expression .)
     LT              reduce using rule 29 (expression -> expression DIVIDE expression .)
@@ -1362,6 +1686,9 @@ state 57
     MINUS           reduce using rule 29 (expression -> expression DIVIDE expression .)
     MULTIPLY        reduce using rule 29 (expression -> expression DIVIDE expression .)
     DIVIDE          reduce using rule 29 (expression -> expression DIVIDE expression .)
+    MODULO          reduce using rule 29 (expression -> expression DIVIDE expression .)
+    OR              reduce using rule 29 (expression -> expression DIVIDE expression .)
+    AND             reduce using rule 29 (expression -> expression DIVIDE expression .)
     ID              reduce using rule 29 (expression -> expression DIVIDE expression .)
     IF              reduce using rule 29 (expression -> expression DIVIDE expression .)
     FOR             reduce using rule 29 (expression -> expression DIVIDE expression .)
@@ -1373,38 +1700,173 @@ state 57
     RPAREN          reduce using rule 29 (expression -> expression DIVIDE expression .)
     COMMA           reduce using rule 29 (expression -> expression DIVIDE expression .)
 
-  ! PLUS            [ shift and go to state 36 ]
-  ! MINUS           [ shift and go to state 37 ]
-  ! MULTIPLY        [ shift and go to state 38 ]
-  ! DIVIDE          [ shift and go to state 39 ]
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+  ! MULTIPLY        [ shift and go to state 39 ]
+  ! DIVIDE          [ shift and go to state 40 ]
+  ! MODULO          [ shift and go to state 41 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 43 ]
 
 
-state 58
+state 62
 
-    (30) expression -> LPAREN expression RPAREN .
+    (30) expression -> expression MODULO expression .
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . MULTIPLY expression
+    (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
-    EQUALS          reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    LT              reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    GT              reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    LE              reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    GE              reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    PLUS            reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    MINUS           reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    MULTIPLY        reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    DIVIDE          reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    ID              reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    IF              reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    FOR             reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    WHILE           reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    PRINT           reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    $end            reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    ELIF            reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    ELSE            reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    RPAREN          reduce using rule 30 (expression -> LPAREN expression RPAREN .)
-    COMMA           reduce using rule 30 (expression -> LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 30 (expression -> expression MODULO expression .)
+    LT              reduce using rule 30 (expression -> expression MODULO expression .)
+    GT              reduce using rule 30 (expression -> expression MODULO expression .)
+    LE              reduce using rule 30 (expression -> expression MODULO expression .)
+    GE              reduce using rule 30 (expression -> expression MODULO expression .)
+    PLUS            reduce using rule 30 (expression -> expression MODULO expression .)
+    MINUS           reduce using rule 30 (expression -> expression MODULO expression .)
+    MULTIPLY        reduce using rule 30 (expression -> expression MODULO expression .)
+    DIVIDE          reduce using rule 30 (expression -> expression MODULO expression .)
+    MODULO          reduce using rule 30 (expression -> expression MODULO expression .)
+    OR              reduce using rule 30 (expression -> expression MODULO expression .)
+    AND             reduce using rule 30 (expression -> expression MODULO expression .)
+    ID              reduce using rule 30 (expression -> expression MODULO expression .)
+    IF              reduce using rule 30 (expression -> expression MODULO expression .)
+    FOR             reduce using rule 30 (expression -> expression MODULO expression .)
+    WHILE           reduce using rule 30 (expression -> expression MODULO expression .)
+    PRINT           reduce using rule 30 (expression -> expression MODULO expression .)
+    $end            reduce using rule 30 (expression -> expression MODULO expression .)
+    ELIF            reduce using rule 30 (expression -> expression MODULO expression .)
+    ELSE            reduce using rule 30 (expression -> expression MODULO expression .)
+    RPAREN          reduce using rule 30 (expression -> expression MODULO expression .)
+    COMMA           reduce using rule 30 (expression -> expression MODULO expression .)
+
+  ! PLUS            [ shift and go to state 37 ]
+  ! MINUS           [ shift and go to state 38 ]
+  ! MULTIPLY        [ shift and go to state 39 ]
+  ! DIVIDE          [ shift and go to state 40 ]
+  ! MODULO          [ shift and go to state 41 ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 43 ]
 
 
-state 59
+state 63
+
+    (31) expression -> expression OR expression .
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . MULTIPLY expression
+    (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
+
+    EQUALS          reduce using rule 31 (expression -> expression OR expression .)
+    LT              reduce using rule 31 (expression -> expression OR expression .)
+    GT              reduce using rule 31 (expression -> expression OR expression .)
+    LE              reduce using rule 31 (expression -> expression OR expression .)
+    GE              reduce using rule 31 (expression -> expression OR expression .)
+    OR              reduce using rule 31 (expression -> expression OR expression .)
+    ID              reduce using rule 31 (expression -> expression OR expression .)
+    IF              reduce using rule 31 (expression -> expression OR expression .)
+    FOR             reduce using rule 31 (expression -> expression OR expression .)
+    WHILE           reduce using rule 31 (expression -> expression OR expression .)
+    PRINT           reduce using rule 31 (expression -> expression OR expression .)
+    $end            reduce using rule 31 (expression -> expression OR expression .)
+    ELIF            reduce using rule 31 (expression -> expression OR expression .)
+    ELSE            reduce using rule 31 (expression -> expression OR expression .)
+    RPAREN          reduce using rule 31 (expression -> expression OR expression .)
+    COMMA           reduce using rule 31 (expression -> expression OR expression .)
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    AND             shift and go to state 43
+
+  ! PLUS            [ reduce using rule 31 (expression -> expression OR expression .) ]
+  ! MINUS           [ reduce using rule 31 (expression -> expression OR expression .) ]
+  ! MULTIPLY        [ reduce using rule 31 (expression -> expression OR expression .) ]
+  ! DIVIDE          [ reduce using rule 31 (expression -> expression OR expression .) ]
+  ! MODULO          [ reduce using rule 31 (expression -> expression OR expression .) ]
+  ! AND             [ reduce using rule 31 (expression -> expression OR expression .) ]
+  ! OR              [ shift and go to state 42 ]
+
+
+state 64
+
+    (32) expression -> expression AND expression .
+    (26) expression -> expression . PLUS expression
+    (27) expression -> expression . MINUS expression
+    (28) expression -> expression . MULTIPLY expression
+    (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
+
+    EQUALS          reduce using rule 32 (expression -> expression AND expression .)
+    LT              reduce using rule 32 (expression -> expression AND expression .)
+    GT              reduce using rule 32 (expression -> expression AND expression .)
+    LE              reduce using rule 32 (expression -> expression AND expression .)
+    GE              reduce using rule 32 (expression -> expression AND expression .)
+    OR              reduce using rule 32 (expression -> expression AND expression .)
+    AND             reduce using rule 32 (expression -> expression AND expression .)
+    ID              reduce using rule 32 (expression -> expression AND expression .)
+    IF              reduce using rule 32 (expression -> expression AND expression .)
+    FOR             reduce using rule 32 (expression -> expression AND expression .)
+    WHILE           reduce using rule 32 (expression -> expression AND expression .)
+    PRINT           reduce using rule 32 (expression -> expression AND expression .)
+    $end            reduce using rule 32 (expression -> expression AND expression .)
+    ELIF            reduce using rule 32 (expression -> expression AND expression .)
+    ELSE            reduce using rule 32 (expression -> expression AND expression .)
+    RPAREN          reduce using rule 32 (expression -> expression AND expression .)
+    COMMA           reduce using rule 32 (expression -> expression AND expression .)
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+
+  ! PLUS            [ reduce using rule 32 (expression -> expression AND expression .) ]
+  ! MINUS           [ reduce using rule 32 (expression -> expression AND expression .) ]
+  ! MULTIPLY        [ reduce using rule 32 (expression -> expression AND expression .) ]
+  ! DIVIDE          [ reduce using rule 32 (expression -> expression AND expression .) ]
+  ! MODULO          [ reduce using rule 32 (expression -> expression AND expression .) ]
+  ! OR              [ shift and go to state 42 ]
+  ! AND             [ shift and go to state 43 ]
+
+
+state 65
+
+    (34) expression -> LPAREN expression RPAREN .
+
+    EQUALS          reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    LT              reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    GT              reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    LE              reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    GE              reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    PLUS            reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    MULTIPLY        reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    MODULO          reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    OR              reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    AND             reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    ID              reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    IF              reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    FOR             reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    WHILE           reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    PRINT           reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    $end            reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    ELIF            reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    ELSE            reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 34 (expression -> LPAREN expression RPAREN .)
+
+
+state 66
 
     (16) for_statement -> FOR ID IN range . statement
     (4) statement -> . assignment
@@ -1425,21 +1887,21 @@ state 59
     WHILE           shift and go to state 12
     PRINT           shift and go to state 13
 
-    statement                      shift and go to state 65
+    statement                      shift and go to state 72
     assignment                     shift and go to state 4
     if_statement                   shift and go to state 5
     for_statement                  shift and go to state 6
     while_statement                shift and go to state 7
     print_statement                shift and go to state 8
 
-state 60
+state 67
 
     (18) range -> RANGE . LPAREN expression COMMA expression RPAREN
 
-    LPAREN          shift and go to state 66
+    LPAREN          shift and go to state 73
 
 
-state 61
+state 68
 
     (19) print_statement -> PRINT LPAREN expression RPAREN .
 
@@ -1453,7 +1915,7 @@ state 61
     ELSE            reduce using rule 19 (print_statement -> PRINT LPAREN expression RPAREN .)
 
 
-state 62
+state 69
 
     (10) if_statement -> IF condition statement elif_list_opt ELSE . statement
     (4) statement -> . assignment
@@ -1474,47 +1936,52 @@ state 62
     WHILE           shift and go to state 12
     PRINT           shift and go to state 13
 
-    statement                      shift and go to state 67
+    statement                      shift and go to state 74
     assignment                     shift and go to state 4
     if_statement                   shift and go to state 5
     for_statement                  shift and go to state 6
     while_statement                shift and go to state 7
     print_statement                shift and go to state 8
 
-state 63
+state 70
 
     (14) elif_list -> elif_list ELIF . condition statement
     (20) condition -> . expression EQUALS expression
     (21) condition -> . expression LT expression
     (22) condition -> . expression GT expression
     (23) condition -> . expression LE expression
-    (24) condition -> . expression GE expression
+    (24) condition -> . expression GE
     (25) expression -> . MINUS expression
     (26) expression -> . expression PLUS expression
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    condition                      shift and go to state 68
+    condition                      shift and go to state 75
     expression                     shift and go to state 17
 
-state 64
+state 71
 
     (15) elif_list -> ELIF condition . statement
     (4) statement -> . assignment
@@ -1535,14 +2002,14 @@ state 64
     WHILE           shift and go to state 12
     PRINT           shift and go to state 13
 
-    statement                      shift and go to state 69
+    statement                      shift and go to state 76
     assignment                     shift and go to state 4
     if_statement                   shift and go to state 5
     for_statement                  shift and go to state 6
     while_statement                shift and go to state 7
     print_statement                shift and go to state 8
 
-state 65
+state 72
 
     (16) for_statement -> FOR ID IN range statement .
 
@@ -1556,7 +2023,7 @@ state 65
     ELSE            reduce using rule 16 (for_statement -> FOR ID IN range statement .)
 
 
-state 66
+state 73
 
     (18) range -> RANGE LPAREN . expression COMMA expression RPAREN
     (25) expression -> . MINUS expression
@@ -1564,26 +2031,31 @@ state 66
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 70
+    expression                     shift and go to state 77
 
-state 67
+state 74
 
     (10) if_statement -> IF condition statement elif_list_opt ELSE statement .
 
@@ -1597,7 +2069,7 @@ state 67
     ELSE            reduce using rule 10 (if_statement -> IF condition statement elif_list_opt ELSE statement .)
 
 
-state 68
+state 75
 
     (14) elif_list -> elif_list ELIF condition . statement
     (4) statement -> . assignment
@@ -1618,14 +2090,14 @@ state 68
     WHILE           shift and go to state 12
     PRINT           shift and go to state 13
 
-    statement                      shift and go to state 71
+    statement                      shift and go to state 78
     assignment                     shift and go to state 4
     if_statement                   shift and go to state 5
     for_statement                  shift and go to state 6
     while_statement                shift and go to state 7
     print_statement                shift and go to state 8
 
-state 69
+state 76
 
     (15) elif_list -> ELIF condition statement .
 
@@ -1639,22 +2111,28 @@ state 69
     $end            reduce using rule 15 (elif_list -> ELIF condition statement .)
 
 
-state 70
+state 77
 
     (18) range -> RANGE LPAREN expression . COMMA expression RPAREN
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
-    COMMA           shift and go to state 72
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    COMMA           shift and go to state 79
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
-state 71
+state 78
 
     (14) elif_list -> elif_list ELIF condition statement .
 
@@ -1668,7 +2146,7 @@ state 71
     $end            reduce using rule 14 (elif_list -> elif_list ELIF condition statement .)
 
 
-state 72
+state 79
 
     (18) range -> RANGE LPAREN expression COMMA . expression RPAREN
     (25) expression -> . MINUS expression
@@ -1676,41 +2154,52 @@ state 72
     (27) expression -> . expression MINUS expression
     (28) expression -> . expression MULTIPLY expression
     (29) expression -> . expression DIVIDE expression
-    (30) expression -> . LPAREN expression RPAREN
-    (31) expression -> . ID
-    (32) expression -> . TRUE
-    (33) expression -> . FALSE
-    (34) expression -> . NUMBER
-    (35) expression -> . FLOAT
-    (36) expression -> . STRING
+    (30) expression -> . expression MODULO expression
+    (31) expression -> . expression OR expression
+    (32) expression -> . expression AND expression
+    (33) expression -> . NOT expression
+    (34) expression -> . LPAREN expression RPAREN
+    (35) expression -> . ID
+    (36) expression -> . TRUE
+    (37) expression -> . FALSE
+    (38) expression -> . NUMBER
+    (39) expression -> . FLOAT
+    (40) expression -> . STRING
 
     MINUS           shift and go to state 18
-    LPAREN          shift and go to state 19
-    ID              shift and go to state 20
-    TRUE            shift and go to state 21
-    FALSE           shift and go to state 22
-    NUMBER          shift and go to state 23
-    FLOAT           shift and go to state 24
-    STRING          shift and go to state 25
+    NOT             shift and go to state 19
+    LPAREN          shift and go to state 20
+    ID              shift and go to state 21
+    TRUE            shift and go to state 22
+    FALSE           shift and go to state 23
+    NUMBER          shift and go to state 24
+    FLOAT           shift and go to state 25
+    STRING          shift and go to state 26
 
-    expression                     shift and go to state 73
+    expression                     shift and go to state 80
 
-state 73
+state 80
 
     (18) range -> RANGE LPAREN expression COMMA expression . RPAREN
     (26) expression -> expression . PLUS expression
     (27) expression -> expression . MINUS expression
     (28) expression -> expression . MULTIPLY expression
     (29) expression -> expression . DIVIDE expression
+    (30) expression -> expression . MODULO expression
+    (31) expression -> expression . OR expression
+    (32) expression -> expression . AND expression
 
-    RPAREN          shift and go to state 74
-    PLUS            shift and go to state 36
-    MINUS           shift and go to state 37
-    MULTIPLY        shift and go to state 38
-    DIVIDE          shift and go to state 39
+    RPAREN          shift and go to state 81
+    PLUS            shift and go to state 37
+    MINUS           shift and go to state 38
+    MULTIPLY        shift and go to state 39
+    DIVIDE          shift and go to state 40
+    MODULO          shift and go to state 41
+    OR              shift and go to state 42
+    AND             shift and go to state 43
 
 
-state 74
+state 81
 
     (18) range -> RANGE LPAREN expression COMMA expression RPAREN .
 
@@ -1723,6 +2212,6 @@ state 74
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for ELIF in state 30 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 45 resolved as shift
-WARNING: shift/reduce conflict for ELIF in state 46 resolved as shift
+WARNING: shift/reduce conflict for ELIF in state 31 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 50 resolved as shift
+WARNING: shift/reduce conflict for ELIF in state 51 resolved as shift

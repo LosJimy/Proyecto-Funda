@@ -12,8 +12,13 @@ tokens = (
     'ASSIGN',
     'LPAREN',
     'RPAREN',
+    'COMMA',    # Añadido token COMMA
     'IF',
     'ELSE',
+    'ELIF',
+    'FOR',
+    'IN',
+    'RANGE',
     'EQUALS',
     'LT',
     'GT',
@@ -31,6 +36,7 @@ t_DIVIDE = r'/'
 t_ASSIGN = r'='
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+t_COMMA = r','   # Definido el token COMMA
 t_EQUALS = r'=='
 t_LT = r'<'
 t_GT = r'>'
@@ -38,20 +44,44 @@ t_LE = r'<='
 t_GE = r'>='
 t_ignore = ' \t'
 
+def t_IF(t):
+    r'if'
+    return t
+
+def t_ELSE(t):
+    r'else'
+    return t
+
+def t_ELIF(t):
+    r'elif'
+    return t
+
+def t_FOR(t):
+    r'for'
+    return t
+
+def t_IN(t):
+    r'in'
+    return t
+
+def t_RANGE(t):
+    r'range'
+    return t
+
 def t_PRINT(t):
     r'print'
     return t
 
+def t_TRUE(t):
+    r'true'
+    return t
+
+def t_FALSE(t):
+    r'false'
+    return t
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
-    if t.value == 'if':
-        t.type = 'IF'
-    elif t.value == 'else':
-        t.type = 'ELSE'
-    elif t.value == 'true':
-        t.type = 'TRUE'
-    elif t.value == 'false':
-        t.type = 'FALSE'
     return t
 
 def t_STRING(t):

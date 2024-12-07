@@ -114,12 +114,12 @@ def p_function_call(p):
     '''function_call : ID LPAREN arg_list RPAREN'''
     p[0] = ('call', p[1], p[3])
 
-#
+#Maneja las declaraciones dentro de las funciones
 def p_return_statement(p):
     'return_statement : RETURN expression'
     p[0] = ('return', evaluate_expression(p[2]))
 
-#
+#Maneja las listas de parámetros y argumentos en funciones
 def p_param_list(p):
     '''param_list : param_list COMMA ID
                   | ID
@@ -131,7 +131,7 @@ def p_param_list(p):
     else:
         p[0] = []
 
-#
+#Maneja las listas de parámetros y argumentos en funciones
 def p_arg_list(p):
     '''arg_list : arg_list COMMA expression
                 | expression
@@ -143,14 +143,14 @@ def p_arg_list(p):
     else:
         p[0] = []
 
-#
+#Evalua las condiciones en las declaraciones elif
 def evaluate_elif(elifs, else_stmt):
     for cond, stmt in elifs:
         if evaluate_expression(cond):
             return stmt
     return else_stmt
 
-#
+#Ejecuta una lista de declaraciones
 def execute_statement(stmts):
     if isinstance(stmts, list):
         for stmt in stmts:
@@ -158,7 +158,7 @@ def execute_statement(stmts):
     else:
         execute_single_statement(stmts)
 
-#
+#Ejecuta una declaración individual, incuyendo asignaciones, bucles, funciones y retornos
 def execute_single_statement(stmt):
     if isinstance(stmt, tuple):
         if stmt[0] == 'print':
@@ -183,20 +183,20 @@ def execute_single_statement(stmt):
         elif stmt[0] == 'return':
             raise ReturnException(evaluate_expression(stmt[1]))
 
-#
+#Ejecuta bucle for
 def execute_for_statement(stmt):
     variable, iter_range, body = stmt[1], stmt[2], stmt[3]
     for value in iter_range:
         variables[variable] = value
         execute_statement(body)
 
-#
+#Ejecuta bucle while
 def execute_while_statement(stmt):
     condition, body = stmt[1], stmt[2]
     while evaluate_expression(condition):
         execute_statement(body)
 
-#
+#Ejecuta una llamada a función
 def execute_function_call(stmt):
     func_name, args = stmt[1], stmt[2]  # stmt[1]: nombre de la función, stmt[2]: argumentos
     if func_name not in functions:
@@ -224,7 +224,7 @@ def execute_function_call(stmt):
     # Si no hay un return explícito, devuelve None
     return None
 
-#
+#Evalúa expresiones aritméticas, logicas y de variables
 def evaluate_expression(expr):
     if isinstance(expr, (int, float, str, bool)):
         return expr
@@ -255,7 +255,7 @@ def evaluate_expression(expr):
             return evaluate_expression(expr[1]) and evaluate_expression(expr[2])
     return expr
 
-#
+#Define las condiciones para las declaraciones if, elif y else
 def p_condition(p):
     '''condition : expression EQUALS expression
                  | expression LT expression
@@ -275,12 +275,12 @@ def p_condition(p):
     elif p[2] == '>=':
         p[0] = left >= right
 
-#
+#Maneja la negación en expresiones
 def p_expression_uminus(p):
     'expression : MINUS expression %prec UMINUS'
     p[0] = -evaluate_expression(p[2])
 
-#
+#Define operaciones binarias 
 def p_expression_binop(p):
     '''expression : expression PLUS expression
                   | expression MINUS expression
@@ -291,48 +291,48 @@ def p_expression_binop(p):
                   | expression AND expression'''
     p[0] = (p[2], evaluate_expression(p[1]), evaluate_expression(p[3]))
 
-#
+#Maneja negación logica
 def p_expression_not(p):
     'expression : NOT expression'
     p[0] = ('!', p[2])
 
-#
+#Maneja las expresiones entre paréntesis
 def p_expression_group(p):
     'expression : LPAREN expression RPAREN'
     p[0] = p[2]
 
-#
+#Maneja identificadores de variables
 def p_expression_id(p):
     'expression : ID'
     p[0] = ('id', p[1])
 
-#
+#Maneja el valor booleano TRUE
 def p_expression_true(p):
     'expression : TRUE'
     p[0] = True
 
-#
+#Maneja el valor booleano FALSE
 def p_expression_false(p):
     'expression : FALSE'
     p[0] = False
 
-#
+#Maneja números
 def p_expression_number(p):
     '''expression : NUMBER
                   | FLOAT'''
     p[0] = p[1]
 
-#
+#Maneja cadenas de texto
 def p_expression_string(p):
     'expression : STRING'
     p[0] = p[1]
 
-#
+#Define regla vacía
 def p_empty(p):
     'empty :'
     p[0] = []
 
-#
+#Maneja los errores de sintaxis en el parser
 def p_error(p):
     if p:
         print(f"Syntax error at '{p.value}' (line {p.lineno})")

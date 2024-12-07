@@ -2,9 +2,9 @@
 taller de fundamentos de la programación
 Nombre:
 
-#Contenidos 
+# Contenidos 
 
-#Integrantes 
+# Integrantes 
 
 
 

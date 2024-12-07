@@ -33,9 +33,30 @@ Operadores de asignación: =
 
 Paréntesis: (, )
 
-Estructura interna
+Estructura interna del compilador
 ===================
 
+El compilador sigue la estructura clásica, dividida en varias fases:
+
+
+### Análisis Léxico
+El análisis léxico es la primera fase del compilador. Su propósito es leer el código fuente y dividirlo en componentes básicos llamados tokens, que son las unidades mínimas de significado en el lenguaje. Esta etapa actúa como un puente entre el código fuente y el análisis sintáctico, asegurándose de que el texto sea interpretable para las fases posteriores.
+
+
+Ejemplo de tokenización, declaracion de una variable:
+Código fuente: int a = 5;
+Tokens: [Keyword:int, Identifier:a, Operator:=, Number:5, Delimiter:;]
+
+
+### Cómo Funciona el Analizador Léxico
+
+
+Lectura del Código: El analizador comienza leyendo el archivo de código fuente carácter por carácter.
+Formación de Tokens: Usa un conjunto de reglas basadas en expresiones regulares para reconocer patrones, como:
+Letras seguidas de dígitos o guiones bajos se interpretan como identificadores (x).
+Caracteres como + o = son reconocidos como operadores.
+Números enteros o decimales se reconocen como literales numéricos.
+Clasificación: Cada token identificado se clasifica según su tipo y se almacena en una lista que se pasará a la fase siguiente.
 
 Características propias del lenguaje
 ===================

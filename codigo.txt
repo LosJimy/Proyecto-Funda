@@ -1,3 +1,1 @@
-hola = 10
-if hola == 10 :
-    print("hola")
+#ACÁ VA EL CÓDIGO 

@@ -37,43 +37,43 @@ def t_COMMENT(t):
     pass
 
 def t_IF(t):
-    r'if|fi'
+    r'fi'
     return t
 
 def t_ELSE(t):
-    r'else'
+    r'esle'
     return t
 
 def t_ELIF(t):
-    r'elif'
+    r'file'
     return t
 
 def t_FOR(t):
-    r'for'
+    r'rof'
     return t
 
 def t_IN(t):
-    r'in'
+    r'ni'
     return t
 
 def t_RANGE(t):
-    r'range'
+    r'egnar'
     return t
 
 def t_WHILE(t):
-    r'while'
+    r'elihw'
     return t
 
 def t_PRINT(t):
-    r'print'
+    r'tnirp'
     return t
 
 def t_TRUE(t):
-    r'true'
+    r'eurt'
     return t
 
 def t_FALSE(t):
-    r'false'
+    r'eslaf'
     return t
 
 def t_ID(t):

@@ -1,39 +1,18 @@
 import ply.lex as lex
 
 tokens = (
-    'ID',
-    'STRING',
-    'FLOAT',
-    'NUMBER',
-    'PLUS',
-    'MINUS',
-    'MULTIPLY',
-    'DIVIDE',
-    'MODULO',
-    'ASSIGN',
-    'LPAREN',
-    'RPAREN',
-    'COMMA',
-    'IF',
-    'ELSE',
-    'ELIF',
-    'FOR',
-    'IN',
-    'RANGE',
-    'WHILE',
-    'EQUALS',
-    'LT',
-    'GT',
-    'LE',
-    'GE',
-    'TRUE',
-    'FALSE',
-    'PRINT',
-    'OR',    # Token para operador lógico OR (||)
-    'AND',   # Token para operador lógico AND (&&)
-    'NOT',   # Token para operador lógico NOT (!)
+    'ID', 'STRING', 'FLOAT', 'NUMBER',
+    'PLUS', 'MINUS', 'MULTIPLY', 'DIVIDE', 'MODULO',
+    'ASSIGN', 'LPAREN', 'RPAREN', 'COMMA', 'COLON',
+    'IF', 'ELSE', 'ELIF', 'FOR', 'IN', 'RANGE', 'WHILE',
+    'EQUALS', 'LT', 'GT', 'LE', 'GE',
+    'TRUE', 'FALSE', 'PRINT', 'OR', 'AND', 'NOT',
+    'DEF', 'RETURN' 
 )
 
+t_COLON = r':'
+t_DEF = r'def'
+t_RETURN = r'return'
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_MULTIPLY = r'\*'
@@ -48,17 +27,17 @@ t_LT = r'<'
 t_GT = r'>'
 t_LE = r'<='
 t_GE = r'>='
-t_OR = r'\|\|'   # Expresión regular para operador OR
-t_AND = r'&&'    # Expresión regular para operador AND
-t_NOT = r'!'     # Expresión regular para operador NOT
+t_OR = r'\|\|'
+t_AND = r'&&'
+t_NOT = r'!'
 t_ignore = ' \t'
 
 def t_COMMENT(t):
     r'\#.*'
-    pass  # Ignorar los comentarios
+    pass
 
 def t_IF(t):
-    r'if'
+    r'if|fi'
     return t
 
 def t_ELSE(t):

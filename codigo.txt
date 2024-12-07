@@ -1,34 +1,3 @@
-x = 10
-y = 20.5
-z = "Hola"
-a = true
-b = false
-
-# Este es un comentario
-if x > y
-    print(x + y)
-elif x == y
-    print("Iguales")
-else
-    print(z)
-
-for i in range(0, 5)
-    print(i)
-
-#while x > 0
- #   print(x)
-  #  x = x - 1
-
-# Prueba del operador de módulo
-print(10 % 3)  # Resultado: 1
-print(15 % 4)  # Resultado: 3
-
-# Prueba del operador lógico NOT
-print(!a)  # Resultado: False
-print(!b)  # Resultado: True
-
-# Prueba de operadores lógicos AND y OR
-print(a && b)  # Resultado: False
-print(a || b)  # Resultado: True
-print(!a || b)  # Resultado: False
-print(a && !b)  # Resultado: True
+hola = 10
+if hola == 10 :
+    print("hola")

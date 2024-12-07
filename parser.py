@@ -2,6 +2,7 @@ import ply.yacc as yacc
 from lexer import tokens
 
 variables = {}
+functions = {}
 
 precedence = (
     ('left', 'OR'),
@@ -12,6 +13,10 @@ precedence = (
     ('right', 'UMINUS'),
     ('nonassoc', 'EQUALS', 'LT', 'GT', 'LE', 'GE'),
 )
+
+class ReturnException(Exception):
+    def __init__(self, value):
+        self.value = value
 
 def p_program(p):
     'program : statement_list'
@@ -31,7 +36,10 @@ def p_statement(p):
                  | if_statement
                  | for_statement
                  | while_statement
-                 | print_statement'''
+                 | print_statement
+                 | function_def
+                 | function_call
+                 | return_statement'''
     p[0] = p[1]
 
 def p_assignment(p):
@@ -40,18 +48,18 @@ def p_assignment(p):
     p[0] = ('assign', p[1], p[3])
 
 def p_if_statement(p):
-    '''if_statement : IF condition statement elif_list_opt ELSE statement
-                    | IF condition statement elif_list_opt'''
-    if len(p) == 7:
+    '''if_statement : IF condition COLON statement elif_list_opt ELSE statement
+                    | IF condition COLON statement elif_list_opt'''
+    if len(p) == 8:
         if evaluate_expression(p[2]):
-            p[0] = p[3]
+            p[0] = p[4]
         else:
-            p[0] = evaluate_elif(p[4], p[6])
+            p[0] = evaluate_elif(p[5], p[7])
     elif len(p) == 6:
         if evaluate_expression(p[2]):
-            p[0] = p[3]
+            p[0] = p[4]
         else:
-            p[0] = evaluate_elif(p[4], None)
+            p[0] = evaluate_elif(p[5], None)
 
 def p_elif_list_opt(p):
     '''elif_list_opt : elif_list
@@ -59,13 +67,13 @@ def p_elif_list_opt(p):
     p[0] = p[1]
 
 def p_elif_list(p):
-    '''elif_list : elif_list ELIF condition statement
-                 | ELIF condition statement'''
-    if len(p) == 5:
-        p[0] = p[1] + [(p[3], p[4])]
+    '''elif_list : elif_list ELIF condition COLON statement
+                 | ELIF condition COLON statement'''
+    if len(p) == 6:
+        p[0] = p[1] + [(p[3], p[5])]
     else:
-        p[0] = [(p[2], p[3])]
-
+        p[0] = [(p[2], p[4])]
+        
 def p_for_statement(p):
     '''for_statement : FOR ID IN range statement'''
     p[0] = ('for', p[2], p[4], p[5])
@@ -82,6 +90,41 @@ def p_print_statement(p):
     '''print_statement : PRINT LPAREN expression RPAREN'''
     p[0] = ('print', p[3])
 
+def p_function_def(p):
+    '''function_def : DEF ID LPAREN param_list RPAREN COLON statement_list'''
+    functions[p[2]] = (p[4], p[7])
+    p[0] = ('def', p[2], p[4], p[7])
+
+def p_function_call(p):
+    '''function_call : ID LPAREN arg_list RPAREN'''
+    p[0] = ('call', p[1], p[3])
+
+def p_return_statement(p):
+    'return_statement : RETURN expression'
+    p[0] = ('return', evaluate_expression(p[2]))
+
+def p_param_list(p):
+    '''param_list : param_list COMMA ID
+                  | ID
+                  | empty'''
+    if len(p) == 4:
+        p[0] = p[1] + [p[3]]
+    elif len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = []
+
+def p_arg_list(p):
+    '''arg_list : arg_list COMMA expression
+                | expression
+                | empty'''
+    if len(p) == 4:
+        p[0] = p[1] + [evaluate_expression(p[3])]
+    elif len(p) == 2:
+        p[0] = [evaluate_expression(p[1])]
+    else:
+        p[0] = []
+
 def evaluate_elif(elifs, else_stmt):
     for cond, stmt in elifs:
         if evaluate_expression(cond):
@@ -95,16 +138,30 @@ def execute_statement(stmts):
     else:
         execute_single_statement(stmts)
 
+
 def execute_single_statement(stmt):
     if isinstance(stmt, tuple):
         if stmt[0] == 'print':
-            print(evaluate_expression(stmt[1]))
+            value = evaluate_expression(stmt[1])
+            if isinstance(value, str):
+                # Imprimir la cadena original y la cadena invertida
+                print(f"{value} | {value[::-1]}")
+            else:
+                print(value)
         elif stmt[0] == 'for':
             execute_for_statement(stmt)
         elif stmt[0] == 'while':
             execute_while_statement(stmt)
         elif stmt[0] == 'assign':
             variables[stmt[1]] = evaluate_expression(stmt[2])
+        elif stmt[0] == 'def':
+            functions[stmt[1]] = (stmt[2], stmt[3])
+        elif stmt[0] == 'call':
+            result = execute_function_call(stmt)
+            if result is not None:
+                variables['result'] = result
+        elif stmt[0] == 'return':
+            raise ReturnException(evaluate_expression(stmt[1]))
 
 def execute_for_statement(stmt):
     variable, iter_range, body = stmt[1], stmt[2], stmt[3]
@@ -116,6 +173,33 @@ def execute_while_statement(stmt):
     condition, body = stmt[1], stmt[2]
     while evaluate_expression(condition):
         execute_statement(body)
+
+def execute_function_call(stmt):
+    func_name, args = stmt[1], stmt[2]  # stmt[1]: nombre de la función, stmt[2]: argumentos
+    if func_name not in functions:
+        raise ValueError(f"Función '{func_name}' no definida")
+    
+    # Recuperar parámetros y cuerpo de la función
+    params, body = functions[func_name]
+    
+    # Crear un entorno local para las variables de la función
+    local_vars = variables.copy()  # Copia las variables globales (entorno actual)
+
+    # Asignar valores a los parámetros en el entorno local
+    for param, arg in zip(params, args):
+        local_vars[param] = evaluate_expression(arg)  # Evalúa los argumentos
+
+    # Ejecutar el cuerpo de la función
+    try:
+        execute_statement(body)  # Ejecuta el cuerpo de la función
+    except ReturnException as ret:
+        return ret.value  # Devuelve el valor si hay un return
+
+    # Restaurar las variables globales después de la ejecución
+    variables.update(local_vars)
+
+    # Si no hay un return explícito, devuelve None
+    return None
 
 def evaluate_expression(expr):
     if isinstance(expr, (int, float, str, bool)):
@@ -177,7 +261,7 @@ def p_expression_binop(p):
                   | expression DIVIDE expression
                   | expression MODULO expression
                   | expression OR expression
-                  | expression AND expression'''  # Añadidos OR y AND
+                  | expression AND expression'''
     p[0] = (p[2], evaluate_expression(p[1]), evaluate_expression(p[3]))
 
 def p_expression_not(p):
@@ -219,4 +303,5 @@ def p_error(p):
     else:
         print("Syntax error at EOF")
 
-parser = yacc.yacc()
+parser = yacc.yacc(debug=True)
+

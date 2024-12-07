@@ -1,8 +1,3 @@
 hola = 10
-
-fi hola == 10 {
-    tnirp('lo lograste')
-}
-else{
-    tnirp('no lo lograste')
-}
+if hola == 10 :
+    print("hola")

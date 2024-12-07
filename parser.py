@@ -2,15 +2,26 @@ import ply.yacc as yacc
 from lexer import tokens
 
 variables = {}
+functions = {}
 
-#Definir la prioridad de los operadores
 precedence = (
-    ('left', 'EQEQ', 'NE'), #prioridad == !=
-    ('left', 'LT', 'LE', 'GT', 'GE'), #prioridad < > <= >=
-    ('left', 'PLUS', 'MINUS'), #prioridad suma y resta
-    ('left', 'MULTIPLY', 'DIVIDE'), #prioridaad multiplicación y división
-    ('nonassoc', 'LPAREN', 'RPAREN'), #prioridad parentesis
+    ('left', 'OR'),
+    ('left', 'AND'),
+    ('right', 'NOT'),
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'MULTIPLY', 'DIVIDE', 'MODULO'),
+    ('right', 'UMINUS'),
+    ('nonassoc', 'EQUALS', 'LT', 'GT', 'LE', 'GE'),
 )
+
+class ReturnException(Exception):
+    def __init__(self, value):
+        self.value = value
+
+def p_program(p):
+    'program : statement_list'
+    p[0] = p[1]
+    execute_statement(p[1])
 
 def p_statement_list(p):
     '''statement_list : statement_list statement
@@ -20,161 +31,277 @@ def p_statement_list(p):
     else:
         p[0] = [p[1]]
 
-def p_statement_expr(p): #Espresión para mostrar el desarrollo al revés, con el resultado
-    'statement : expression'
-    if isinstance(p[1], dict) and 'reversed_expr' in p[1]:
-        print(f"{p[1]['result']} = {p[1]['expr']}")
-    else:
-        print(p[1])  
+def p_statement(p):
+    '''statement : assignment
+                 | if_statement
+                 | for_statement
+                 | while_statement
+                 | print_statement
+                 | function_def
+                 | function_call
+                 | return_statement'''
     p[0] = p[1]
 
-def p_statement_assign(p):
-    'statement : ID EQUALS expression'
-    if p[1].lower() in ['end','salir']:
-        print(f"Cannot assign to reserved word '{p[1]}'")
-    else:
-        variables[p[1]] = p[3]
-    p[0] = None
-    
-def p_statement_print(p):
-    '''statement : ID LPAREN STRING RPAREN
-                 | ID LPAREN ID RPAREN'''
-    if p[1] == 'tnirp':
-        if p[3].startswith('"') and p[3].endswith('"'):
-            print(p[3][1:-1])
-        elif p[3].startswith("'") and p[3].endswith("'"):
-            print(p[3][1:-1])
-        elif p[3] in variables:
-            print(variables[p[3]])
-    p[0] = None
-    
+def p_assignment(p):
+    'assignment : ID ASSIGN expression'
+    variables[p[1]] = evaluate_expression(p[3])
+    p[0] = ('assign', p[1], p[3])
 
-def p_statement_if(p):
-    'statement : IF expression LBRACE statement_list RBRACE'
-    if p[2]:
-        for stmt in p[4]:
-            execute_statement(stmt)
-    p[0] = None
+def p_if_statement(p):
+    '''if_statement : IF condition COLON statement elif_list_opt ELSE statement
+                    | IF condition COLON statement elif_list_opt'''
+    if len(p) == 8:
+        if evaluate_expression(p[2]):
+            p[0] = p[4]
+        else:
+            p[0] = evaluate_elif(p[5], p[7])
+    elif len(p) == 6:
+        if evaluate_expression(p[2]):
+            p[0] = p[4]
+        else:
+            p[0] = evaluate_elif(p[5], None)
 
-def p_statement_if_else(p):
-    'statement : IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE'
-    if p[2]:
-        for stmt in p[4]:
-            execute_statement(stmt)
+def p_elif_list_opt(p):
+    '''elif_list_opt : elif_list
+                     | empty'''
+    p[0] = p[1]
+
+def p_elif_list(p):
+    '''elif_list : elif_list ELIF condition COLON statement
+                 | ELIF condition COLON statement'''
+    if len(p) == 6:
+        p[0] = p[1] + [(p[3], p[5])]
     else:
-        for stmt in p[8]:
-            execute_statement(stmt)
-    p[0] = None
+        p[0] = [(p[2], p[4])]
         
-def p_statement_end(p): #Función para terminar el programa con "END"
-    'statement : END'
-    print("Ending program...")
-    exit()
+def p_for_statement(p):
+    '''for_statement : FOR ID IN range statement'''
+    p[0] = ('for', p[2], p[4], p[5])
 
-def p_expression_paren(p): #Evaluar primero los parentesis
+def p_while_statement(p):
+    '''while_statement : WHILE condition statement'''
+    p[0] = ('while', p[2], p[3])
+
+def p_range(p):
+    '''range : RANGE LPAREN expression COMMA expression RPAREN'''
+    p[0] = list(range(evaluate_expression(p[3]), evaluate_expression(p[5])))
+
+def p_print_statement(p):
+    '''print_statement : PRINT LPAREN expression RPAREN'''
+    p[0] = ('print', p[3])
+
+def p_function_def(p):
+    '''function_def : DEF ID LPAREN param_list RPAREN COLON statement_list'''
+    functions[p[2]] = (p[4], p[7])
+    p[0] = ('def', p[2], p[4], p[7])
+
+def p_function_call(p):
+    '''function_call : ID LPAREN arg_list RPAREN'''
+    p[0] = ('call', p[1], p[3])
+
+def p_return_statement(p):
+    'return_statement : RETURN expression'
+    p[0] = ('return', evaluate_expression(p[2]))
+
+def p_param_list(p):
+    '''param_list : param_list COMMA ID
+                  | ID
+                  | empty'''
+    if len(p) == 4:
+        p[0] = p[1] + [p[3]]
+    elif len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = []
+
+def p_arg_list(p):
+    '''arg_list : arg_list COMMA expression
+                | expression
+                | empty'''
+    if len(p) == 4:
+        p[0] = p[1] + [evaluate_expression(p[3])]
+    elif len(p) == 2:
+        p[0] = [evaluate_expression(p[1])]
+    else:
+        p[0] = []
+
+def evaluate_elif(elifs, else_stmt):
+    for cond, stmt in elifs:
+        if evaluate_expression(cond):
+            return stmt
+    return else_stmt
+
+def execute_statement(stmts):
+    if isinstance(stmts, list):
+        for stmt in stmts:
+            execute_single_statement(stmt)
+    else:
+        execute_single_statement(stmts)
+
+
+def execute_single_statement(stmt):
+    if isinstance(stmt, tuple):
+        if stmt[0] == 'print':
+            value = evaluate_expression(stmt[1])
+            if isinstance(value, str):
+                # Imprimir la cadena original y la cadena invertida
+                print(f"{value} | {value[::-1]}")
+            else:
+                print(value)
+        elif stmt[0] == 'for':
+            execute_for_statement(stmt)
+        elif stmt[0] == 'while':
+            execute_while_statement(stmt)
+        elif stmt[0] == 'assign':
+            variables[stmt[1]] = evaluate_expression(stmt[2])
+        elif stmt[0] == 'def':
+            functions[stmt[1]] = (stmt[2], stmt[3])
+        elif stmt[0] == 'call':
+            result = execute_function_call(stmt)
+            if result is not None:
+                variables['result'] = result
+        elif stmt[0] == 'return':
+            raise ReturnException(evaluate_expression(stmt[1]))
+
+def execute_for_statement(stmt):
+    variable, iter_range, body = stmt[1], stmt[2], stmt[3]
+    for value in iter_range:
+        variables[variable] = value
+        execute_statement(body)
+
+def execute_while_statement(stmt):
+    condition, body = stmt[1], stmt[2]
+    while evaluate_expression(condition):
+        execute_statement(body)
+
+def execute_function_call(stmt):
+    func_name, args = stmt[1], stmt[2]  # stmt[1]: nombre de la función, stmt[2]: argumentos
+    if func_name not in functions:
+        raise ValueError(f"Función '{func_name}' no definida")
+    
+    # Recuperar parámetros y cuerpo de la función
+    params, body = functions[func_name]
+    
+    # Crear un entorno local para las variables de la función
+    local_vars = variables.copy()  # Copia las variables globales (entorno actual)
+
+    # Asignar valores a los parámetros en el entorno local
+    for param, arg in zip(params, args):
+        local_vars[param] = evaluate_expression(arg)  # Evalúa los argumentos
+
+    # Ejecutar el cuerpo de la función
+    try:
+        execute_statement(body)  # Ejecuta el cuerpo de la función
+    except ReturnException as ret:
+        return ret.value  # Devuelve el valor si hay un return
+
+    # Restaurar las variables globales después de la ejecución
+    variables.update(local_vars)
+
+    # Si no hay un return explícito, devuelve None
+    return None
+
+def evaluate_expression(expr):
+    if isinstance(expr, (int, float, str, bool)):
+        return expr
+    elif isinstance(expr, tuple):
+        if expr[0] == 'id':
+            value = variables.get(expr[1], None)
+            if value is None:
+                raise ValueError(f"Variable '{expr[1]}' no definida")
+            return value
+        elif expr[0] in ('+', '-', '*', '/', '%'):
+            left = evaluate_expression(expr[1])
+            right = evaluate_expression(expr[2])
+            if expr[0] == '+':
+                return left + right
+            elif expr[0] == '-':
+                return left - right
+            elif expr[0] == '*':
+                return left * right
+            elif expr[0] == '/':
+                return left / right
+            elif expr[0] == '%':
+                return left % right
+        elif expr[0] == '!':
+            return not evaluate_expression(expr[1])
+        elif expr[0] == '||':
+            return evaluate_expression(expr[1]) or evaluate_expression(expr[2])
+        elif expr[0] == '&&':
+            return evaluate_expression(expr[1]) and evaluate_expression(expr[2])
+    return expr
+
+def p_condition(p):
+    '''condition : expression EQUALS expression
+                 | expression LT expression
+                 | expression GT expression
+                 | expression LE expression
+                 | expression GE'''
+    left = evaluate_expression(p[1])
+    right = evaluate_expression(p[3])
+    if p[2] == '==':
+        p[0] = left == right
+    elif p[2] == '<':
+        p[0] = left < right
+    elif p[2] == '>':
+        p[0] = left > right
+    elif p[2] == '<=':
+        p[0] = left <= right
+    elif p[2] == '>=':
+        p[0] = left >= right
+
+def p_expression_uminus(p):
+    'expression : MINUS expression %prec UMINUS'
+    p[0] = -evaluate_expression(p[2])
+
+def p_expression_binop(p):
+    '''expression : expression PLUS expression
+                  | expression MINUS expression
+                  | expression MULTIPLY expression
+                  | expression DIVIDE expression
+                  | expression MODULO expression
+                  | expression OR expression
+                  | expression AND expression'''
+    p[0] = (p[2], evaluate_expression(p[1]), evaluate_expression(p[3]))
+
+def p_expression_not(p):
+    'expression : NOT expression'
+    p[0] = ('!', p[2])
+
+def p_expression_group(p):
     'expression : LPAREN expression RPAREN'
     p[0] = p[2]
+
+def p_expression_id(p):
+    'expression : ID'
+    p[0] = ('id', p[1])
+
+def p_expression_true(p):
+    'expression : TRUE'
+    p[0] = True
+
+def p_expression_false(p):
+    'expression : FALSE'
+    p[0] = False
 
 def p_expression_number(p):
     '''expression : NUMBER
                   | FLOAT'''
     p[0] = p[1]
 
-def p_expression_id(p):
-    'expression : ID'
-    if p[1] in variables:
-        p[0] = variables[p[1]]
-    else:
-        print(f"Variable Indefinida '{p[1]}'")
-        p[0] = 0
-        
-def p_expression_neg(p):
-    'expression : MINUS expression %prec MINUS'
-    p[0] = -p[2]
-        
-def p_expression_binop(p):
-    '''expression : expression PLUS expression
-                  | expression MINUS expression
-                  | expression MULTIPLY expression
-                  | expression DIVIDE expression
-                  | expression EQEQ expression
-                  | expression NE expression
-                  | expression LT expression
-                  | expression GT expression
-                  | expression LE expression
-                  | expression GE expression'''
-    
-    left = p[1] if isinstance(p[1], (int, float)) else p[1]['result']
-    right = p[3] if isinstance(p[3], (int, float)) else p[3]['result']   
+def p_expression_string(p):
+    'expression : STRING'
+    p[0] = p[1]
 
-    if p[2] == '+':
-        result = left + right
-        expr = f"{left} + {right}"
-        reversed_expr = f"{right} + {left}"
-    elif p[2] == '-':
-        result = left - right
-        expr = f"{left} - {right}"
-        reversed_expr = f"-{right} + {left}"
-    elif p[2] == '*':
-        result = left * right
-        expr = f"{left} * {right}"
-        reversed_expr = f"{right} * {left}"
-    elif p[2] == '/':
-        result = left / right
-        expr = f"{left} / {right}"
-        reversed_expr = f"1/{right} * {left}"
-    elif p[2] == '==':
-        result = left == right
-        expr = f"{left} == {right}"
-        reversed_expr = f"{right} == {left}"
-    elif p[2] == '!=':
-        result = left != right
-        expr = f"{left} != {right}"
-        reversed_expr = f"{right} != {left}"
-    elif p[2] == '<':
-        result = left < right
-        expr = f"{left} < {right}"
-        reversed_expr = f"{right} > {left}"
-    elif p[2] == '>':
-        result = left > right
-        expr = f"{left} > {right}"
-        reversed_expr = f"{right} < {left}"
-    elif p[2] == '<=':
-        result = left <= right
-        expr = f"{left} <= {right}"
-        reversed_expr = f"{right} >= {left}"
-    elif p[2] == '>=':
-        result = left >= right
-        expr = f"{left} >= {right}"
-        reversed_expr = f"{right} <= {left}"
+def p_empty(p):
+    'empty :'
+    p[0] = []
 
-    p[0] = f"{result} = {reversed_expr}"            
-    
-def p_expression_string(p): #Expresión de un String
-    '''expression : STRING'''
-    string = p[1][1:-1]
-    inverted = list(string[::-1])
-    for i in range(len(inverted)):
-        if inverted[i] == '(':
-            inverted[i] =')'
-        elif inverted[i] == ')':
-            inverted[i] = '('
-    normal_string = ''.join(string)
-    reversed_string = ''.join(inverted)
-    p[0] = f'"{reversed_string}" | "{normal_string}"'
-
-def p_error(p): #Salida de error
+def p_error(p):
     if p:
-        print(f"Syntx error at '{p.value}'")
+        print(f"Syntax error at '{p.value}' (line {p.lineno})")
     else:
         print("Syntax error at EOF")
-    
-parser = yacc.yacc() 
 
-def execute_statement(statement):
-    if statement:
-        if isinstance(statement, list):
-            for stmt in statement:
-                execute_statement(stmt)
-        else:
-            print(statement)
+parser = yacc.yacc(debug=True)
+

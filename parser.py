@@ -55,9 +55,18 @@ def p_break_statement(p):
 
 #Maneja la asignación de valores a variables 
 def p_assignment(p):
-    'assignment : ID ASSIGN expression'
-    variables[p[1]] = evaluate_expression(p[3])
-    p[0] = ('assign', p[1], p[3])
+    '''assignment : ID ASSIGN expression
+                  | ID PLUSEQUALS expression
+                  | ID MINUSEQUALS expression'''
+    if p[2] == '=':
+        variables[p[1]] = evaluate_expression(p[3])
+        p[0] = ('assign', p[1], p[3])
+    elif p[2] == '+=':
+        variables[p[1]] = variables.get(p[1], 0) + evaluate_expression(p[3])
+        p[0] = ('plusequals', p[1], p[3])
+    elif p[2] == '-=':
+        variables[p[1]] = variables.get(p[1], 0) - evaluate_expression(p[3])
+        p[0] = ('minusequals', p[1], p[3])
 
 #Define estructura de if,elif,else
 def p_if_statement(p):
@@ -180,6 +189,10 @@ def execute_single_statement(stmt):
             execute_while_statement(stmt)
         elif stmt[0] == 'assign':
             variables[stmt[1]] = evaluate_expression(stmt[2])
+        elif stmt[0] == 'plusequals':
+            variables[stmt[1]] = variables[stmt[1]] + evaluate_expression(stmt[2])
+        elif stmt[0] == 'minusequals':
+            variables[stmt[1]] = variables[stmt[1]] - evaluate_expression(stmt[2]) 
         elif stmt[0] == 'def':
             functions[stmt[1]] = (stmt[2], stmt[3])
         elif stmt[0] == 'call':

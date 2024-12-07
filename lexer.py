@@ -4,6 +4,7 @@ import ply.lex as lex
 tokens = (
     'ID', 'STRING', 'FLOAT', 'NUMBER',
     'PLUS', 'MINUS', 'MULTIPLY', 'DIVIDE', 'MODULO',
+    'PLUSEQUALS', 'MINUSEQUALS',
     'ASSIGN', 'LPAREN', 'RPAREN', 'COMMA', 'COLON',
     'IF', 'ELSE', 'ELIF', 'FOR', 'IN', 'RANGE', 'WHILE',
     'EQUALS', 'LT', 'GT', 'LE', 'GE',
@@ -12,6 +13,8 @@ tokens = (
 )
 
 #Definición de Tokens
+t_PLUSEQUALS = r'\+='
+t_MINUSEQUALS = r'-='
 t_BREAK = r'break'
 t_COLON = r':'
 t_DEF = r'def'

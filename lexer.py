@@ -88,7 +88,7 @@ def t_ID(t):
     return t
 
 def t_STRING(t):
-    r'\".*?\"'
+    r'(<<.*?>>|<.*?>|\".*?\"|\'.*?\')'
     t.value = t.value[1:-1]
     return t
 

@@ -1,5 +1,6 @@
 import ply.lex as lex
 
+#Creación de Tokens
 tokens = (
     'ID', 'STRING', 'FLOAT', 'NUMBER',
     'PLUS', 'MINUS', 'MULTIPLY', 'DIVIDE', 'MODULO',
@@ -10,6 +11,7 @@ tokens = (
     'DEF', 'RETURN' 
 )
 
+#Definición de Tokens
 t_COLON = r':'
 t_DEF = r'def'
 t_RETURN = r'return'
@@ -32,6 +34,7 @@ t_AND = r'&&'
 t_NOT = r'!'
 t_ignore = ' \t'
 
+#Definición Funciones de Tokens
 def t_COMMENT(t):
     r'\#.*'
     pass

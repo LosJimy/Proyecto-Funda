@@ -1,9 +1,10 @@
 import ply.yacc as yacc
 from lexer import tokens
 
-variables = {}
-functions = {}
+variables = {}      #Diccionario que almacena variables definidas
+functions = {}      #Diccionario que almacena las funciones creadas
 
+#Define la prioridad de los operadores para resolver ambiguedades en las expresiones
 precedence = (
     ('left', 'OR'),
     ('left', 'AND'),
@@ -14,15 +15,18 @@ precedence = (
     ('nonassoc', 'EQUALS', 'LT', 'GT', 'LE', 'GE'),
 )
 
+#Una excepción personalizada para manejar las declaraciones de retorno en funciones.
 class ReturnException(Exception):
     def __init__(self, value):
         self.value = value
 
+#Define la estructura inicial del programa como una lista de declaraciones, ejecutandolas en orden
 def p_program(p):
     'program : statement_list'
     p[0] = p[1]
     execute_statement(p[1])
 
+#Maneja lista de declaraciones, puede ser una o varias
 def p_statement_list(p):
     '''statement_list : statement_list statement
                       | statement'''
@@ -31,6 +35,7 @@ def p_statement_list(p):
     else:
         p[0] = [p[1]]
 
+#Define if,for,while,print,
 def p_statement(p):
     '''statement : assignment
                  | if_statement
@@ -42,11 +47,13 @@ def p_statement(p):
                  | return_statement'''
     p[0] = p[1]
 
+#Maneja la asignación de valores a variables 
 def p_assignment(p):
     'assignment : ID ASSIGN expression'
     variables[p[1]] = evaluate_expression(p[3])
     p[0] = ('assign', p[1], p[3])
 
+#Define estructura de if,elif,else
 def p_if_statement(p):
     '''if_statement : IF condition COLON statement elif_list_opt ELSE statement
                     | IF condition COLON statement elif_list_opt'''
@@ -61,11 +68,13 @@ def p_if_statement(p):
         else:
             p[0] = evaluate_elif(p[5], None)
 
+#Maneja las declaraciones de elif
 def p_elif_list_opt(p):
     '''elif_list_opt : elif_list
                      | empty'''
     p[0] = p[1]
 
+#Maneja las declaraciones de elif
 def p_elif_list(p):
     '''elif_list : elif_list ELIF condition COLON statement
                  | ELIF condition COLON statement'''
@@ -73,36 +82,44 @@ def p_elif_list(p):
         p[0] = p[1] + [(p[3], p[5])]
     else:
         p[0] = [(p[2], p[4])]
-        
+
+#Define estructura bucles for
 def p_for_statement(p):
     '''for_statement : FOR ID IN range statement'''
     p[0] = ('for', p[2], p[4], p[5])
 
+#Define estructura bucles while
 def p_while_statement(p):
     '''while_statement : WHILE condition statement'''
     p[0] = ('while', p[2], p[3])
 
+#Define el rango de valores en un bucle for
 def p_range(p):
     '''range : RANGE LPAREN expression COMMA expression RPAREN'''
     p[0] = list(range(evaluate_expression(p[3]), evaluate_expression(p[5])))
 
+#Maneja las declaraciones print para imprimir expresiones
 def p_print_statement(p):
     '''print_statement : PRINT LPAREN expression RPAREN'''
     p[0] = ('print', p[3])
 
+#Define la estructura de una función
 def p_function_def(p):
     '''function_def : DEF ID LPAREN param_list RPAREN COLON statement_list'''
     functions[p[2]] = (p[4], p[7])
     p[0] = ('def', p[2], p[4], p[7])
 
+#Define llamada de función
 def p_function_call(p):
     '''function_call : ID LPAREN arg_list RPAREN'''
     p[0] = ('call', p[1], p[3])
 
+#
 def p_return_statement(p):
     'return_statement : RETURN expression'
     p[0] = ('return', evaluate_expression(p[2]))
 
+#
 def p_param_list(p):
     '''param_list : param_list COMMA ID
                   | ID
@@ -114,6 +131,7 @@ def p_param_list(p):
     else:
         p[0] = []
 
+#
 def p_arg_list(p):
     '''arg_list : arg_list COMMA expression
                 | expression
@@ -125,12 +143,14 @@ def p_arg_list(p):
     else:
         p[0] = []
 
+#
 def evaluate_elif(elifs, else_stmt):
     for cond, stmt in elifs:
         if evaluate_expression(cond):
             return stmt
     return else_stmt
 
+#
 def execute_statement(stmts):
     if isinstance(stmts, list):
         for stmt in stmts:
@@ -138,7 +158,7 @@ def execute_statement(stmts):
     else:
         execute_single_statement(stmts)
 
-
+#
 def execute_single_statement(stmt):
     if isinstance(stmt, tuple):
         if stmt[0] == 'print':
@@ -163,17 +183,20 @@ def execute_single_statement(stmt):
         elif stmt[0] == 'return':
             raise ReturnException(evaluate_expression(stmt[1]))
 
+#
 def execute_for_statement(stmt):
     variable, iter_range, body = stmt[1], stmt[2], stmt[3]
     for value in iter_range:
         variables[variable] = value
         execute_statement(body)
 
+#
 def execute_while_statement(stmt):
     condition, body = stmt[1], stmt[2]
     while evaluate_expression(condition):
         execute_statement(body)
 
+#
 def execute_function_call(stmt):
     func_name, args = stmt[1], stmt[2]  # stmt[1]: nombre de la función, stmt[2]: argumentos
     if func_name not in functions:
@@ -201,6 +224,7 @@ def execute_function_call(stmt):
     # Si no hay un return explícito, devuelve None
     return None
 
+#
 def evaluate_expression(expr):
     if isinstance(expr, (int, float, str, bool)):
         return expr
@@ -231,6 +255,7 @@ def evaluate_expression(expr):
             return evaluate_expression(expr[1]) and evaluate_expression(expr[2])
     return expr
 
+#
 def p_condition(p):
     '''condition : expression EQUALS expression
                  | expression LT expression
@@ -250,10 +275,12 @@ def p_condition(p):
     elif p[2] == '>=':
         p[0] = left >= right
 
+#
 def p_expression_uminus(p):
     'expression : MINUS expression %prec UMINUS'
     p[0] = -evaluate_expression(p[2])
 
+#
 def p_expression_binop(p):
     '''expression : expression PLUS expression
                   | expression MINUS expression
@@ -264,44 +291,54 @@ def p_expression_binop(p):
                   | expression AND expression'''
     p[0] = (p[2], evaluate_expression(p[1]), evaluate_expression(p[3]))
 
+#
 def p_expression_not(p):
     'expression : NOT expression'
     p[0] = ('!', p[2])
 
+#
 def p_expression_group(p):
     'expression : LPAREN expression RPAREN'
     p[0] = p[2]
 
+#
 def p_expression_id(p):
     'expression : ID'
     p[0] = ('id', p[1])
 
+#
 def p_expression_true(p):
     'expression : TRUE'
     p[0] = True
 
+#
 def p_expression_false(p):
     'expression : FALSE'
     p[0] = False
 
+#
 def p_expression_number(p):
     '''expression : NUMBER
                   | FLOAT'''
     p[0] = p[1]
 
+#
 def p_expression_string(p):
     'expression : STRING'
     p[0] = p[1]
 
+#
 def p_empty(p):
     'empty :'
     p[0] = []
 
+#
 def p_error(p):
     if p:
         print(f"Syntax error at '{p.value}' (line {p.lineno})")
     else:
         print("Syntax error at EOF")
 
-parser = yacc.yacc(debug=True)
+
+parser = yacc.yacc()
 

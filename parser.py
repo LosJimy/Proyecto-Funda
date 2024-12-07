@@ -44,8 +44,14 @@ def p_statement(p):
                  | print_statement
                  | function_def
                  | function_call
-                 | return_statement'''
+                 | return_statement
+                 | break_statement'''
     p[0] = p[1]
+
+#Define la estructura de break
+def p_break_statement(p):
+    'break_statement : BREAK'
+    p[0] = 'break'
 
 #Maneja la asignación de valores a variables 
 def p_assignment(p):
@@ -182,6 +188,11 @@ def execute_single_statement(stmt):
                 variables['result'] = result
         elif stmt[0] == 'return':
             raise ReturnException(evaluate_expression(stmt[1]))
+    elif stmt == 'break':
+        raise BreakException()
+
+class BreakException(Exception):
+    pass
 
 #Ejecuta bucle for
 def execute_for_statement(stmt):

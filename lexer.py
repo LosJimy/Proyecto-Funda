@@ -8,10 +8,11 @@ tokens = (
     'IF', 'ELSE', 'ELIF', 'FOR', 'IN', 'RANGE', 'WHILE',
     'EQUALS', 'LT', 'GT', 'LE', 'GE',
     'TRUE', 'FALSE', 'PRINT', 'OR', 'AND', 'NOT',
-    'DEF', 'RETURN' 
+    'DEF', 'RETURN', 'BREAK'
 )
 
 #Definición de Tokens
+t_BREAK = r'break'
 t_COLON = r':'
 t_DEF = r'def'
 t_RETURN = r'return'
